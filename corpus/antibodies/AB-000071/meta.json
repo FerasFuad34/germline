@@ -1,0 +1,24 @@
+{
+  "id": "AB-000071",
+  "arvo_local_id": 42496125,
+  "project": "ghostpdl",
+  "sanitizer": "asan",
+  "crash_type": "Stack-use-after-return WRITE 8",
+  "severity": "Medium",
+  "fuzz_target": "gstoraster_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://cgit.ghostscript.com/ghostpdl.git",
+  "fix_commit": "20610dc28ee3cf7e64ad46f11e9b96fb3befba00",
+  "patch_url": "https://cgit.ghostscript.com/ghostpdl.git20610dc28ee3cf7e64ad46f11e9b96fb3befba00",
+  "report_url": "https://issues.oss-fuzz.com/issues/42496125",
+  "docker": {
+    "vulnerable": "n132/arvo:42496125-vul",
+    "fixed": "n132/arvo:42496125-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "0293af51a3871b717bb1e4502286f778bd1e4d54016cb6283571ac3279c95331",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 1326478168\r\nINFO: Loaded 3 modules   (143461 inline 8-bit counters): 11938 [0x7fc9395753c0, 0x7fc939578262), 890 [0x7fc9397cd980, 0x7fc9397cdcfa), 130633 [0x2824980, 0x28447c9), \r\nINFO: Loaded 3 PC tables (143461 PCs): 11938 [0x7fc939578268,0x7fc9395a6c88), 890 [0x7fc9397cdd00,0x7fc9397d14a0), 130633 [0x1e5b390,0x2059820), \r\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: stack-use-after-return on address 0x7fc939984c88 at pc 0x0000005ea4c7 bp 0x7ffd1be7c9a0 sp 0x7ffd1be7c998\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 8 at 0x7fc939984c88 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 62 (8-byte-write-stack-use-after-return)\r\n    #0 0x5ea4c6 in pdf14_initialize /src/ghostpdl/./base/gdevp14.c:6150:15\r\n    #1 0x5df7e0 in pdf14_procs_initialize /src/ghostpdl/./base/gdevp14.c:266:12\r\n    #2 0x5d6345 in pdf14_RGB_initialize /src/ghostpdl/./base/gdevp14.c:282:12\r\n    #3 0x61ff6c in pdf14_clist_push_color_model /src/ghostpdl/./base/gdevp14.c:7321:15\r\n    #4 0x61bfab in pdf14_clist_composite /src/ghostpdl/./base/gdevp14.c:10432:24\r\n    #5 0x5de8bd in send_pdf14trans /src/ghostpdl/./base/gdevp14.c:9549:12\r\n    #6 0x5acfb5 in gs_gstate_update_pdf14trans2 /src/ghostpdl/./base/gstrans.c:141:12\r\n    #7 0x5a8865 in gs_gstate_update_pdf14trans /src/ghostpdl/./base/gstrans.c:166:12\r\n    #8 0x5a90c2 in gs_begin_transparency_group /src/ghostpdl/./base/gstrans.c:323:12\r\n    #9 0xd5fc1b in common_transparency_group /src/ghostpdl/./psi/ztrans.c:216:12\r\n    #10 0xd5ce75 in zbegintransparencygroup /src/ghostpdl/./psi/ztrans.c:234:12\r\n    #11 0xc079c9 in interp /src/ghostpdl/./psi/interp.c:1721:40\r\n    #12 0xc0194a in gs_call_interp /src/ghostpdl/./psi/interp.c:520:12\r\n    #13 0xc0127d in gs_interpret /src/ghostpdl/./psi/interp.c:477:12\r\n    #14 0x55feaa in gs_main_interpret /src/ghostpdl/./psi/imain.c:257:12\r\n    #15",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

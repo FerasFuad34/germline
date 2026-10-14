@@ -1,0 +1,24 @@
+{
+  "id": "AB-000010",
+  "arvo_local_id": 42484562,
+  "project": "libxml2",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 2",
+  "severity": "High",
+  "fuzz_target": "xml",
+  "fuzz_engine": "honggfuzz",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "2af3c2a8b974cb5896cd3beb74561ba979de9f34",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/2af3c2a8b974cb5896cd3beb74561ba979de9f34",
+  "report_url": "https://issues.oss-fuzz.com/issues/42484562",
+  "docker": {
+    "vulnerable": "n132/arvo:42484562-vul",
+    "fixed": "n132/arvo:42484562-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "9a5a78785243ee76302f16169005cba6dcdbbd869d82fcd7f77e6ad2ccb5840d",
+  "expected_crash_excerpt": "\u001b[1mAccepting input from '/tmp/poc'\u001b[0m\r\n\u001b[1mUsage for fuzzing: honggfuzz -P [flags] -- /out/xml\u001b[0m\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000001110 at pc 0x00000043aa18 bp 0x7ffef4eaaad0 sp 0x7ffef4eaa258\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 2 at 0x602000001110 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 42 (2-byte-read-heap-use-after-free)\r\n    #0 0x43aa17 in printf_common(void*, char const*, __va_list_tag*) /src/llvm-project/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors_format.inc:547:9\r\n    #1 0x4d29c0 in __xmlRaiseError /src/libxml2/error.c:501:9\r\n    #2 0x58a579 in xmlErrValidNode /src/libxml2/valid.c:163:5\r\n    #3 0x5a5405 in xmlValidateRef /src/libxml2/valid.c:6556:6\r\n    #4 0x5a4f18 in xmlWalkValidateList /src/libxml2/valid.c:6603:2\r\n    #5 0x7000ea in xmlListWalk /src/libxml2/list.c:682:13\r\n    #6 0x5a115a in xmlValidateCheckRefCallback /src/libxml2/valid.c:6625:5\r\n    #7 0x56fafa in stubHashScannerFull /src/libxml2/hash.c:852:5\r\n    #8 0x56f7fc in xmlHashScanFull /src/libxml2/hash.c:899:7\r\n    #9 0x56f58e in xmlHashScan /src/libxml2/hash.c:868:5\r\n    #10 0x5a0f7d in xmlValidateDocumentFinal /src/libxml2/valid.c:6673:5\r\n    #11 0x6c5345 in xmlSAX2EndDocument /src/libxml2/SAX2.c:1029:17\r\n    #12 0x5248d3 in xmlParseChunk /src/libxml2/parser.c:12332:3\r\n    #13 0x675af0 in xmlTextReaderPushData /src/libxml2/xmlreader.c:935:12\r\n    #14 0x672a97 in xmlTextReaderRead /src/libxml2/xmlreader.c:1384:8\r\n    #15 0x4c7007 in LLVMFuzzerTestOneInput /src/libxml2/fuzz/xml.c:73:12\r\n    #16 0x4c833d in main (/out/xml+0x4c833d)\r\n    #17 0x7f14eaea283f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\r\n    #18 0x41c6c8 in _start (/out/xml+0x41c6c8)\r\n\r\nDEDUP_TOKEN: printf_common(void*, char const*, __va_list_tag*)--__xmlRaiseError--xmlErrValidNode\r\n\u001b[1m\u001b[32m0x602000001110 is located 0 bytes inside of 4-byte region [0x602000001110,0x602000001114)\r\n\u001b[1m\u001b[0m",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

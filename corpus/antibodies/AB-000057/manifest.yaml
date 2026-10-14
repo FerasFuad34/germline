@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000057
+title: "curl: Heap-buffer-overflow READ 1 in curl_fuzzer_smb"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: curl
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42477466)"
+  fixed_in: 65fda739ee35
+
+attack:
+  class: memory-safety
+  target_fn: curl_fuzzer_smb
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow READ 1"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42477466-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42477466"
+    repo: "https://github.com/curl/curl.git"
+    fix_commit: 65fda739ee35c090b2e6d91229287de734f0fbae
+    patch_url: "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae"
+    docker:
+      vulnerable: "n132/arvo:42477466-vul"
+      fixed: "n132/arvo:42477466-fix"
+  evidence:
+    expected_crash_sha256: "909f06d9799623947baa188a801210f9e112ff63673ecab5a52b8e870f95f68c"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

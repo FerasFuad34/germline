@@ -1,0 +1,24 @@
+{
+  "id": "AB-000044",
+  "arvo_local_id": 42470110,
+  "project": "harfbuzz",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "hb-subset-fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470110",
+  "docker": {
+    "vulnerable": "n132/arvo:42470110-vul",
+    "fixed": "n132/arvo:42470110-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "d817dfb79109dc3ade2ad110395eedaa7101e34f833c66e84a60d5c19de7904c",
+  "expected_crash_excerpt": "INFO: Seed: 1247615665\r\nINFO: Loaded 1 modules   (13010 inline 8-bit counters): 13010 [0xbc7c68, 0xbcaf3a), \r\nINFO: Loaded 1 PC tables (13010 PCs): 13010 [0xbcaf40,0xbfdc60), \r\n/out/hb-subset-fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x5aa5e9 in bool hb_vector_t<hb_set_t::page_map_t, 1u>::bfind<hb_set_t::page_map_t>(hb_set_t::page_map_t const&, unsigned int*) const /src/harfbuzz/src/./hb-vector.hh:214:16\r\n    #1 0x5f24a6 in hb_set_t::page_map_t const* hb_vector_t<hb_set_t::page_map_t, 1u>::bsearch<hb_set_t::page_map_t>(hb_set_t::page_map_t const&) const /src/harfbuzz/src/./hb-vector.hh:202:12\r\n    #2 0x5f212d in hb_set_t::page_for(unsigned int) const /src/harfbuzz/src/./hb-set.hh:688:40\r\n    #3 0x5ef8cf in hb_set_t::has(unsigned int) const /src/harfbuzz/src/./hb-set.hh:353:23\r\n    #4 0x654d33 in OT::SingleSubstFormat1::closure(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:48:22\r\n    #5 0x654a09 in _hb_void_t const* OT::hb_closure_context_t::dispatch<OT::SingleSubstFormat1>(OT::SingleSubstFormat1 const&) /src/harfbuzz/src/./hb-ot-layout-gsubgpos.hh:49:49\r\n    #6 0x6531bb in OT::hb_closure_context_t::return_t OT::SingleSubst::dispatch<OT::hb_closure_context_t>(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:240:13\r\n    #7 0x652a15 in OT::hb_closure_context_t::return_t OT::SubstLookupSubTable::dispatch<OT::hb_closure_context_t>(OT::hb_closure_context_t*, unsigned int) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:1098:19\r\n    #8 0x6526c0 in OT::hb_closure_context_t::return_t OT::Lookup::dispatch<OT::SubstLookupSubTable, OT::hb_closure_context_t>(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-common.hh:643:71\r\n    #9 0x61c4cc in OT::SubstLookup::closure(OT::hb_closure_context_t*, unsigned int) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:1157:42\r\n    #10 0x6050d5 in hb_ot",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

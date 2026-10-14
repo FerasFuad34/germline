@@ -1,0 +1,24 @@
+{
+  "id": "AB-000048",
+  "arvo_local_id": 42470405,
+  "project": "harfbuzz",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "hb-shape-fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470405",
+  "docker": {
+    "vulnerable": "n132/arvo:42470405-vul",
+    "fixed": "n132/arvo:42470405-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "24a473bb5f6668089ef00a063fc53f118ed559fd34e81bec355369867270a002",
+  "expected_crash_excerpt": "INFO: Seed: 2456616907\r\nINFO: Loaded 1 modules   (13342 inline 8-bit counters): 13342 [0xc0a8f8, 0xc0dd16), \r\nINFO: Loaded 1 PC tables (13342 PCs): 13342 [0xc0dd18,0xc41ef8), \r\n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x5bd322 in int OT::IntType<unsigned int, 4u>::cmp<OT::Tag>(OT::Tag) const /src/harfbuzz/src/./hb-open-type.hh:71:14\r\n    #1 0x5bd080 in OT::TableRecord::cmp(OT::Tag) const /src/harfbuzz/src/./hb-open-file.hh:58:15\r\n    #2 0x5bcc44 in int OT::SortedArrayOf<OT::TableRecord, OT::BinSearchHeader>::bsearch<OT::Tag>(OT::Tag const&) const /src/harfbuzz/src/./hb-open-type.hh:688:24\r\n    #3 0x5bc535 in OT::OffsetTable::find_table_index(unsigned int, unsigned int*) const /src/harfbuzz/src/./hb-open-file.hh:116:59\r\n    #4 0x5bc309 in OT::OffsetTable::get_table_by_tag(unsigned int) const /src/harfbuzz/src/./hb-open-file.hh:124:5\r\n    #5 0x5b4f8c in _hb_face_for_data_reference_table(hb_face_t*, unsigned int, void*) /src/harfbuzz/src/hb-face.cc:169:44\r\n    #6 0x5ba417 in hb_face_t::reference_table(unsigned int) const /src/harfbuzz/src/./hb-face.hh:74:12\r\n    #7 0x710933 in hb_blob_t* hb_sanitize_context_t::reference_table<OT::GSUB>(hb_face_t const*, unsigned int) /src/harfbuzz/src/./hb-machinery.hh:421:33\r\n    #8 0x7103b0 in OT::GSUBGPOS::accelerator_t<OT::GSUB>::init(hb_face_t*) /src/harfbuzz/src/./hb-ot-layout-gsubgpos.hh:2653:44\r\n    #9 0x710271 in hb_lazy_loader_t<OT::GSUB_accelerator_t, hb_face_lazy_loader_t<OT::GSUB_accelerator_t, 12u>, hb_face_t, 12u, OT::GSUB_accelerator_t>::create(hb_face_t*) /src/harfbuzz/src/./hb-machinery.hh:825:10\r\n    #10 0x710112 in OT::GSUB_accelerator_t* hb_data_wrapper_t<hb_face_t, 12u>::call_create<OT::GSUB_accelerator_t, hb_face_lazy_loader_t<OT::GSUB_accelerator_t, 12u> >() const /src/harfbuzz/src/./hb-machinery.hh:718:28\r\n    #11 0x70ffb2 in hb_lazy_loader_t<OT::GSUB_accelerator_t, hb_face_lazy_loader_t<OT::GSUB",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

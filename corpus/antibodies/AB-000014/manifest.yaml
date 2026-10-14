@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000014
+title: "libxml2: Bad-cast in xml"
+cve: []
+cwe: ["CWE-704"]
+
+origin:
+  project: libxml2
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42496802)"
+  fixed_in: bfd2f4300fb3
+
+attack:
+  class: memory-safety
+  target_fn: xml
+  sanitizer: ubsan
+  crash_type: "Bad-cast"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42496802-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "runtime error:"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42496802"
+    repo: "https://gitlab.gnome.org/GNOME/libxml2.git"
+    fix_commit: bfd2f4300fb348a0fb8265a17546a0eb8bdec719
+    patch_url: "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bfd2f4300fb348a0fb8265a17546a0eb8bdec719"
+    docker:
+      vulnerable: "n132/arvo:42496802-vul"
+      fixed: "n132/arvo:42496802-fix"
+  evidence:
+    expected_crash_sha256: "419e133e7eeb4309d8842bc0ae2fdd9fa967a225f09c6a4187cacfc64a6ed4a6"
+    expected_crash_excerpt_bytes: 1753
+
+status: draft

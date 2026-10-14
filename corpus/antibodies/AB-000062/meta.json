@@ -1,0 +1,24 @@
+{
+  "id": "AB-000062",
+  "arvo_local_id": 42470900,
+  "project": "wireshark",
+  "sanitizer": "ubsan",
+  "crash_type": "Index-out-of-bounds",
+  "severity": "Medium",
+  "fuzz_target": "fuzzshark_ip_proto-udp",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/wireshark/wireshark.git",
+  "fix_commit": "895ad30b5a188a37822356357f3a06d16637c617\n74903893d8be058bb51268d2b5e748e3ea2d9053\nff73c307fae57fdb12e2fbbca87b9810d8b9cd27\n98675916337e655caf054da22e0d945777102ec1\nb6fe64017a967ee95eaafe3751ebb0738d1c5737\n6177f0eb42a1da2d8241733d1d0eb699c8785d3c\n57c1eb3a6a8e3887204a40422a09ed213aa99aed\n2c09e87c713628362e4fdc33309a0cc205a20de3\n312bb1068257e93981957cdd51323ab565984ba3\n506e5a7667d3f31e83286d9cca79cb3b3d330bff\n8f496ad4ded0ef9d0e4daaf1f6840f473c6e388a\n1a2aa0e901e38d8abcd0368c500f8990f866783b\n41f4c7d071b02750d17d14fb8e0985288cab8153\n81c4f74a1921e8c89fcf200beb6892b78a7297d9\n9f472ea1501f8deb0109ea61feda6b8a5eec4f6a",
+  "patch_url": "https://github.com/wireshark/wireshark/commit/9f472ea1501f8deb0109ea61feda6b8a5eec4f6a",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470900",
+  "docker": {
+    "vulnerable": "n132/arvo:42470900-vul",
+    "fixed": "n132/arvo:42470900-fix"
+  },
+  "detection_marker": "runtime error:",
+  "expected_crash_sha256": "ecdbcb667cea7fbc679b3b5c48993f0eb14ddc1ac6bf918332e7e92f5813e3ef",
+  "expected_crash_excerpt": "oss-fuzzshark: disabling: ip\r\noss-fuzzshark: disabling: udplite\r\noss-fuzzshark: disabling: ospf\r\noss-fuzzshark: disabling: bgp\r\noss-fuzzshark: disabling: dhcp\r\noss-fuzzshark: disabling: json\r\noss-fuzzshark: disabling: snort\r\noss-fuzzshark: configured for dissector: udp in table: ip.proto\r\nINFO: Seed: 475720872\r\nINFO: Loaded 1 modules   (395863 inline 8-bit counters): 395863 [0x47e70c0, 0x4847b17), \r\nINFO: Loaded 1 PC tables (395863 PCs): 395863 [0x4847b18,0x4e52088), \r\n/out/fuzzshark_ip_proto-udp: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m/src/wireshark/epan/dissectors/packet-ieee80211.c:11773:20:\u001b[1m\u001b[31m runtime error: \u001b[1m\u001b[0m\u001b[1mindex 64 out of bounds for type 'const struct scidx_start_end [9]'\u001b[1m\u001b[0m\r\n    #0 0xccce34 in next_he_scidx /src/wireshark/epan/dissectors/packet-ieee80211.c:11773:50\r\n    #1 0xccce34 in dissect_compressed_beamforming_and_cqi /src/wireshark/epan/dissectors/packet-ieee80211.c:12034\r\n    #2 0xccce34 in add_ff_action_he /src/wireshark/epan/dissectors/packet-ieee80211.c:12168\r\n    #3 0xccce34 in add_ff_action /src/wireshark/epan/dissectors/packet-ieee80211.c:12425\r\n    #4 0xca43bb in dissect_data_encap /src/wireshark/epan/dissectors/packet-ieee80211.c:25000:15\r\n    #5 0x47e985 in call_dissector_through_handle /src/wireshark/epan/packet.c:706:9\r\n    #6 0x47e985 in call_dissector_work /src/wireshark/epan/packet.c:791\r\n    #7 0x47ebe5 in dissector_try_uint_new /src/wireshark/epan/packet.c:1383:8\r\n    #8 0x47ebe5 in dissector_try_uint /src/wireshark/epan/packet.c:1407\r\n    #9 0xaf27fd in dissect_geneve /src/wireshark/epan/dissectors/packet-geneve.c:264:10\r\n    #10 0x47e985 in call_dissector_through_handle /src/wireshark/epan/packet.c:706:9\r\n    #11 0x47e985 in call_dissector_work /src/wireshark/epan/packet.c:791\r\n    #12 0x47ebe5 in dissector_try_uint_new /src/wireshark/epan/packet.c:1383:8\r\n    #13 0x47ebe5 in dissector_try_uint /src/wireshark/epan/packet.c:1407\r\n    #14 0x13a1d8d in decode_udp_ports /src/wireshark/epan/dissecto",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000021",
+  "arvo_local_id": 42472617,
+  "project": "ffmpeg",
+  "sanitizer": "asan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "ffmpeg_AV_CODEC_ID_HYMT_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://git.ffmpeg.org/ffmpeg.git",
+  "fix_commit": "ab160efa2850715de32e24fed846a0f6ef7244ab",
+  "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ab160efa2850715de32e24fed846a0f6ef7244ab",
+  "report_url": "https://issues.oss-fuzz.com/issues/42472617",
+  "docker": {
+    "vulnerable": "n132/arvo:42472617-vul",
+    "fixed": "n132/arvo:42472617-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "84af70699e81f57b4c5c9a80bae5cf6c99cf52d790b6f09ffbcf269987134daf",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer < INPUT_FILE\r\nor\r\n  /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 1025 bytes from /tmp/poc\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x6190202034a0 (pc 0x00000089cb1b bp 0x7ffc4d8e0c90 sp 0x7ffc4d8e0b38 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\nSCARINESS: 20 (wild-addr-read)\r\n    #0 0x89cb1a in ff_bswap32_buf_avx2 (/out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer+0x89cb1a)\r\n\r\nDEDUP_TOKEN: ff_bswap32_buf_avx2\r\nAddressSanitizer can not provide additional info.\r\nSUMMARY: AddressSanitizer: SEGV (/out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer+0x89cb1a) in ff_bswap32_buf_avx2\r\n==7==ABORTING\r\n",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

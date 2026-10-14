@@ -1,0 +1,24 @@
+{
+  "id": "AB-000094",
+  "arvo_local_id": 42476770,
+  "project": "openssl",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow WRITE 1",
+  "severity": "High",
+  "fuzz_target": "conf",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/openssl/openssl.git",
+  "fix_commit": "ed57f7f93508776b898e4c23b65d67f3479edaf1",
+  "patch_url": "https://github.com/openssl/openssl/commit/ed57f7f93508776b898e4c23b65d67f3479edaf1",
+  "report_url": "https://issues.oss-fuzz.com/issues/42476770",
+  "docker": {
+    "vulnerable": "n132/arvo:42476770-vul",
+    "fixed": "n132/arvo:42476770-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "7f41770f375df024e289e770813ffd04acb046c01890a2e0c398422d39f87f76",
+  "expected_crash_excerpt": "INFO: Seed: 3250903671\r\nINFO: Loaded 1 modules   (40125 inline 8-bit counters): 40125 [0xddb920, 0xde55dd), \r\nINFO: Loaded 1 PC tables (40125 PCs): 40125 [0xde55e0,0xe821b0), \r\n/out/conf: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x608000000171 at pc 0x0000005836b4 bp 0x7fffffffda70 sp 0x7fffffffda68\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 1 at 0x608000000171 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 31 (1-byte-write-heap-buffer-overflow)\r\n    #0 0x5836b3 in OPENSSL_strlcpy /src/openssl/crypto/o_str.c:77:14\r\n    #1 0x5837af in OPENSSL_strlcat /src/openssl/crypto/o_str.c:86:16\r\n    #2 0x5789e8 in ERR_add_error_vdata /src/openssl/crypto/err/err.c:888:9\r\n    #3 0x575ed0 in ERR_add_error_data /src/openssl/crypto/err/err.c:831:5\r\n    #4 0x5c1884 in process_include /src/openssl/crypto/conf/conf_def.c\r\n    #5 0x5bf1dd in def_load_bio /src/openssl/crypto/conf/conf_def.c:365:24\r\n    #6 0x4c9eec in FuzzerTestOneInput /src/openssl/fuzz/conf.c:38:5\r\n    #7 0x514cc0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:553:15\r\n    #8 0x4caaaf in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:292:6\r\n    #9 0x4d7894 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:775:9\r\n    #10 0x4ca107 in main /src/libfuzzer/FuzzerMain.cpp:19:10\r\n    #11 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #12 0x41fd98 in _start (/out/conf+0x41fd98)\r\n\r\nDEDUP_TOKEN: OPENSSL_strlcpy--OPENSSL_strlcat--ERR_add_error_vdata\r\n\u001b[1m\u001b[32m0x608000000171 is located 0 bytes to the right of 81-byte region [0x608000000120,0x608000000171)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mallocated by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x497cfd in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:145:3\r\n    #1 ",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

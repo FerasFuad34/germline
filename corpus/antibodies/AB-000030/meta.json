@@ -1,0 +1,24 @@
+{
+  "id": "AB-000030",
+  "arvo_local_id": 42470131,
+  "project": "imagemagick",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 8",
+  "severity": "Medium",
+  "fuzz_target": "^[[Bencoder_mvg_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "9bd3e4c89ccb78974d3b7ec63ba7680ac78882af",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/9bd3e4c89ccb78974d3b7ec63ba7680ac78882af",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470131",
+  "docker": {
+    "vulnerable": "n132/arvo:42470131-vul",
+    "fixed": "n132/arvo:42470131-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "72f2cf38afbd741dbaca13928a83c6200c46777fc740014c7f0aac9a06b2d21b",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/encoder_mvg_fuzzer < INPUT_FILE\r\nor\r\n  /out/encoder_mvg_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/encoder_mvg_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 98 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x603000004af8 at pc 0x000000671951 bp 0x7ffd66e12200 sp 0x7ffd66e121f8\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x603000004af8 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\r\n    #0 0x671950 in DrawDashPolygon /src/imagemagick/MagickCore/draw.c:1590:16\r\n    #1 0x66b9dc in DrawPrimitive /src/imagemagick/MagickCore/draw.c:4721:18\r\n    #2 0x663aaa in DrawImage /src/imagemagick/MagickCore/draw.c:3257:17\r\n    #3 0x908061 in ReadMVGImage /src/imagemagick/coders/mvg.c:221:10\r\n    #4 0x62c107 in ReadImage /src/imagemagick/MagickCore/constitute.c:497:13\r\n    #5 0x5cddcf in BlobToImage /src/imagemagick/MagickCore/blob.c:466:13\r\n    #6 0x526d84 in Magick::Image::read(Magick::Blob const&) /src/imagemagick/Magick++/lib/Image.cpp:4008:12\r\n    #7 0x51d3ea in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/encoder_fuzzer.cc:20:11\r\n    #8 0x51dbcf in ExecuteFilesOnyByOne(int, char**) /src/libfuzzer/afl/afl_driver.cpp:279:5\r\n    #9 0x51e16f in main /src/libfuzzer/afl/afl_driver.cpp:316:12\r\n    #10 0x7f39881ec82f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #11 0x41d618 in _start (/out/encoder_mvg_fuzzer+0x41d618)\r\n\r\nDEDUP_TOKEN: DrawDashPolygon--DrawPrimitive--DrawImage\r\n\u001b[1m\u001b[32m0x603000004af8 is located 0 bytes to the right of 24-byte region [0x603000004ae0,0x603000004af8)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mallo",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

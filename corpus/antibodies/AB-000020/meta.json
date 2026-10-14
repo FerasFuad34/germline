@@ -1,0 +1,24 @@
+{
+  "id": "AB-000020",
+  "arvo_local_id": 42470870,
+  "project": "ffmpeg",
+  "sanitizer": "asan",
+  "crash_type": "Global-buffer-overflow READ 2",
+  "severity": "Medium",
+  "fuzz_target": "ffmpeg_AV_CODEC_ID_ILBC_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://git.ffmpeg.org/ffmpeg.git",
+  "fix_commit": "e90f0ac334f2bec0961955dceb824148594a4016",
+  "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/e90f0ac334f2bec0961955dceb824148594a4016",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470870",
+  "docker": {
+    "vulnerable": "n132/arvo:42470870-vul",
+    "fixed": "n132/arvo:42470870-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "b495026e44ddbcd1fc0aaaa7131d6c867b06cbffea2dd9345f8b9dc7aebb8416",
+  "expected_crash_excerpt": "INFO: Seed: 4200864431\r\nINFO: Loaded 1 modules   (35521 inline 8-bit counters): 35521 [0xf4efe8, 0xf57aa9), \r\nINFO: Loaded 1 PC tables (35521 PCs): 35521 [0xbb6dc0,0xc419d0), \r\n/out/ffmpeg_AV_CODEC_ID_ILBC_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==8==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000000aa3f9e at pc 0x00000054f1ca bp 0x7ffd2fed07b0 sp 0x7ffd2fed07a8\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 2 at 0x000000aa3f9e thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 14 (2-byte-read-global-buffer-overflow)\r\n    #0 0x54f1c9 in gain_dequantization /src/ffmpeg/libavcodec/ilbcdec.c:604:22\r\n    #1 0x54ea17 in construct_vector /src/ffmpeg/libavcodec/ilbcdec.c:732:15\r\n    #2 0x54c093 in decode_residual /src/ffmpeg/libavcodec/ilbcdec.c:849:13\r\n    #3 0x5488c7 in ilbc_decode_frame /src/ffmpeg/libavcodec/ilbcdec.c:1384:9\r\n    #4 0x544cf4 in decode_simple_internal /src/ffmpeg/libavcodec/decode.c:437:15\r\n    #5 0x544942 in decode_simple_receive_frame /src/ffmpeg/libavcodec/decode.c:633:15\r\n    #6 0x53a711 in decode_receive_frame_internal /src/ffmpeg/libavcodec/decode.c:651:15\r\n    #7 0x53a522 in avcodec_send_packet /src/ffmpeg/libavcodec/decode.c:709:15\r\n    #8 0x53b155 in compat_decode /src/ffmpeg/libavcodec/decode.c:800:15\r\n    #9 0x53189e in LLVMFuzzerTestOneInput /src/ffmpeg/tools/target_dec_fuzzer.c:245:23\r\n    #10 0x9b2778 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\r\n    #11 0x988a1d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\r\n    #12 0x994293 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\r\n    #13 0x98809c in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #14 0x7f605ff7a82f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #15 0x41d8a8 in _start (/out/ffmpeg_AV_CODEC_I",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

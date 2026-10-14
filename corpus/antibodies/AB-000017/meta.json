@@ -1,0 +1,24 @@
+{
+  "id": "AB-000017",
+  "arvo_local_id": 42470719,
+  "project": "ffmpeg",
+  "sanitizer": "asan",
+  "crash_type": "Stack-buffer-underflow WRITE 2",
+  "severity": "Medium",
+  "fuzz_target": "ffmpeg_AV_CODEC_ID_ILBC_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://git.ffmpeg.org/ffmpeg.git",
+  "fix_commit": "25eb10d941f35c3223300583588b1e13debc9288",
+  "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/25eb10d941f35c3223300583588b1e13debc9288",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470719",
+  "docker": {
+    "vulnerable": "n132/arvo:42470719-vul",
+    "fixed": "n132/arvo:42470719-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "eba9d45c0a286d14c13824035fd615107170a40795ec8d2ecdc93cd1fed264e5",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/ffmpeg_AV_CODEC_ID_ILBC_fuzzer < INPUT_FILE\r\nor\r\n  /out/ffmpeg_AV_CODEC_ID_ILBC_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_ILBC_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 5 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: stack-buffer-underflow on address 0x7f9a8978da1e at pc 0x00000054d05b bp 0x7ffe35704ca0 sp 0x7ffe35704c98\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 2 at 0x7f9a8978da1e thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 48 (2-byte-write-stack-buffer-underflow)\r\n    #0 0x54d05a in vector_multiplication /src/ffmpeg/libavcodec/ilbcdec.c:620:16\r\n    #1 0x54cf09 in create_augmented_vector /src/ffmpeg/libavcodec/ilbcdec.c:638:5\r\n    #2 0x54cc32 in get_codebook /src/ffmpeg/libavcodec/ilbcdec.c\r\n    #3 0x54c3a3 in construct_vector /src/ffmpeg/libavcodec/ilbcdec.c:739:5\r\n    #4 0x54996b in decode_residual /src/ffmpeg/libavcodec/ilbcdec.c:793:9\r\n    #5 0x546bcf in ilbc_decode_frame /src/ffmpeg/libavcodec/ilbcdec.c:1384:9\r\n    #6 0x543505 in decode_simple_internal /src/ffmpeg/libavcodec/decode.c:437:15\r\n    #7 0x5431c5 in decode_simple_receive_frame /src/ffmpeg/libavcodec/decode.c:633:15\r\n    #8 0x539aed in decode_receive_frame_internal /src/ffmpeg/libavcodec/decode.c:651:15\r\n    #9 0x5398f7 in avcodec_send_packet /src/ffmpeg/libavcodec/decode.c:709:15\r\n    #10 0x53a453 in compat_decode /src/ffmpeg/libavcodec/decode.c:800:15\r\n    #11 0x53150a in LLVMFuzzerTestOneInput /src/ffmpeg/tools/target_dec_fuzzer.c:245:23\r\n    #12 0x949081 in ExecuteFilesOnyByOne(int, char**) /src/libfuzzer/afl/afl_driver.cpp:301:5\r\n    #13 0x94962e in main /src/libfuzzer/afl/afl_driver.cpp",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

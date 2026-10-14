@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000036
+title: "imagemagick: Heap-buffer-overflow READ 8 in bping_ptif_fuzzer"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: imagemagick
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42473518)"
+  fixed_in: 7921e3f13b72
+
+attack:
+  class: memory-safety
+  target_fn: bping_ptif_fuzzer
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow READ 8"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42473518-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42473518"
+    repo: "https://github.com/imagemagick/imagemagick"
+    fix_commit: 7921e3f13b72e9e49a1dff434c256466a08205d4
+    patch_url: "https://github.com/imagemagick/imagemagick/commit/7921e3f13b72e9e49a1dff434c256466a08205d4"
+    docker:
+      vulnerable: "n132/arvo:42473518-vul"
+      fixed: "n132/arvo:42473518-fix"
+  evidence:
+    expected_crash_sha256: "291de1e811b827ab1d0afe1a01876d5e138afd3afe1d00a0ea0cb47a0e7ebcbb"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

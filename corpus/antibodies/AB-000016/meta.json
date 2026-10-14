@@ -1,0 +1,24 @@
+{
+  "id": "AB-000016",
+  "arvo_local_id": 42470362,
+  "project": "ffmpeg",
+  "sanitizer": "asan",
+  "crash_type": "Global-buffer-overflow READ 4",
+  "severity": "Medium",
+  "fuzz_target": "ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://git.ffmpeg.org/ffmpeg.git",
+  "fix_commit": "85a921f46184dace4b4f3d968830991eff218e3f",
+  "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/85a921f46184dace4b4f3d968830991eff218e3f",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470362",
+  "docker": {
+    "vulnerable": "n132/arvo:42470362-vul",
+    "fixed": "n132/arvo:42470362-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "ece585be87af8f5363fd313f41d58cdc432ba522dd5a7e18831360a5808ea0bb",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer < INPUT_FILE\r\nor\r\n  /out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 520 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000000c788bc at pc 0x000000a4deb3 bp 0x7ffecc3bca50 sp 0x7ffecc3bca48\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x000000c788bc thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 17 (4-byte-read-global-buffer-overflow)\r\n    #0 0xa4deb2 in initSlotBasedRotation(PS_DEC*, int, int) /src/fdk-aac/libSBRdec/src/psdec.cpp:367:15\r\n    #1 0xa529e4 in sbr_dec(SBR_DEC*, short*, short*, SBR_DEC*, short*, int, SBR_HEADER_DATA*, SBR_FRAME_DATA*, SBR_PREV_FRAME_DATA*, int, PS_DEC*, unsigned int, int) /src/fdk-aac/libSBRdec/src/sbr_dec.cpp:800:13\r\n    #2 0x98c9cd in sbrDecoder_DecodeElement(SBR_DECODER_INSTANCE*, short*, short*, int, FDK_channelMapDescr const*, int, int, int, int, int*, int) /src/fdk-aac/libSBRdec/src/sbrdecoder.cpp:1749:5\r\n    #3 0x98b96a in sbrDecoder_Apply /src/fdk-aac/libSBRdec/src/sbrdecoder.cpp:1895:19\r\n    #4 0x93de31 in aacDecoder_DecodeFrame /src/fdk-aac/libAACdec/src/aacdecoder_lib.cpp:1455:20\r\n    #5 0x5470b3 in fdk_aac_decode_frame /src/ffmpeg/libavcodec/libfdk-aacdec.c:348:11\r\n    #6 0x543615 in decode_simple_internal /src/ffmpeg/libavcodec/decode.c:437:15\r\n    #7 0x5432d5 in decode_simple_receive_frame /src/ffmpeg/libavcodec/decode.c:633:15\r\n    #8 0x539bad in decode_receive_frame_internal /src/ffmpeg/libavcodec/decode.c:651:15\r\n    #9 0x5399b7 in avcodec_send_packet /src/ffmpeg/",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

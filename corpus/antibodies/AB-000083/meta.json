@@ -1,0 +1,24 @@
+{
+  "id": "AB-000083",
+  "arvo_local_id": 42494318,
+  "project": "gpac",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 9",
+  "severity": "Medium",
+  "fuzz_target": "fuzz_parse",
+  "fuzz_engine": "libfuzzer",
+  "language": "c",
+  "repo": "https://github.com/gpac/gpac",
+  "fix_commit": "758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5",
+  "patch_url": "https://github.com/gpac/gpac/commit/758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5",
+  "report_url": "https://issues.oss-fuzz.com/issues/42494318",
+  "docker": {
+    "vulnerable": "n132/arvo:42494318-vul",
+    "fixed": "n132/arvo:42494318-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "9a576064b9977acd3a4de9959ce3dd24ff45c570a40722559f897fa833df7265",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 2749677726\r\nINFO: Loaded 1 modules   (186414 inline 8-bit counters): 186414 [0x1cba350, 0x1ce7b7e), \r\nINFO: Loaded 1 PC tables (186414 PCs): 186414 [0x1ce7b80,0x1fbfe60), \r\n/out/fuzz_parse: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000000138 at pc 0x0000005101c7 bp 0x7fffffffd440 sp 0x7fffffffcc00\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 9 at 0x602000000138 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 24 (9-byte-read-heap-buffer-overflow)\r\n    #0 0x5101c6 in __strdup /src/llvm-project/compiler-rt/lib/asan/asan_interceptors.cpp:466:5\r\n    #1 0x706710 in gf_strdup /src/gpac/src/utils/alloc.c:170:2\r\n    #2 0x838a76 in abst_box_read /src/gpac/src/isomedia/box_code_adobe.c:110:27\r\n    #3 0x81142e in gf_isom_box_read /src/gpac/src/isomedia/box_funcs.c:1778:9\r\n    #4 0x80fdef in gf_isom_box_parse_ex /src/gpac/src/isomedia/box_funcs.c:260:14\r\n    #5 0x80ecd6 in gf_isom_parse_root_box /src/gpac/src/isomedia/box_funcs.c:38:8\r\n    #6 0x557956 in gf_isom_parse_movie_boxes_internal /src/gpac/src/isomedia/isom_intern.c:318:7\r\n    #7 0x557390 in gf_isom_parse_movie_boxes /src/gpac/src/isomedia/isom_intern.c:747:6\r\n    #8 0x55b85a in gf_isom_open_file /src/gpac/src/isomedia/isom_intern.c:867:19\r\n    #9 0x555803 in LLVMFuzzerTestOneInput /src/gpac/fuzz_parse.c:30:13\r\n    #10 0x45b073 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\r\n    #11 0x444f32 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\r\n    #12 0x44ad2d in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\r\n    #13 0x4764d2 in main /src/llvm-project/compiler-rt/lib/fuz",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

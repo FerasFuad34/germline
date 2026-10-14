@@ -9,6 +9,9 @@ venv/
 
 # Generated artifacts
 prototype/out/
+out/
+arvo.db
+arvo-workspace/
 
 # OS / editors
 .DS_Store

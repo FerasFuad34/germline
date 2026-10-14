@@ -1,0 +1,24 @@
+{
+  "id": "AB-000084",
+  "arvo_local_id": 42494345,
+  "project": "gpac",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 4",
+  "severity": "Medium",
+  "fuzz_target": "fuzz_parse",
+  "fuzz_engine": "afl",
+  "language": "c",
+  "repo": "https://github.com/gpac/gpac",
+  "fix_commit": "322c8a92e3d37c9632a5db584e8100fcc9704344",
+  "patch_url": "https://github.com/gpac/gpac/commit/322c8a92e3d37c9632a5db584e8100fcc9704344",
+  "report_url": "https://issues.oss-fuzz.com/issues/42494345",
+  "docker": {
+    "vulnerable": "n132/arvo:42494345-vul",
+    "fixed": "n132/arvo:42494345-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "10e329fc7cf57a074996b6facf9d8fde2745c5d0cd301c5b4458ae7500aff3b1",
+  "expected_crash_excerpt": "Warning: AFL++ tools will need to set AFL_MAP_SIZE to 168384 to be able to run this instrumented program!\r\n======================= INFO =========================\r\nThis binary is built for afl++.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/fuzz_parse INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] -- /out/fuzz_parse [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 74 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6140000001f0 at pc 0x000000ad5cc3 bp 0x7ffe9cf46f10 sp 0x7ffe9cf46f08\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x6140000001f0 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 17 (4-byte-read-heap-buffer-overflow)\r\n    #0 0xad5cc2 in stsz_box_read /src/gpac/src/isomedia/box_code_base.c:5667:24\r\n    #1 0xb94fd5 in gf_isom_box_read /src/gpac/src/isomedia/box_funcs.c:1778:9\r\n    #2 0xb90052 in gf_isom_box_parse_ex /src/gpac/src/isomedia/box_funcs.c:260:14\r\n    #3 0xb8dde8 in gf_isom_parse_root_box /src/gpac/src/isomedia/box_funcs.c:38:8\r\n    #4 0x4cebc6 in gf_isom_parse_movie_boxes_internal /src/gpac/src/isomedia/isom_intern.c:318:7\r\n    #5 0x4cd947 in gf_isom_parse_movie_boxes /src/gpac/src/isomedia/isom_intern.c:747:6\r\n    #6 0x4d9438 in gf_isom_open_file /src/gpac/src/isomedia/isom_intern.c:867:19\r\n    #7 0x4c9b5d in LLVMFuzzerTestOneInput /src/gpac/fuzz_parse.c:30:13\r\n    #8 0x4c9873 in ExecuteFilesOnyByOne /src/aflplusplus/utils/aflpp_driver/aflpp_driver.c:185:7\r\n    #9 0x4c9873 in main /src/aflplusplus/utils/aflpp_driver/aflpp_driver.c:237:12\r\n    #10 0x7f10c17b483f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\r\n    #11 0x41dca8 in _start (/out/fuzz_parse+0x41dca8)\r\n\r\nDEDUP_TOKEN: stsz_box_read--gf_isom_box_read--gf_isom_box_parse_ex\r\n\u001b[1m\u001b[32m0x6140000001f0 is located 4 bytes to t",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000051
+title: "curl: Null-dereference READ in curl_fuzzer_http"
+cve: []
+cwe: ["CWE-476"]
+
+origin:
+  project: curl
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470017)"
+  fixed_in: 78d5302b5c05
+
+attack:
+  class: memory-safety
+  target_fn: curl_fuzzer_http
+  sanitizer: ubsan
+  crash_type: "Null-dereference READ"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470017-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "UndefinedBehaviorSanitizer:DEADLYSIGNAL"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470017"
+    repo: "https://github.com/curl/curl.git"
+    fix_commit: 78d5302b5c05a49ecfa2ee8b8f1a21a2902357d3
+    patch_url: "https://github.com/curl/curl/commit/78d5302b5c05a49ecfa2ee8b8f1a21a2902357d3"
+    docker:
+      vulnerable: "n132/arvo:42470017-vul"
+      fixed: "n132/arvo:42470017-fix"
+  evidence:
+    expected_crash_sha256: "fd65e611b097249df5a8a65bad4faacc4b26fef7cf60e4499f41ff8f74b8895a"
+    expected_crash_excerpt_bytes: 728
+
+status: draft

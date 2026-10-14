@@ -1,0 +1,24 @@
+{
+  "id": "AB-000039",
+  "arvo_local_id": 42474313,
+  "project": "imagemagick",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 1",
+  "severity": "Medium",
+  "fuzz_target": "ping_dng_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "58b1d87bef2b8d7dbd7391091069a3c279ec5e85",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/58b1d87bef2b8d7dbd7391091069a3c279ec5e85",
+  "report_url": "https://issues.oss-fuzz.com/issues/42474313",
+  "docker": {
+    "vulnerable": "n132/arvo:42474313-vul",
+    "fixed": "n132/arvo:42474313-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "5d9b53a112bf41d24a77b731b30a3d8dead44acc1bdc23bfc02d29bf20e06f97",
+  "expected_crash_excerpt": "INFO: Seed: 2211602858\r\nINFO: Loaded 1 modules   (166583 inline 8-bit counters): 166583 [0x203cf28, 0x20659df), \r\nINFO: Loaded 1 PC tables (166583 PCs): 166583 [0x20659e0,0x22f0550), \r\n/out/ping_dng_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff3f9dd82 at pc 0x0000014be76d bp 0x7fffffffcb80 sp 0x7fffffffcb78\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0x7ffff3f9dd82 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 22 (1-byte-read-heap-buffer-overflow-far-from-bounds)\r\n    #0 0x14be76c in LibRaw::sget4(unsigned char*) /src/libraw/internal/dcraw_common.cpp:267:12\r\n    #1 0x155018a in LibRaw::parseSonySRF(unsigned int) /src/libraw/internal/dcraw_common.cpp:11316:16\r\n    #2 0x155f0fb in LibRaw::parse_exif(int) /src/libraw/internal/dcraw_common.cpp:12553:9\r\n    #3 0x151e6e7 in LibRaw::parse_tiff_ifd(int) /src/libraw/internal/dcraw_common.cpp:13772:7\r\n    #4 0x156578a in LibRaw::parse_tiff(int) /src/libraw/internal/dcraw_common.cpp:14505:9\r\n    #5 0x15745fb in LibRaw::parse_jpeg(int) /src/libraw/internal/dcraw_common.cpp:15921:9\r\n    #6 0x157c0aa in LibRaw::identify() /src/libraw/internal/dcraw_common.cpp:18661:5\r\n    #7 0x1488d68 in LibRaw::open_datastream(LibRaw_abstract_datastream*) /src/libraw/src/libraw_cxx.cpp:2112:5\r\n    #8 0x14857c6 in LibRaw::open_file(char const*, long long) /src/libraw/src/libraw_cxx.cpp:1099:13\r\n    #9 0x982311 in ReadDNGImage /src/imagemagick/coders/dng.c:400:13\r\n    #10 0x6e4222 in ReadImage /src/imagemagick/MagickCore/constitute.c:547:15\r\n    #11 0x8dbeab in ReadStream /src/imagemagick/MagickCore/stream.c:1043:9\r\n    #12 0x68b06a in PingBlob /src/imagemagick/MagickCore/blob.c:3622:9\r\n    #13 0x5d7c42 in Magick::Image::ping(Magick::Blob const&) /src/imagemagick/Magick++/lib/Image.cpp:3860:12\r\n    #14 0x532af2 in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/ping_fuzzer.cc:43:11\r\n    #15 0x55e9b5 in fuzz",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

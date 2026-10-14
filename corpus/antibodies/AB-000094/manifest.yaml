@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000094
+title: "openssl: Heap-buffer-overflow WRITE 1 in conf"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: openssl
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42476770)"
+  fixed_in: ed57f7f93508
+
+attack:
+  class: memory-safety
+  target_fn: conf
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow WRITE 1"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42476770-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42476770"
+    repo: "https://github.com/openssl/openssl.git"
+    fix_commit: ed57f7f93508776b898e4c23b65d67f3479edaf1
+    patch_url: "https://github.com/openssl/openssl/commit/ed57f7f93508776b898e4c23b65d67f3479edaf1"
+    docker:
+      vulnerable: "n132/arvo:42476770-vul"
+      fixed: "n132/arvo:42476770-fix"
+  evidence:
+    expected_crash_sha256: "7f41770f375df024e289e770813ffd04acb046c01890a2e0c398422d39f87f76"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

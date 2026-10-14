@@ -1,0 +1,24 @@
+{
+  "id": "AB-000100",
+  "arvo_local_id": 42489909,
+  "project": "libtiff",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "tiff_read_rgba_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.com/libtiff/libtiff",
+  "fix_commit": "0f013e5b5a550606298fb50c3bb90920a7da76fc",
+  "patch_url": "https://gitlab.com/libtiff/libtiff/-/commit/0f013e5b5a550606298fb50c3bb90920a7da76fc",
+  "report_url": "https://issues.oss-fuzz.com/issues/42489909",
+  "docker": {
+    "vulnerable": "n132/arvo:42489909-vul",
+    "fixed": "n132/arvo:42489909-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "b5ebcb7d7aa381272d5d0d42c09a388f9d91c0220777614290a45ff53c2ca010",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 273433889\r\nINFO: Loaded 1 modules   (19298 inline 8-bit counters): 19298 [0xdb5448, 0xdb9faa), \r\nINFO: Loaded 1 PC tables (19298 PCs): 19298 [0xdb9fb0,0xe055d0), \r\n/out/tiff_read_rgba_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x8a6f92 in decompress_smooth_data /src/libjpeg-turbo/jdcoefct.c:519:26\r\n    #1 0x8e20e6 in process_data_simple_main /src/libjpeg-turbo/jdmainct.c:300:10\r\n    #2 0x74c03d in jpeg_read_scanlines /src/libjpeg-turbo/jdapistd.c:287:3\r\n    #3 0x62f65f in TIFFjpeg_read_scanlines /src/libtiff/libtiff/tif_jpeg.c:394:9\r\n    #4 0x624582 in JPEGDecode /src/libtiff/libtiff/tif_jpeg.c:1358:29\r\n    #5 0x5d9eb5 in _TIFFReadEncodedTileAndAllocBuffer /src/libtiff/libtiff/tif_read.c:1085:9\r\n    #6 0x5d96e5 in _TIFFReadTileAndAllocBuffer /src/libtiff/libtiff/tif_read.c:1035:13\r\n    #7 0x5a3cb4 in gtTileContig /src/libtiff/libtiff/tif_getimage.c:682:10\r\n    #8 0x5a0f68 in TIFFRGBAImageGet /src/libtiff/libtiff/tif_getimage.c:512:12\r\n    #9 0x5a1475 in TIFFReadRGBAImageOriented /src/libtiff/libtiff/tif_getimage.c:531:8\r\n    #10 0x5a16a7 in TIFFReadRGBAImage /src/libtiff/libtiff/tif_getimage.c:549:9\r\n    #11 0x528ba9 in LLVMFuzzerTestOneInput /src/libtiff/contrib/oss-fuzz/tiff_read_rgba_fuzzer.cc:94:7\r\n    #12 0x45bf51 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\r\n    #13 0x445cd2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\r\n    #14 0x44c015 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\r\n    #15 0x475f32 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\r\n    #16 0x7ffff6ee583f in __libc_start_main (/lib/x",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

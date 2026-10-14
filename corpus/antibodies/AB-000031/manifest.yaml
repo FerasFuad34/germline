@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000031
+title: "imagemagick: Use-of-uninitialized-value in encoder_mng_fuzzer"
+cve: []
+cwe: ["CWE-457"]
+
+origin:
+  project: imagemagick
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470554)"
+  fixed_in: 33c60b6e5111
+
+attack:
+  class: memory-safety
+  target_fn: encoder_mng_fuzzer
+  sanitizer: msan
+  crash_type: "Use-of-uninitialized-value"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470554-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "WARNING: MemorySanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470554"
+    repo: "https://github.com/imagemagick/imagemagick"
+    fix_commit: 33c60b6e5111b19f362a7f4bf0b96e0e75b2ef8e
+    patch_url: "https://github.com/imagemagick/imagemagick/commit/33c60b6e5111b19f362a7f4bf0b96e0e75b2ef8e"
+    docker:
+      vulnerable: "n132/arvo:42470554-vul"
+      fixed: "n132/arvo:42470554-fix"
+  evidence:
+    expected_crash_sha256: "2aed9cc422ee3c8a50a7cf7dd993c8a3aa509f1c0ef9b53626828d23c9366e19"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

@@ -1,0 +1,60 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000061
+title: "wireshark: Global-buffer-overflow READ 4 in fuzzshark_ip_proto-udp"
+cve: []
+cwe: ["CWE-119"]
+
+origin:
+  project: wireshark
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470895)"
+  fixed_in: 895ad30b5a18
+
+attack:
+  class: memory-safety
+  target_fn: fuzzshark_ip_proto-udp
+  sanitizer: asan
+  crash_type: "Global-buffer-overflow READ 4"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470895-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470895"
+    repo: "https://github.com/wireshark/wireshark.git"
+    fix_commit: 895ad30b5a188a37822356357f3a06d16637c617
+74903893d8be058bb51268d2b5e748e3ea2d9053
+ff73c307fae57fdb12e2fbbca87b9810d8b9cd27
+98675916337e655caf054da22e0d945777102ec1
+b6fe64017a967ee95eaafe3751ebb0738d1c5737
+6177f0eb42a1da2d8241733d1d0eb699c8785d3c
+57c1eb3a6a8e3887204a40422a09ed213aa99aed
+2c09e87c713628362e4fdc33309a0cc205a20de3
+312bb1068257e93981957cdd51323ab565984ba3
+506e5a7667d3f31e83286d9cca79cb3b3d330bff
+8f496ad4ded0ef9d0e4daaf1f6840f473c6e388a
+1a2aa0e901e38d8abcd0368c500f8990f866783b
+41f4c7d071b02750d17d14fb8e0985288cab8153
+81c4f74a1921e8c89fcf200beb6892b78a7297d9
+9f472ea1501f8deb0109ea61feda6b8a5eec4f6a
+    patch_url: "https://github.com/wireshark/wireshark/commit/9f472ea1501f8deb0109ea61feda6b8a5eec4f6a"
+    docker:
+      vulnerable: "n132/arvo:42470895-vul"
+      fixed: "n132/arvo:42470895-fix"
+  evidence:
+    expected_crash_sha256: "00d7615b06025ac8cbeceedb8bd8ac4dc922bab0d823cb83b197db55fe7a8ca5"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

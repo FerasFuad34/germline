@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000049
+title: "harfbuzz: UNKNOWN READ in hb-shape-fuzzer"
+cve: []
+cwe: []
+
+origin:
+  project: harfbuzz
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470841)"
+  fixed_in: 5c65ed800de4
+
+attack:
+  class: memory-safety
+  target_fn: hb-shape-fuzzer
+  sanitizer: asan
+  crash_type: "UNKNOWN READ"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470841-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470841"
+    repo: "https://github.com/harfbuzz/harfbuzz.git"
+    fix_commit: 5c65ed800de4caef5ee9ad2111225fa5d8235737
+    patch_url: "https://github.com/harfbuzz/harfbuzz/commit/5c65ed800de4caef5ee9ad2111225fa5d8235737"
+    docker:
+      vulnerable: "n132/arvo:42470841-vul"
+      fixed: "n132/arvo:42470841-fix"
+  evidence:
+    expected_crash_sha256: "0fa87d5de85651c84febf45e42758d001f5e8a8f3335f53ad77790c3f6d16dc1"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

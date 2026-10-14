@@ -1,0 +1,24 @@
+{
+  "id": "AB-000073",
+  "arvo_local_id": 42480628,
+  "project": "php-src",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "php-fuzz-exif",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/php/php-src.git",
+  "fix_commit": "9ed82b1f7b17bf505fa22944185631e3e8156cf0",
+  "patch_url": "https://github.com/php/php-src/commit/9ed82b1f7b17bf505fa22944185631e3e8156cf0",
+  "report_url": "https://issues.oss-fuzz.com/issues/42480628",
+  "docker": {
+    "vulnerable": "n132/arvo:42480628-vul",
+    "fixed": "n132/arvo:42480628-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "ac72dbade1929bd1f8fb1361f7deceae1f44e4729ec989fc09962147b148a694",
+  "expected_crash_excerpt": "INFO: Seed: 881391078\r\nINFO: Loaded 1 modules   (116898 inline 8-bit counters): 116898 [0x1e4bc00, 0x1e684a2), \r\nINFO: Loaded 1 PC tables (116898 PCs): 116898 [0x1e684a8,0x2030ec8), \r\n/out/php-fuzz-exif: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m\u001b[1m\u001b[31mUninitialized bytes in \u001b[1m\u001b[32mMemcmpInterceptorCommon\u001b[1m\u001b[31m at offset 1 inside [0x7010000006e8, 2)\u001b[1m\u001b[0m\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x5001ec in bcmp /src/llvm-project/compiler-rt/lib/msan/../sanitizer_common/sanitizer_common_interceptors.inc:885:10\r\n    #1 0x85769b in exif_process_TIFF_in_JPEG /src/php-src/ext/exif/exif.c:3596:6\r\n    #2 0x8528de in exif_scan_JPEG_header /src/php-src/ext/exif/exif.c:3793:6\r\n    #3 0x85174b in exif_scan_FILE_header /src/php-src/ext/exif/exif.c:4186:8\r\n    #4 0x85101b in exif_read_from_impl /src/php-src/ext/exif/exif.c:4327:8\r\n    #5 0x849992 in exif_read_from_stream /src/php-src/ext/exif/exif.c:4344:8\r\n    #6 0x846e91 in zif_exif_read_data /src/php-src/ext/exif/exif.c:4434:9\r\n    #7 0x110046e in zend_call_function /src/php-src/Zend/zend_execute_API.c:794:4\r\n    #8 0x10fe352 in _call_user_function_ex /src/php-src/Zend/zend_execute_API.c:622:9\r\n    #9 0x165fa9a in fuzzer_call_php_func_zval /src/php-src/sapi/fuzzer/fuzzer-sapi.c:247:2\r\n    #10 0x165e78f in LLVMFuzzerTestOneInput /src/php-src/sapi/fuzzer/fuzzer-exif.c:52:2\r\n    #11 0x480e11 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\r\n    #12 0x46b931 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\r\n    #13 0x4715ee in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:774:9\r\n    #14 0x49b512 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\r\n    #15 0x7ffff6cca82f in __libc_sta",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

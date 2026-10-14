@@ -1,0 +1,24 @@
+{
+  "id": "AB-000077",
+  "arvo_local_id": 42471116,
+  "project": "libarchive",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow WRITE 1",
+  "severity": "High",
+  "fuzz_target": "libarchive_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/libarchive/libarchive.git",
+  "fix_commit": "b52dd6c9e4ef7cf95c2a6ae5ab7ccac7f6d462a1",
+  "patch_url": "https://github.com/libarchive/libarchive/commit/b52dd6c9e4ef7cf95c2a6ae5ab7ccac7f6d462a1",
+  "report_url": "https://issues.oss-fuzz.com/issues/42471116",
+  "docker": {
+    "vulnerable": "n132/arvo:42471116-vul",
+    "fixed": "n132/arvo:42471116-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "b2126c910a6e065bea233745c27bab641cfa860def9dea0b8959dfb40a54efa7",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/libarchive_fuzzer < INPUT_FILE\r\nor\r\n  /out/libarchive_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/libarchive_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 109 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000000051 at pc 0x00000059ab44 bp 0x7fffffffdc90 sp 0x7fffffffdc88\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 1 at 0x602000000051 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 31 (1-byte-write-heap-buffer-overflow)\r\n    #0 0x59ab43 in do_uncompress_block /src/libarchive/libarchive/archive_read_support_format_rar5.c:2424:55\r\n    #1 0x5982a9 in process_block /src/libarchive/libarchive/archive_read_support_format_rar5.c:2841:11\r\n    #2 0x597c12 in do_uncompress_file /src/libarchive/libarchive/archive_read_support_format_rar5.c:3011:19\r\n    #3 0x597561 in uncompress_file /src/libarchive/libarchive/archive_read_support_format_rar5.c:3083:15\r\n    #4 0x592acf in rar5_read_data /src/libarchive/libarchive/archive_read_support_format_rar5.c:3284:11\r\n    #5 0x536ef1 in archive_read_data /src/libarchive/libarchive/archive_read.c:842:8\r\n    #6 0x531adb in LLVMFuzzerTestOneInput /src/libarchive_fuzzer.cc:49:17\r\n    #7 0x53282e in ExecuteFilesOnyByOne(int, char**) /src/libfuzzer/afl/afl_driver.cpp:301:5\r\n    #8 0x532d9e in main /src/libfuzzer/afl/afl_driver.cpp:339:12\r\n    #9 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #10 0x41e618 in _start (/out/libarchive_fuzzer+0x41e618)\r\n\r\nDEDUP_TOKEN: do_uncompress_block--process_block--do_uncompress_file\r\n\u001b[1m\u001b[32m0x602000000051 is located 0 bytes to the right of 1-byte region [0x6020",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

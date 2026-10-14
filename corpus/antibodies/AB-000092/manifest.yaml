@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000092
+title: "freetype2: Heap-buffer-overflow READ 8 in ftfuzzer"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: freetype2
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42499092)"
+  fixed_in: e9a154e70015
+
+attack:
+  class: memory-safety
+  target_fn: ftfuzzer
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow READ 8"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42499092-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42499092"
+    repo: "https://github.com/freetype/freetype2"
+    fix_commit: e9a154e70015e602d695d65a588ecb38f5bb38cc
+    patch_url: "https://github.com/freetype/freetype2/commit/e9a154e70015e602d695d65a588ecb38f5bb38cc"
+    docker:
+      vulnerable: "n132/arvo:42499092-vul"
+      fixed: "n132/arvo:42499092-fix"
+  evidence:
+    expected_crash_sha256: "9648fe623bfb02a7f96f5394064fc0f3aa95c1519f607421606af191c281b064"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

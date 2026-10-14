@@ -1,0 +1,24 @@
+{
+  "id": "AB-000047",
+  "arvo_local_id": 42470395,
+  "project": "harfbuzz",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 1",
+  "severity": "Medium",
+  "fuzz_target": "hb-shape-fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470395",
+  "docker": {
+    "vulnerable": "n132/arvo:42470395-vul",
+    "fixed": "n132/arvo:42470395-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "43e145a6f2a9231bae51cc84f71f451936d63e41890ae31bfafb766ac920e60d",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/hb-shape-fuzzer < INPUT_FILE\r\nor\r\n  /out/hb-shape-fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/hb-shape-fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 256 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x611000000288 at pc 0x000000546a8e bp 0x7fffffffdc50 sp 0x7fffffffdc48\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0x611000000288 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 22 (1-byte-read-heap-buffer-overflow-far-from-bounds)\r\n    #0 0x546a8d in BEInt<unsigned short, 2>::operator unsigned short() const /src/harfbuzz/src/./hb-machinery.hh:655:13\r\n    #1 0x54c6ac in OT::BinSearchHeader::operator unsigned int() const /src/harfbuzz/src/./hb-open-type.hh:703:50\r\n    #2 0x54c540 in OT::OffsetTable::find_table_index(unsigned int, unsigned int*) const /src/harfbuzz/src/./hb-open-file.hh:116:13\r\n    #3 0x54c400 in OT::OffsetTable::get_table_by_tag(unsigned int) const /src/harfbuzz/src/./hb-open-file.hh:124:5\r\n    #4 0x548c84 in _hb_face_for_data_reference_table(hb_face_t*, unsigned int, void*) /src/harfbuzz/src/hb-face.cc:169:44\r\n    #5 0x54b4d4 in hb_face_t::reference_table(unsigned int) const /src/harfbuzz/src/./hb-face.hh:74:12\r\n    #6 0x5461ff in hb_blob_t* hb_sanitize_context_t::reference_table<OT::maxp>(hb_face_t const*, unsigned int) /src/harfbuzz/src/./hb-machinery.hh:421:33\r\n    #7 0x543c67 in hb_face_t::load_num_glyphs() const /src/harfbuzz/src/./hb-static.cc:51:28\r\n    #8 0x54b62b in hb_face_t::get_num_glyphs() const /src/harfbuzz/src/./hb-face.hh:91:7\r\n    #9 0x54630a in hb_blob_t* hb_sanitize_context_t::reference_table<OT::head>(hb_face_t const*, ",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

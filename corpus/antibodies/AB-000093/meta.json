@@ -1,0 +1,24 @@
+{
+  "id": "AB-000093",
+  "arvo_local_id": 42475667,
+  "project": "openssl",
+  "sanitizer": "asan",
+  "crash_type": "Stack-use-after-return READ 4",
+  "severity": "Medium",
+  "fuzz_target": "client",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/openssl/openssl.git",
+  "fix_commit": "83b4a24384e62ed8cf91f51bf9a303f98017e13e",
+  "patch_url": "https://github.com/openssl/openssl/commit/83b4a24384e62ed8cf91f51bf9a303f98017e13e",
+  "report_url": "https://issues.oss-fuzz.com/issues/42475667",
+  "docker": {
+    "vulnerable": "n132/arvo:42475667-vul",
+    "fixed": "n132/arvo:42475667-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "cc3747b11f296ee75473b00ae57842607d4770a18c8824e6faaae124c4cfcaea",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/client < INPUT_FILE\r\nor\r\n  /out/client INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/client [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 536 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: stack-use-after-return on address 0x7ffff7f4ee20 at pc 0x000000699b64 bp 0x7fffffffdd10 sp 0x7fffffffdd08\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x7ffff7f4ee20 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 55 (4-byte-read-stack-use-after-return)\r\n    #0 0x699b63 in OSSL_PARAM_get_int32 /src/openssl/crypto/params.c:170:20\r\n    #1 0x8e9e69 in md5_sha1_set_params /src/openssl/providers/default/digests/md5_sha1.c:33:27\r\n    #2 0x595ede in ssl3_final_finish_mac /src/openssl/ssl/s3_enc.c:472:16\r\n    #3 0x56cb5f in tls_construct_finished /src/openssl/ssl/statem/statem_lib.c:553:21\r\n    #4 0x54ec86 in write_state_machine /src/openssl/ssl/statem/statem.c:843:37\r\n    #5 0x54cb87 in state_machine /src/openssl/ssl/statem/statem.c:443:21\r\n    #6 0x4e8dba in SSL_do_handshake /src/openssl/ssl/ssl_lib.c:3727:19\r\n    #7 0x4c92b0 in FuzzerTestOneInput /src/openssl/fuzz/client.c:84:9\r\n    #8 0x4c999a in ExecuteFilesOnyByOne /src/libfuzzer/afl/afl_driver.cpp:216:5\r\n    #9 0x4c999a in main /src/libfuzzer/afl/afl_driver.cpp:253\r\n    #10 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #11 0x41fc48 in _start (/out/client+0x41fc48)\r\n\r\nDEDUP_TOKEN: OSSL_PARAM_get_int32--md5_sha1_set_params--ssl3_final_finish_mac\r\n\u001b[1m\u001b[32mAddress 0x7ffff7f4ee20 is located in stack of thread T0 at offset 32 in frame\u001b[1m\u001b[0m\r\n\u001b[1m\u001b[0m    #0 0x595a5f in ssl3_digest_master_key_set_params /src/openssl/ssl/s3_enc.c:416\r\n\r\n",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

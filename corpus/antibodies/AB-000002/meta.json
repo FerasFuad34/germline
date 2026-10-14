@@ -1,0 +1,24 @@
+{
+  "id": "AB-000002",
+  "arvo_local_id": 42470125,
+  "project": "libxml2",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "libxml2_xml_read_memory_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470125",
+  "docker": {
+    "vulnerable": "n132/arvo:42470125-vul",
+    "fixed": "n132/arvo:42470125-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "6029672b9013a9eeebdbf544928a40940252ef490b285be67b20cf60c682b35f",
+  "expected_crash_excerpt": "INFO: Seed: 3748633341\r\nINFO: Loaded 1 modules (44005 guards): [0x101cc70, 0x1047c04), \r\n/out/libxml2_xml_read_memory_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x9d6864 in xmlCurrentChar /src/libxml2/parserInternals.c:626:10\r\n    #1 0x59138f in xmlParsePI /src/libxml2/parser.c:5354:9\r\n    #2 0x5e87ed in xmlParseMisc /src/libxml2/parser.c:10797:6\r\n    #3 0x5e9e7b in xmlParseDocument /src/libxml2/parser.c:10908:5\r\n    #4 0x614047 in xmlDoRead /src/libxml2/parser.c:15432:5\r\n    #5 0x614742 in xmlReadMemory /src/libxml2/parser.c:15518:13\r\n    #6 0x498c61 in LLVMFuzzerTestOneInput /src/libxml2_xml_read_memory_fuzzer.cc:31:20\r\n    #7 0x4d8939 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:451:13\r\n    #8 0x4d9572 in fuzzer::Fuzzer::RunOne(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:408:3\r\n    #9 0x49c73e in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:268:6\r\n    #10 0x4aaf7d in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:620:9\r\n    #11 0x49b881 in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #12 0x7ffff6ee682f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #13 0x41f298 in _start (/out/libxml2_xml_read_memory_fuzzer+0x41f298)\r\n\r\nDEDUP_TOKEN: xmlCurrentChar--xmlParsePI--xmlParseMisc\r\n  \u001b[1m\u001b[35mUninitialized value was created by a heap allocation\u001b[1m\u001b[0m\r\n    #0 0x44e1d0 in malloc /src/llvm/projects/compiler-rt/lib/msan/msan_interceptors.cc:953\r\n    #1 0x846e3d in xmlBufCreate /src/libxml2/buf.c:137:32\r\n    #2 0x9da702 in xmlSwitchInputEncodingInt /src/libxml2/parserInternals.c:1211:34\r\n    #3 0x9d97e9 in xmlSwitchToEncodingInt /src/libxml2/parserInternals.c:1287:12\r\n    #4 0x9d8bf3 in xmlSwitchEncoding /src/libxml2/parserInternals.c:1107:11\r\n    #5 0x5e9374",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

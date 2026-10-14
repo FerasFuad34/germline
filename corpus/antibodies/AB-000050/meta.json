@@ -1,0 +1,24 @@
+{
+  "id": "AB-000050",
+  "arvo_local_id": 42470990,
+  "project": "harfbuzz",
+  "sanitizer": "ubsan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "hb-shape-fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "ca54eba4846d0afda4601929556617a7ebe51714",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/ca54eba4846d0afda4601929556617a7ebe51714",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470990",
+  "docker": {
+    "vulnerable": "n132/arvo:42470990-vul",
+    "fixed": "n132/arvo:42470990-fix"
+  },
+  "detection_marker": "UndefinedBehaviorSanitizer:DEADLYSIGNAL",
+  "expected_crash_sha256": "889c5e5c28f5cf94de8f69c18e5bf802647e66be3026c389018ec71a6a04718b",
+  "expected_crash_excerpt": "INFO: Seed: 1258874981\r\nINFO: Loaded 1 modules   (17282 inline 8-bit counters): 17282 [0x8538d0, 0x857c52), \r\nINFO: Loaded 1 PC tables (17282 PCs): 17282 [0x857c58,0x89b478), \r\n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nUndefinedBehaviorSanitizer:DEADLYSIGNAL\r\n\u001b[1m\u001b[31m==7==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x0000327f49f5 (pc 0x0000004c7857 bp 0x7fffffffc830 sp 0x7fffffffc6f8 T7)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\n    #0 0x4c7856 in BEInt<int, 4>::operator int() const /src/harfbuzz/src/./hb-machinery.hh:710\r\n    #1 0x4dcb33 in hb_kern_machine_t<AAT::KerxSubTableFormat6::accelerator_t>::kern(hb_font_t*, hb_buffer_t*, unsigned int) const /src/harfbuzz/src/./hb-ot-kern-table.hh:73:35\r\n    #2 0x4dc9a9 in AAT::KerxSubTableFormat6::apply(AAT::hb_aat_apply_context_t*) const /src/harfbuzz/src/./hb-aat-layout-kerx-table.hh:272:13\r\n    #3 0x4db79c in AAT::hb_aat_apply_context_t::return_t AAT::KerxTable::dispatch<AAT::hb_aat_apply_context_t>(AAT::hb_aat_apply_context_t*) const /src/harfbuzz/src/./hb-aat-layout-kerx-table.hh:363:15\r\n    #4 0x4cfcb4 in AAT::kerx::apply(AAT::hb_aat_apply_context_t*) const /src/harfbuzz/src/./hb-aat-layout-kerx-table.hh:434:14\r\n    #5 0x4cfac8 in hb_aat_layout_position(hb_ot_shape_plan_t*, hb_font_t*, hb_buffer_t*) /src/harfbuzz/src/hb-aat-layout.cc:107:8\r\n    #6 0x499df4 in hb_ot_position_complex(hb_ot_shape_context_t const*) /src/harfbuzz/src/hb-ot-shape.cc:838:5\r\n    #7 0x497a7f in hb_ot_position(hb_ot_shape_context_t const*) /src/harfbuzz/src/hb-ot-shape.cc:872:3\r\n    #8 0x4967f0 in hb_ot_shape_internal(hb_ot_shape_context_t*) /src/harfbuzz/src/hb-ot-shape.cc:953:3\r\n    #9 0x496647 in _hb_ot_shape /src/harfbuzz/src/hb-ot-shape.cc:980:3\r\n    #10 0x487111 in hb_shape_plan_execute /src/harfbuzz/src/./hb-shaper-list.hh:42:1\r\n    #11 0x48616a in hb_shape_full /src/harfbuzz/src/hb-shape.cc:141:19\r\n    #12 0x4311c3 in LLVMFuzzerTestOneInput /src/harfbuzz/./test/fuzzing",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000076",
+  "arvo_local_id": 42481430,
+  "project": "php-src",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 4",
+  "severity": "High",
+  "fuzz_target": "php-fuzz-mbstring",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/php/php-src.git",
+  "fix_commit": "7e2bd95fa5fb903bc0e125f4bbb21b93f3de2398\n5a9475f4b933aa5bfd16cd2a452ee57aec803dc4\nd904be08808ba0b7164907e01392d0dabbf3077e\nfe8af59b6ae5490a850923137af86c3348ef5204",
+  "patch_url": "https://github.com/php/php-src/commit/fe8af59b6ae5490a850923137af86c3348ef5204",
+  "report_url": "https://issues.oss-fuzz.com/issues/42481430",
+  "docker": {
+    "vulnerable": "n132/arvo:42481430-vul",
+    "fixed": "n132/arvo:42481430-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "ee065dbe226af5e686c6eb3116cc429103e29515dfe15104103d4984cf8f99b8",
+  "expected_crash_excerpt": "INFO: Seed: 3144556648\r\nINFO: Loaded 1 modules   (117002 inline 8-bit counters): 117002 [0x96a77e0, 0x96c40ea), \r\nINFO: Loaded 1 PC tables (117002 PCs): 117002 [0x96c40ec,0x97a893c), \r\n/out/php-fuzz-mbstring: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0xf3c37640 at pc 0x08da674d bp 0xff892c88 sp 0xff892c80\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0xf3c37640 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 45 (4-byte-read-heap-use-after-free)\r\n    #0 0x8da674c in optimize_nodes /src/php-src/oniguruma/src/regcomp.c:6263:11\r\n    #1 0x8da5baa in optimize_nodes /src/php-src/oniguruma/src/regcomp.c\r\n    #2 0x8da5455 in optimize_nodes /src/php-src/oniguruma/src/regcomp.c:6271:13\r\n    #3 0x8d95c49 in set_optimize_info_from_tree /src/php-src/oniguruma/src/regcomp.c:6634:7\r\n    #4 0x8d8fca1 in onig_compile /src/php-src/oniguruma/src/regcomp.c:7075:7\r\n    #5 0x8d98554 in onig_new /src/php-src/oniguruma/src/regcomp.c:7255:7\r\n    #6 0x84528f4 in php_mbregex_compile_pattern /src/php-src/ext/mbstring/php_mbregex.c:466:19\r\n    #7 0x844cd3e in _php_mb_regex_ereg_exec /src/php-src/ext/mbstring/php_mbregex.c:929:7\r\n    #8 0x844c8b0 in zif_mb_ereg /src/php-src/ext/mbstring/php_mbregex.c:979:2\r\n    #9 0x8969d8b in zend_call_function /src/php-src/Zend/zend_execute_API.c:778:4\r\n    #10 0x89684b2 in _call_user_function_ex /src/php-src/Zend/zend_execute_API.c:606:9\r\n    #11 0x8d58f18 in fuzzer_call_php_func_zval /src/php-src/sapi/fuzzer/fuzzer-sapi.c:247:2\r\n    #12 0x8d5935a in fuzzer_call_php_func /src/php-src/sapi/fuzzer/fuzzer-sapi.c:267:2\r\n    #13 0x8d57c95 in LLVMFuzzerTestOneInput /src/php-src/sapi/fuzzer/fuzzer-mbstring.c:44:2\r\n    #14 0x80be5b6 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned int) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:556:15\r\n    #15 0x80aaa63 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned int) /s",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

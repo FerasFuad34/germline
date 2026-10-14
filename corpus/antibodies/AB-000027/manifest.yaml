@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000027
+title: "ffmpeg: Index-out-of-bounds in ffmpeg_AV_CODEC_ID_AAC_fuzzer"
+cve: []
+cwe: ["CWE-129"]
+
+origin:
+  project: ffmpeg
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42473861)"
+  fixed_in: 1002932a3b16
+
+attack:
+  class: memory-safety
+  target_fn: ffmpeg_AV_CODEC_ID_AAC_fuzzer
+  sanitizer: ubsan
+  crash_type: "Index-out-of-bounds"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42473861-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "runtime error:"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42473861"
+    repo: "https://git.ffmpeg.org/ffmpeg.git"
+    fix_commit: 1002932a3b16d35c46a08455f76462909eebb5aa
+    patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/1002932a3b16d35c46a08455f76462909eebb5aa"
+    docker:
+      vulnerable: "n132/arvo:42473861-vul"
+      fixed: "n132/arvo:42473861-fix"
+  evidence:
+    expected_crash_sha256: "37575f28cdbd734cefe6beb37a42aee6e27f509af0ea668049445f112b81e6e8"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

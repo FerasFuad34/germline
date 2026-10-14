@@ -1,0 +1,24 @@
+{
+  "id": "AB-000019",
+  "arvo_local_id": 42470801,
+  "project": "ffmpeg",
+  "sanitizer": "asan",
+  "crash_type": "Global-buffer-overflow READ 4",
+  "severity": "Medium",
+  "fuzz_target": "ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://git.ffmpeg.org/ffmpeg.git",
+  "fix_commit": "85a921f46184dace4b4f3d968830991eff218e3f",
+  "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/85a921f46184dace4b4f3d968830991eff218e3f",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470801",
+  "docker": {
+    "vulnerable": "n132/arvo:42470801-vul",
+    "fixed": "n132/arvo:42470801-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "411aef7f3c043e59ff8a7859c487f228ed3dd692542a3c44da513c775045e77f",
+  "expected_crash_excerpt": "INFO: Seed: 3950785085\r\nINFO: Loaded 1 modules   (51581 inline 8-bit counters): 51581 [0x11b14c8, 0x11bde45), \r\nINFO: Loaded 1 PC tables (51581 PCs): 51581 [0xdab8e0,0xe750b0), \r\n/out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000000d6e1b4 at pc 0x000000aa8990 bp 0x7fffb9e15490 sp 0x7fffb9e15488\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x000000d6e1b4 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 27 (4-byte-read-global-buffer-overflow-far-from-bounds)\r\n    #0 0xaa898f in initSlotBasedRotation(PS_DEC*, int, int) /src/fdk-aac/libSBRdec/src/psdec.cpp:361:14\r\n    #1 0xaad76c in sbr_dec(SBR_DEC*, short*, short*, SBR_DEC*, short*, int, SBR_HEADER_DATA*, SBR_FRAME_DATA*, SBR_PREV_FRAME_DATA*, int, PS_DEC*, unsigned int, int) /src/fdk-aac/libSBRdec/src/sbr_dec.cpp:800:13\r\n    #2 0x9d573b in sbrDecoder_DecodeElement(SBR_DECODER_INSTANCE*, short*, short*, int, FDK_channelMapDescr const*, int, int, int, int, int*, int) /src/fdk-aac/libSBRdec/src/sbrdecoder.cpp:1749:5\r\n    #3 0x9d44a6 in sbrDecoder_Apply /src/fdk-aac/libSBRdec/src/sbrdecoder.cpp:1895:19\r\n    #4 0x97e5a2 in aacDecoder_DecodeFrame /src/fdk-aac/libAACdec/src/aacdecoder_lib.cpp:1455:20\r\n    #5 0x548d7f in fdk_aac_decode_frame /src/ffmpeg/libavcodec/libfdk-aacdec.c:348:11\r\n    #6 0x544dd4 in decode_simple_internal /src/ffmpeg/libavcodec/decode.c:437:15\r\n    #7 0x544a22 in decode_simple_receive_frame /src/ffmpeg/libavcodec/decode.c:633:15\r\n    #8 0x53a7c1 in decode_receive_frame_internal /src/ffmpeg/libavcodec/decode.c:651:15\r\n    #9 0x53a5d2 in avcodec_send_packet /src/ffmpeg/libavcodec/decode.c:709:15\r\n    #10 0x53b1f5 in compat_decode /src/ffmpeg/libavcodec/decode.c:800:15\r\n    #11 0x531942 in LLVMFuzzerTestOneInput /src/ffmpeg/tools/target_dec_fuzzer.c:245:23\r\n    #12 0xb5ba58 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) ",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

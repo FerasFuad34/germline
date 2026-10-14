@@ -1,0 +1,24 @@
+{
+  "id": "AB-000011",
+  "arvo_local_id": 42486565,
+  "project": "libxml2",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 4",
+  "severity": "High",
+  "fuzz_target": "xml",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "dba82a8c0453b7d4d138167a771c1c2988b889be",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/dba82a8c0453b7d4d138167a771c1c2988b889be",
+  "report_url": "https://issues.oss-fuzz.com/issues/42486565",
+  "docker": {
+    "vulnerable": "n132/arvo:42486565-vul",
+    "fixed": "n132/arvo:42486565-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "eced34057129155ce3ae4c9c40d5b840823e8df89fd0bb6faa49a9d262aaa733",
+  "expected_crash_excerpt": "INFO: Seed: 3853177122\r\nINFO: Loaded 1 modules   (46041 inline 8-bit counters): 46041 [0xc20c00, 0xc2bfd9), \r\nINFO: Loaded 1 PC tables (46041 PCs): 46041 [0x8be2b0,0x972040), \r\n/out/xml: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x60c000000708 at pc 0x0000006a3afc bp 0x7fffffffd880 sp 0x7fffffffd878\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x60c000000708 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 45 (4-byte-read-heap-use-after-free)\r\n    #0 0x6a3afb in xmlXIncludeIncludeNode /src/libxml2/xinclude.c:2216:32\r\n    #1 0x6a16ea in xmlXIncludeDoProcess /src/libxml2/xinclude.c:2471:6\r\n    #2 0x6a7d9a in xmlXIncludeLoadFallback /src/libxml2/xinclude.c:2002:10\r\n    #3 0x6a2f06 in xmlXIncludeLoadNode /src/libxml2/xinclude.c:2170:9\r\n    #4 0x6a155d in xmlXIncludeDoProcess /src/libxml2/xinclude.c:2452:9\r\n    #5 0x6a10ba in xmlXIncludeProcessTreeFlagsData /src/libxml2/xinclude.c:2524:11\r\n    #6 0x6a18e6 in xmlXIncludeProcessFlagsData /src/libxml2/xinclude.c:2553:12\r\n    #7 0x6a1932 in xmlXIncludeProcessFlags /src/libxml2/xinclude.c:2568:12\r\n    #8 0x553a37 in LLVMFuzzerTestOneInput /src/libxml2/fuzz/xml.c:71:9\r\n    #9 0x458ab1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:559:15\r\n    #10 0x444252 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:301:6\r\n    #11 0x44a1ed in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:801:9\r\n    #12 0x471ad2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\r\n    #13 0x7ffff6ee583f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\r\n    #14 0x41e9f8 in _start (/out/xml+0x41e9f8)\r\n\r\nDEDUP_TOKEN: xmlXIncludeIncludeNode--xmlXIncludeDoProcess--xm",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

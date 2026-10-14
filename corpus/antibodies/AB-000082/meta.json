@@ -1,0 +1,24 @@
+{
+  "id": "AB-000082",
+  "arvo_local_id": 42494317,
+  "project": "gpac",
+  "sanitizer": "asan",
+  "crash_type": "Segv on unknown address",
+  "severity": "Medium",
+  "fuzz_target": "fuzz_parse",
+  "fuzz_engine": "libfuzzer",
+  "language": "c",
+  "repo": "https://github.com/gpac/gpac",
+  "fix_commit": "b03c9f252526bb42fbd1b87b9f5e339c3cf2390a",
+  "patch_url": "https://github.com/gpac/gpac/commit/b03c9f252526bb42fbd1b87b9f5e339c3cf2390a",
+  "report_url": "https://issues.oss-fuzz.com/issues/42494317",
+  "docker": {
+    "vulnerable": "n132/arvo:42494317-vul",
+    "fixed": "n132/arvo:42494317-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "9efb52aad1ceb7f4a59bbfdb7952e093ca19fec8e3c9e44174d67d869b18fd74",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 2686222140\r\nINFO: Loaded 1 modules   (186414 inline 8-bit counters): 186414 [0x1cba350, 0x1ce7b7e), \r\nINFO: Loaded 1 PC tables (186414 PCs): 186414 [0x1ce7b80,0x1fbfe60), \r\n/out/fuzz_parse: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[31m[isom] not enough bytes in box iloc: 0 left, reading 2 (file isomedia/box_code_meta.c, line 299)\r\n\u001b[0mAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x0000006f0152 bp 0x7fffffffd4c0 sp 0x7fffffffd4c0 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\n==7==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.\r\nSCARINESS: 20 (wild-addr-read)\r\n    #0 0x6f0152 in gf_list_count /src/gpac/src/utils/list.c:642:14\r\n    #1 0x8099e9 in iloc_entry_del /src/gpac/src/isomedia/box_code_meta.c:248:17\r\n    #2 0x809b31 in iloc_box_del /src/gpac/src/isomedia/box_code_meta.c:265:3\r\n    #3 0x8105ed in gf_isom_box_del /src/gpac/src/isomedia/box_funcs.c:1762:3\r\n    #4 0x80ff46 in gf_isom_box_parse_ex /src/gpac/src/isomedia/box_funcs.c:295:3\r\n    #5 0x80ecd6 in gf_isom_parse_root_box /src/gpac/src/isomedia/box_funcs.c:38:8\r\n    #6 0x557956 in gf_isom_parse_movie_boxes_internal /src/gpac/src/isomedia/isom_intern.c:318:7\r\n    #7 0x557390 in gf_isom_parse_movie_boxes /src/gpac/src/isomedia/isom_intern.c:747:6\r\n    #8 0x55b85a in gf_isom_open_file /src/gpac/src/isomedia/isom_intern.c:867:19\r\n    #9 0x555803 in LLVMFuzzerTestOneInput /src/gpac/fuzz_parse.c:30:13\r\n    #10 0x45b073 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\r\n    #11 0x444f32 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000011
+title: "libxml2: Heap-use-after-free READ 4 in xml"
+cve: []
+cwe: ["CWE-416"]
+
+origin:
+  project: libxml2
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42486565)"
+  fixed_in: dba82a8c0453
+
+attack:
+  class: memory-safety
+  target_fn: xml
+  sanitizer: asan
+  crash_type: "Heap-use-after-free READ 4"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42486565-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42486565"
+    repo: "https://gitlab.gnome.org/GNOME/libxml2.git"
+    fix_commit: dba82a8c0453b7d4d138167a771c1c2988b889be
+    patch_url: "https://gitlab.gnome.org/GNOME/libxml2/-/commit/dba82a8c0453b7d4d138167a771c1c2988b889be"
+    docker:
+      vulnerable: "n132/arvo:42486565-vul"
+      fixed: "n132/arvo:42486565-fix"
+  evidence:
+    expected_crash_sha256: "eced34057129155ce3ae4c9c40d5b840823e8df89fd0bb6faa49a9d262aaa733"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

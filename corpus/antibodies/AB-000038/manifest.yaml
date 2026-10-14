@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000038
+title: "imagemagick: Heap-use-after-free WRITE 4 in encoder_mat_fuzzer"
+cve: []
+cwe: ["CWE-416"]
+
+origin:
+  project: imagemagick
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42474040)"
+  fixed_in: f7206618d27c
+
+attack:
+  class: memory-safety
+  target_fn: encoder_mat_fuzzer
+  sanitizer: asan
+  crash_type: "Heap-use-after-free WRITE 4"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42474040-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42474040"
+    repo: "https://github.com/imagemagick/imagemagick"
+    fix_commit: f7206618d27c2e69d977abf40e3035a33e5f6be0
+    patch_url: "https://github.com/imagemagick/imagemagick/commit/f7206618d27c2e69d977abf40e3035a33e5f6be0"
+    docker:
+      vulnerable: "n132/arvo:42474040-vul"
+      fixed: "n132/arvo:42474040-fix"
+  evidence:
+    expected_crash_sha256: "85c7d640b45df140c6f6b63c92461b8ce2de83be3cc021b3ae43ddc165c0b40a"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

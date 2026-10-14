@@ -1,0 +1,49 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000076
+title: "php-src: Heap-use-after-free READ 4 in php-fuzz-mbstring"
+cve: []
+cwe: ["CWE-416"]
+
+origin:
+  project: php-src
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42481430)"
+  fixed_in: 7e2bd95fa5fb
+
+attack:
+  class: memory-safety
+  target_fn: php-fuzz-mbstring
+  sanitizer: asan
+  crash_type: "Heap-use-after-free READ 4"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42481430-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42481430"
+    repo: "https://github.com/php/php-src.git"
+    fix_commit: 7e2bd95fa5fb903bc0e125f4bbb21b93f3de2398
+5a9475f4b933aa5bfd16cd2a452ee57aec803dc4
+d904be08808ba0b7164907e01392d0dabbf3077e
+fe8af59b6ae5490a850923137af86c3348ef5204
+    patch_url: "https://github.com/php/php-src/commit/fe8af59b6ae5490a850923137af86c3348ef5204"
+    docker:
+      vulnerable: "n132/arvo:42481430-vul"
+      fixed: "n132/arvo:42481430-fix"
+  evidence:
+    expected_crash_sha256: "ee065dbe226af5e686c6eb3116cc429103e29515dfe15104103d4984cf8f99b8"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

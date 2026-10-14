@@ -1,0 +1,24 @@
+{
+  "id": "AB-000099",
+  "arvo_local_id": 42498959,
+  "project": "libpng",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow WRITE {*}",
+  "severity": "High",
+  "fuzz_target": "libpng_read_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/glennrp/libpng.git",
+  "fix_commit": "357af1f095320c76f7c9d2bcf7de48dd809358e4\n12384eae6fa138b528647cdf350b005509e95b6b\na3d1057a735d923626f1f6bdc0f662a13d0cba6f",
+  "patch_url": "https://github.com/glennrp/libpng/commit/a3d1057a735d923626f1f6bdc0f662a13d0cba6f",
+  "report_url": "https://issues.oss-fuzz.com/issues/42498959",
+  "docker": {
+    "vulnerable": "n132/arvo:42498959-vul",
+    "fixed": "n132/arvo:42498959-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "e46aed7390e99197419909a14bc4e29e6aed7ba56f6b7c2b01a5820efd0d0fef",
+  "expected_crash_excerpt": "INFO: Seed: 1060007137\r\nINFO: Loaded 1 modules   (3776 guards): 3776 [0x8f9260, 0x8fcd60), \r\n/out/libpng_read_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6060000000c0 at pc 0x0000004dd7f5 bp 0x7ffe11d9cc40 sp 0x7ffe11d9c3f0\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 128 at 0x6060000000c0 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 45 (multi-byte-write-heap-buffer-overflow)\r\n    #0 0x4dd7f4 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23\r\n    #1 0x5e4292 in OSS_FUZZ_png_combine_row /src/libpng/pngrutil.c:3655:4\r\n    #2 0x5b1753 in OSS_FUZZ_png_read_row /src/libpng/pngread.c:606:10\r\n    #3 0x51ad14 in LLVMFuzzerTestOneInput /src/libpng/contrib/oss-fuzz/libpng_read_fuzzer.cc:177:7\r\n    #4 0x53e160 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:465:13\r\n    #5 0x51ccc5 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:273:6\r\n    #6 0x527fed in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:689:9\r\n    #7 0x51c368 in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #8 0x7f912a27782f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #9 0x41c368 in _start (/out/libpng_read_fuzzer+0x41c368)\r\n\r\nDEDUP_TOKEN: __asan_memcpy--OSS_FUZZ_png_combine_row--OSS_FUZZ_png_read_row\r\n\u001b[1m\u001b[32m0x6060000000c0 is located 0 bytes to the right of 64-byte region [0x606000000080,0x6060000000c0)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mallocated by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x4de738 in malloc /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:88\r\n    #1 0x5afe86 in OSS_FUZZ_png_malloc /src/libpng/pngmem.c:179:10\r\n    #2 0x51a55b in LLVMFuzzerTestOneInput /src/libpng/contrib/oss-fuzz/libpng_read_fuzzer.cc:139:25\r\n    #3 0x53e160 in fuzzer::Fuzzer::",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000009",
+  "arvo_local_id": 42480782,
+  "project": "libxml2",
+  "sanitizer": "asan",
+  "crash_type": "Stack-buffer-overflow WRITE {*}",
+  "severity": "High",
+  "fuzz_target": "libxml2_xml_read_memory_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "932cc9896ab41475d4aa429c27d9afd175959d74",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/932cc9896ab41475d4aa429c27d9afd175959d74",
+  "report_url": "https://issues.oss-fuzz.com/issues/42480782",
+  "docker": {
+    "vulnerable": "n132/arvo:42480782-vul",
+    "fixed": "n132/arvo:42480782-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "23d5aeea1d38f9ae29c74940352b10fa10c2e70601b424de0f23493f49d2b361",
+  "expected_crash_excerpt": "INFO: Seed: 1960697360\r\nINFO: Loaded 1 modules (44113 guards): [0xc7b030, 0xca6174), \r\n/out/libxml2_xml_read_memory_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff6e95c08 at pc 0x00000049cb20 bp 0x7fffffffbef0 sp 0x7fffffffb6a0\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 37 at 0x7ffff6e95c08 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 60 (multi-byte-write-stack-buffer-overflow)\r\n    #0 0x49cb1f in __interceptor_strcat /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors.cc:491\r\n    #1 0x6413f1 in xmlSnprintfElementContent /src/libxml2/valid.c:1279:3\r\n    #2 0x640fe0 in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #3 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #4 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #5 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #6 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #7 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #8 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #9 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #10 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #11 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #12 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #13 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #14 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #15 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #16 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #17 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #18 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #19 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #20 0x6414cd in xmlSnprintfElementContent /src/libxml2/valid.c\r\n    #21 0x6414cd in ",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000061",
+  "arvo_local_id": 42470895,
+  "project": "wireshark",
+  "sanitizer": "asan",
+  "crash_type": "Global-buffer-overflow READ 4",
+  "severity": "Medium",
+  "fuzz_target": "fuzzshark_ip_proto-udp",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/wireshark/wireshark.git",
+  "fix_commit": "895ad30b5a188a37822356357f3a06d16637c617\n74903893d8be058bb51268d2b5e748e3ea2d9053\nff73c307fae57fdb12e2fbbca87b9810d8b9cd27\n98675916337e655caf054da22e0d945777102ec1\nb6fe64017a967ee95eaafe3751ebb0738d1c5737\n6177f0eb42a1da2d8241733d1d0eb699c8785d3c\n57c1eb3a6a8e3887204a40422a09ed213aa99aed\n2c09e87c713628362e4fdc33309a0cc205a20de3\n312bb1068257e93981957cdd51323ab565984ba3\n506e5a7667d3f31e83286d9cca79cb3b3d330bff\n8f496ad4ded0ef9d0e4daaf1f6840f473c6e388a\n1a2aa0e901e38d8abcd0368c500f8990f866783b\n41f4c7d071b02750d17d14fb8e0985288cab8153\n81c4f74a1921e8c89fcf200beb6892b78a7297d9\n9f472ea1501f8deb0109ea61feda6b8a5eec4f6a",
+  "patch_url": "https://github.com/wireshark/wireshark/commit/9f472ea1501f8deb0109ea61feda6b8a5eec4f6a",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470895",
+  "docker": {
+    "vulnerable": "n132/arvo:42470895-vul",
+    "fixed": "n132/arvo:42470895-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "00d7615b06025ac8cbeceedb8bd8ac4dc922bab0d823cb83b197db55fe7a8ca5",
+  "expected_crash_excerpt": "oss-fuzzshark: disabling: ip\r\noss-fuzzshark: disabling: udplite\r\noss-fuzzshark: disabling: ospf\r\noss-fuzzshark: disabling: bgp\r\noss-fuzzshark: disabling: dhcp\r\noss-fuzzshark: disabling: json\r\noss-fuzzshark: disabling: snort\r\noss-fuzzshark: configured for dissector: udp in table: ip.proto\r\nINFO: Seed: 3341100087\r\nINFO: Loaded 1 modules   (324643 inline 8-bit counters): 324643 [0xd12c300, 0xd17b723), \r\nINFO: Loaded 1 PC tables (324643 PCs): 324643 [0xd17b728,0xd66f958), \r\n/out/fuzzshark_ip_proto-udp: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000003714f48 at pc 0x0000010b5115 bp 0x7ffdd48f4e10 sp 0x7ffdd48f4e08\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x000003714f48 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 17 (4-byte-read-global-buffer-overflow)\r\n    #0 0x10b5114 in next_he_scidx /src/wireshark/epan/dissectors/packet-ieee80211.c\r\n    #1 0x10b5114 in dissect_compressed_beamforming_and_cqi /src/wireshark/epan/dissectors/packet-ieee80211.c:12034\r\n    #2 0x10b5114 in add_ff_action_he /src/wireshark/epan/dissectors/packet-ieee80211.c:12168\r\n    #3 0x10b5114 in add_ff_action /src/wireshark/epan/dissectors/packet-ieee80211.c:12425\r\n    #4 0x10a84c4 in dissect_ieee80211_mgt /src/wireshark/epan/dissectors/packet-ieee80211.c:21722:17\r\n    #5 0x10a84c4 in dissect_ieee80211_common /src/wireshark/epan/dissectors/packet-ieee80211.c:24236\r\n    #6 0x108587a in dissect_ieee80211_withoutfcs /src/wireshark/epan/dissectors/packet-ieee80211.c:24441:3\r\n    #7 0x5ef3e3 in call_dissector_through_handle /src/wireshark/epan/packet.c:706:9\r\n    #8 0x5ef3e3 in call_dissector_work /src/wireshark/epan/packet.c:791\r\n    #9 0x5ebecb in call_dissector_only /src/wireshark/epan/packet.c:3141:8\r\n    #10 0x5ebecb in call_dissector_with_data /src/wireshark/epan/packet.c:3154\r\n    #11 0x12928ad in dissect_lwapp /src/wireshark/epan/dissectors/packet-lwapp.c:450:9\r\n    #12 0",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

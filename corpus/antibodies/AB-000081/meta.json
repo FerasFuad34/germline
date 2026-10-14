@@ -1,0 +1,24 @@
+{
+  "id": "AB-000081",
+  "arvo_local_id": 42473801,
+  "project": "libarchive",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ {*}",
+  "severity": "Medium",
+  "fuzz_target": "libarchive_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/libarchive/libarchive.git",
+  "fix_commit": "39736c43bd7374beedb372aa300ecf36c9fc4733",
+  "patch_url": "https://github.com/libarchive/libarchive/commit/39736c43bd7374beedb372aa300ecf36c9fc4733",
+  "report_url": "https://issues.oss-fuzz.com/issues/42473801",
+  "docker": {
+    "vulnerable": "n132/arvo:42473801-vul",
+    "fixed": "n132/arvo:42473801-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "ebd5458959bb7f412b8361e1bc736ec90b05429d9ef6485062b4d4346599a6c9",
+  "expected_crash_excerpt": "INFO: Seed: 4115077577\r\nINFO: Loaded 1 modules   (11532 inline 8-bit counters): 11532 [0x26351e8, 0x2637ef4), \r\nINFO: Loaded 1 PC tables (11532 PCs): 11532 [0x2313460,0x2340520), \r\n/out/libarchive_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000d1 at pc 0x0000004ecbfd bp 0x7fffffffdab0 sp 0x7fffffffd260\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 52 at 0x6020000000d1 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\r\n    #0 0x4ecbfc in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23\r\n    #1 0x62e629 in circular_memcpy /src/libarchive/libarchive/archive_read_support_format_rar5.c\r\n    #2 0x62dd21 in run_e8e9_filter /src/libarchive/libarchive/archive_read_support_format_rar5.c:520:5\r\n    #3 0x62d79f in run_filter /src/libarchive/libarchive/archive_read_support_format_rar5.c:609:19\r\n    #4 0x628fb1 in apply_filters /src/libarchive/libarchive/archive_read_support_format_rar5.c:713:23\r\n    #5 0x627f3d in do_uncompress_file /src/libarchive/libarchive/archive_read_support_format_rar5.c:3050:11\r\n    #6 0x62770e in uncompress_file /src/libarchive/libarchive/archive_read_support_format_rar5.c:3105:15\r\n    #7 0x6222e0 in rar5_read_data /src/libarchive/libarchive/archive_read_support_format_rar5.c:3314:11\r\n    #8 0x622566 in rar5_read_data_skip /src/libarchive/libarchive/archive_read_support_format_rar5.c:3360:19\r\n    #9 0x622e8b in process_base_block /src/libarchive/libarchive/archive_read_support_format_rar5.c:1666:15\r\n    #10 0x622042 in rar5_read_header /src/libarchive/libarchive/archive_read_support_format_rar5.c:1830:15\r\n    #11 0x5c17e0 in _archive_read_next_header2 /src/libarchive/libarchive/archive_read.c:649:7\r\n    #12 0x5c15d1 in _archive_read_next_header /src/libarchive/libarchive/archive_read.c:687:8\r\n    #13 0x532f61 in LLVMFuzzerTestOneInput /src/liba",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

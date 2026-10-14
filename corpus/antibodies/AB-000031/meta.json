@@ -1,0 +1,24 @@
+{
+  "id": "AB-000031",
+  "arvo_local_id": 42470554,
+  "project": "imagemagick",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "encoder_mng_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "33c60b6e5111b19f362a7f4bf0b96e0e75b2ef8e",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/33c60b6e5111b19f362a7f4bf0b96e0e75b2ef8e",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470554",
+  "docker": {
+    "vulnerable": "n132/arvo:42470554-vul",
+    "fixed": "n132/arvo:42470554-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "2aed9cc422ee3c8a50a7cf7dd993c8a3aa509f1c0ef9b53626828d23c9366e19",
+  "expected_crash_excerpt": "INFO: Seed: 2121953677\r\nINFO: Loaded 1 modules   (159179 inline 8-bit counters): 159179 [0x2a7a048, 0x2aa0e13), \r\nINFO: Loaded 1 PC tables (159179 PCs): 159179 [0x2aa0e18,0x2d0eac8), \r\n/out/encoder_mng_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x11d6e7e in deflate_slow /src/zlib/deflate.c:1953:13\r\n    #1 0x11c7ffd in deflate /src/zlib/deflate.c:1003:18\r\n    #2 0x135389e in png_compress_IDAT /src/libpng/pngwutil.c:981:13\r\n    #3 0x1364ef1 in png_write_filtered_row /src/libpng/pngwutil.c:2769:4\r\n    #4 0x13407cd in png_write_row /src/libpng/pngwrite.c:899:4\r\n    #5 0x115ae2b in WriteOnePNGImage /src/imagemagick/coders/png.c:11631:17\r\n    #6 0x10ed51f in WriteMNGImage /src/imagemagick/coders/png.c:14196:15\r\n    #7 0x7e36d8 in WriteImage /src/imagemagick/MagickCore/constitute.c:1164:16\r\n    #8 0x7e5aba in WriteImages /src/imagemagick/MagickCore/constitute.c:1381:13\r\n    #9 0x7167f9 in ImagesToBlob /src/imagemagick/MagickCore/blob.c:2432:18\r\n    #10 0x5e165d in Magick::Image::write(Magick::Blob*, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) /src/imagemagick/Magick++/lib/Image.cpp:4910:8\r\n    #11 0x4a5a8a in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/encoder_fuzzer.cc:56:11\r\n    #12 0x4edb46 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\r\n    #13 0x4a6f26 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\r\n    #14 0x4b79ab in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\r\n    #15 0x4a6051 in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #16 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #17 0x422368 in _start (/out/encoder_mng_fuzzer+0x422368)\r\n\r\nDEDUP_TOKEN: deflate_slow--deflate--png_compr",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000086",
+  "arvo_local_id": 42479120,
+  "project": "binutils-gdb",
+  "sanitizer": "asan",
+  "crash_type": "Global-buffer-overflow READ 8",
+  "severity": "Medium",
+  "fuzz_target": "fuzz_disassemble",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "git://sourceware.org/git/binutils-gdb.git",
+  "fix_commit": "66a66a17f489a4ffc614a31855e8d6f516e24640",
+  "patch_url": "https://github.com/bminor/binutils-gdb/commit/66a66a17f489a4ffc614a31855e8d6f516e24640",
+  "report_url": "https://issues.oss-fuzz.com/issues/42479120",
+  "docker": {
+    "vulnerable": "n132/arvo:42479120-vul",
+    "fixed": "n132/arvo:42479120-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "27c50bb7e70f561b82f90ca41ab3d87c73738ef2da74f4fea9175731ea6f37f6",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/fuzz_disassemble < INPUT_FILE\r\nor\r\n  /out/fuzz_disassemble INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/fuzz_disassemble [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 22 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000001977e70 at pc 0x0000005e5f4d bp 0x7fffffffdf50 sp 0x7fffffffdf48\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x000001977e70 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 23 (8-byte-read-global-buffer-overflow)\r\n    #0 0x5e5f4c in opr_emit_disassembly /src/binutils-gdb/opcodes/s12z-dis.c:258:58\r\n    #1 0x5e50e7 in print_insn_s12z /src/binutils-gdb/opcodes/s12z-dis.c:385:2\r\n    #2 0x4c907b in LLVMFuzzerTestOneInput /src/binutils-gdb/fuzz/fuzz_disassemble.c:71:13\r\n    #3 0x4c98fe in ExecuteFilesOnyByOne /src/libfuzzer/afl/afl_driver.cpp:216:5\r\n    #4 0x4c98fe in main /src/libfuzzer/afl/afl_driver.cpp:253:12\r\n    #5 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #6 0x41e478 in _start (/out/fuzz_disassemble+0x41e478)\r\n\r\nDEDUP_TOKEN: opr_emit_disassembly--print_insn_s12z--LLVMFuzzerTestOneInput\r\n\u001b[1m\u001b[32m0x000001977e70 is located 48 bytes to the left of global variable '<string literal>' defined in 's12z-dis.c:353:39' (0x1977ea0) of size 3\r\n\u001b[1m\u001b[0m  '<string literal>' is ascii string '%s'\r\n\u001b[1m\u001b[32m0x000001977e70 is located 0 bytes to the right of global variable 'registers' defined in 's12z-dis.c:77:18' (0x1977d80) of size 240\r\n\u001b[1m\u001b[0mSUMMARY: AddressSanitizer: global-buffer-overflow /src/binutils-gdb/opcodes/s12z-dis.c:258:58 in opr_emit_disassembly\r\nShadow bytes around the buggy address:\r\n  0x000080326f70: \u001b[1m",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

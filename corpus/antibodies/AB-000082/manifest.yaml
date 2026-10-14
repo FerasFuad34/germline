@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000082
+title: "gpac: Segv on unknown address in fuzz_parse"
+cve: []
+cwe: []
+
+origin:
+  project: gpac
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42494317)"
+  fixed_in: b03c9f252526
+
+attack:
+  class: memory-safety
+  target_fn: fuzz_parse
+  sanitizer: asan
+  crash_type: "Segv on unknown address"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42494317-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42494317"
+    repo: "https://github.com/gpac/gpac"
+    fix_commit: b03c9f252526bb42fbd1b87b9f5e339c3cf2390a
+    patch_url: "https://github.com/gpac/gpac/commit/b03c9f252526bb42fbd1b87b9f5e339c3cf2390a"
+    docker:
+      vulnerable: "n132/arvo:42494317-vul"
+      fixed: "n132/arvo:42494317-fix"
+  evidence:
+    expected_crash_sha256: "9efb52aad1ceb7f4a59bbfdb7952e093ca19fec8e3c9e44174d67d869b18fd74"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

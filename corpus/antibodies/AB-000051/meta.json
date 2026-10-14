@@ -1,0 +1,24 @@
+{
+  "id": "AB-000051",
+  "arvo_local_id": 42470017,
+  "project": "curl",
+  "sanitizer": "ubsan",
+  "crash_type": "Null-dereference READ",
+  "severity": "Medium",
+  "fuzz_target": "curl_fuzzer_http",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/curl/curl.git",
+  "fix_commit": "78d5302b5c05a49ecfa2ee8b8f1a21a2902357d3",
+  "patch_url": "https://github.com/curl/curl/commit/78d5302b5c05a49ecfa2ee8b8f1a21a2902357d3",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470017",
+  "docker": {
+    "vulnerable": "n132/arvo:42470017-vul",
+    "fixed": "n132/arvo:42470017-fix"
+  },
+  "detection_marker": "UndefinedBehaviorSanitizer:DEADLYSIGNAL",
+  "expected_crash_sha256": "fd65e611b097249df5a8a65bad4faacc4b26fef7cf60e4499f41ff8f74b8895a",
+  "expected_crash_excerpt": "INFO: Seed: 1196565421\r\nINFO: Loaded 1 modules   (67231 inline 8-bit counters): 67231 [0xb725d0, 0xb82c6f), \r\nINFO: Loaded 1 PC tables (67231 PCs): 67231 [0xb82c70,0xc89660), \r\n/out/curl_fuzzer_http: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nUndefinedBehaviorSanitizer:DEADLYSIGNAL\r\n\u001b[1m\u001b[31m==7==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000000000000 bp 0x7ffcb199f5f0 sp 0x7ffcb199f5b8 T7)\r\n\u001b[1m\u001b[0m==7==Hint: pc points to the zero page.\r\n==7==The signal is caused by a READ memory access.\r\n==7==Hint: address points to the zero page.\r\n\r\nUndefinedBehaviorSanitizer can not provide additional info.\r\nSUMMARY: UndefinedBehaviorSanitizer: SEGV (<unknown module>) \r\n==7==ABORTING\r\n",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

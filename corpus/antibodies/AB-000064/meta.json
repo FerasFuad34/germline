@@ -1,0 +1,24 @@
+{
+  "id": "AB-000064",
+  "arvo_local_id": 42470929,
+  "project": "wireshark",
+  "sanitizer": "asan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "fuzzshark_ip",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/wireshark/wireshark.git",
+  "fix_commit": "d9231144b652362eaf62f8595df7d4886dbaf44d",
+  "patch_url": "https://github.com/wireshark/wireshark/commit/d9231144b652362eaf62f8595df7d4886dbaf44d",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470929",
+  "docker": {
+    "vulnerable": "n132/arvo:42470929-vul",
+    "fixed": "n132/arvo:42470929-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "a07ede09d2c6343268d083708b293b6c908ae6575cc967beefc5bbe846f37edc",
+  "expected_crash_excerpt": "oss-fuzzshark: disabling: udp\r\noss-fuzzshark: disabling: udplite\r\noss-fuzzshark: disabling: ospf\r\noss-fuzzshark: disabling: bgp\r\noss-fuzzshark: disabling: dhcp\r\noss-fuzzshark: disabling: json\r\noss-fuzzshark: disabling: snort\r\noss-fuzzshark: configured for dissector: ip\r\nINFO: Seed: 2760309570\r\nINFO: Loaded 1 modules   (325420 inline 8-bit counters): 325420 [0xd1dfe40, 0xd22f56c), \r\nINFO: Loaded 1 PC tables (325420 PCs): 325420 [0xd22f570,0xd726830), \r\n/out/fuzzshark_ip: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x02007fdf475d (pc 0x0000005e0bd5 bp 0x7fffffffc030 sp 0x7fffffffbfd0 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\nSCARINESS: 20 (wild-addr-read)\r\n    #0 0x5e0bd4 in do_throw /src/wireshark/epan/except.c:198:46\r\n    #1 0x5e0614 in except_throw /src/wireshark/epan/except.c:292:5\r\n    #2 0x6c1a97 in fast_ensure_contiguous /src/wireshark/epan/tvbuff.c:827:3\r\n    #3 0x6c1265 in tvb_get_guint8 /src/wireshark/epan/tvbuff.c:923:8\r\n    #4 0x9fb05d in try_get_ber_length /src/wireshark/epan/dissectors/packet-ber.c:1331:23\r\n    #5 0x9ff50a in get_ber_length /src/wireshark/epan/dissectors/packet-ber.c:1379:12\r\n    #6 0x9ff50a in dissect_ber_sequence /src/wireshark/epan/dissectors/packet-ber.c:2233\r\n    #7 0x2002967 in dissect_mms_Confirmed_ResponsePDU /work/build/epan/dissectors/./asn1/mms/mms.cnf:3965:12\r\n    #8 0xa03d07 in dissect_ber_choice /src/wireshark/epan/dissectors/packet-ber.c:2941:21\r\n    #9 0x2001b4d in dissect_mms_MMSpdu /work/build/epan/dissectors/./asn1/mms/mms.cnf:39:12\r\n    #10 0x200234d in dissect_mms /work/build/epan/dissectors/./asn1/mms/packet-mms-template.c:151:10\r\n    #11 0x2002781 in dissect_mms_heur /work/build/epan/dissectors/./asn1/mms/packet-mms-template.c:240:2\r\n    #12 0x5f4cde in dissector_try_heuristic /src/wireshark/epan/packet.c:2750:9\r\n    #13 0x15",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

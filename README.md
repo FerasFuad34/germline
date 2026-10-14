@@ -9,6 +9,20 @@
 
 ---
 
+## The corpus — 100 antibodies · 17 critical projects (draft)
+
+`corpus/` holds **100 antibodies** generated from [ARVO](https://github.com/n132/ARVO-Meta) (OSS-Fuzz, EuroS&P 2026):
+libxml2 ×14 · ffmpeg ×14 · imagemagick ×12 · harfbuzz ×10 · curl ×8 · wireshark ×7 · ghostpdl ×6 · php-src ×5 · libarchive ×5 · gpac ×4 · binutils-gdb ×4 · freetype2 ×3 · openssl ×3 · libwebp ×2 · zlib, libpng, libtiff ×1 each.
+15 crash types · 3 sanitizers (asan/msan/ubsan) · 26 High-severity — each with fix commit, OSS-Fuzz report, Docker reproduction command, and a SHA-256 of the expected crash output.
+
+```bash
+bash tools/run-corpus-checks.sh --dry-run     # integrity check, no Docker needed
+bash tools/run-corpus-checks.sh --sample 5    # double-check: crash on vul / clean on fix
+python3 extractor/arvo.py --help              # regenerate the corpus from arvo.db
+```
+
+Status: 🟡 **draft** — validation (double-check on a Docker host) is the next milestone. See [corpus/README.md](corpus/README.md) and [corpus/INDEX.md](corpus/INDEX.md).
+
 ## Try it now (live)
 
 ```bash

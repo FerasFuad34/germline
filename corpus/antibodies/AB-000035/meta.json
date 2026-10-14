@@ -1,0 +1,24 @@
+{
+  "id": "AB-000035",
+  "arvo_local_id": 42472890,
+  "project": "imagemagick",
+  "sanitizer": "ubsan",
+  "crash_type": "Index-out-of-bounds",
+  "severity": "Medium",
+  "fuzz_target": "ping_dng_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "df835cab05765a630227dc04fa2245a78fd2f204",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/df835cab05765a630227dc04fa2245a78fd2f204",
+  "report_url": "https://issues.oss-fuzz.com/issues/42472890",
+  "docker": {
+    "vulnerable": "n132/arvo:42472890-vul",
+    "fixed": "n132/arvo:42472890-fix"
+  },
+  "detection_marker": "runtime error:",
+  "expected_crash_sha256": "dccca940fa326117d29235d0b6a60187626a35ccb8a0ffd6a58fd11d075f63be",
+  "expected_crash_excerpt": "INFO: Seed: 2046716133\r\nINFO: Loaded 1 modules   (237882 inline 8-bit counters): 237882 [0x1994648, 0x19ce782), \r\nINFO: Loaded 1 PC tables (237882 PCs): 237882 [0x19ce788,0x1d6fb28), \r\n/out/ping_dng_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1minternal/dcraw_common.cpp:14576:9:\u001b[1m\u001b[31m runtime error: \u001b[1m\u001b[0m\u001b[1mindex -1 out of bounds for type 'tiff_ifd_t [10]'\u001b[1m\u001b[0m\r\n    #0 0xf84cb0 in LibRaw::apply_tiff() /src/libraw/internal/dcraw_common.cpp:14576:23\r\n    #1 0xfaa7f5 in LibRaw::identify() /src/libraw/internal/dcraw_common.cpp\r\n    #2 0xdcd9a9 in LibRaw::open_datastream(LibRaw_abstract_datastream*) /src/libraw/src/libraw_cxx.cpp:2112:5\r\n    #3 0xdc7494 in LibRaw::open_file(char const*, long long) /src/libraw/src/libraw_cxx.cpp:1099:13\r\n    #4 0x70cf2b in ReadDNGImage /src/imagemagick/coders/dng.c:400:13\r\n    #5 0x55b997 in ReadImage /src/imagemagick/MagickCore/constitute.c:547:15\r\n    #6 0x69f35b in ReadStream /src/imagemagick/MagickCore/stream.c:1043:9\r\n    #7 0x523c10 in PingBlob /src/imagemagick/MagickCore/blob.c:3622:9\r\n    #8 0x49f39f in Magick::Image::ping(Magick::Blob const&) /src/imagemagick/Magick++/lib/Image.cpp:3860:12\r\n    #9 0x43445f in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/ping_fuzzer.cc:43:11\r\n    #10 0x444c08 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:571:15\r\n    #11 0x4353b2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\r\n    #12 0x43902b in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\r\n    #13 0x435138 in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #14 0x7f91aeec982f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #15 0x408cd8 in _start (/out/ping_dng_fuzzer+0x408cd8)\r\n\r\nDEDUP_TOKEN: LibRaw::apply_tiff()--LibRaw::identify()--LibRaw::open_datastream(LibRaw_abstract_datastream*)\r\nSUMMARY: UndefinedBe",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

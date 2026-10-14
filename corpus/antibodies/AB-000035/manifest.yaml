@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000035
+title: "imagemagick: Index-out-of-bounds in ping_dng_fuzzer"
+cve: []
+cwe: ["CWE-129"]
+
+origin:
+  project: imagemagick
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42472890)"
+  fixed_in: df835cab0576
+
+attack:
+  class: memory-safety
+  target_fn: ping_dng_fuzzer
+  sanitizer: ubsan
+  crash_type: "Index-out-of-bounds"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42472890-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "runtime error:"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42472890"
+    repo: "https://github.com/imagemagick/imagemagick"
+    fix_commit: df835cab05765a630227dc04fa2245a78fd2f204
+    patch_url: "https://github.com/imagemagick/imagemagick/commit/df835cab05765a630227dc04fa2245a78fd2f204"
+    docker:
+      vulnerable: "n132/arvo:42472890-vul"
+      fixed: "n132/arvo:42472890-fix"
+  evidence:
+    expected_crash_sha256: "dccca940fa326117d29235d0b6a60187626a35ccb8a0ffd6a58fd11d075f63be"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

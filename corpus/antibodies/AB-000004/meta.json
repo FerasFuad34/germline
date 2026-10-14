@@ -1,0 +1,24 @@
+{
+  "id": "AB-000004",
+  "arvo_local_id": 42470348,
+  "project": "libxml2",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 1",
+  "severity": "High",
+  "fuzz_target": "xmlsec_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "8c9daf790abfc06e8ca3a44652542c577bb67d49",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/8c9daf790abfc06e8ca3a44652542c577bb67d49",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470348",
+  "docker": {
+    "vulnerable": "n132/arvo:42470348-vul",
+    "fixed": "n132/arvo:42470348-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "63e27dcc2cd7c060298ac473e1ff68d045427b910b81744ad3a50b79dd67cc7e",
+  "expected_crash_excerpt": "INFO: Seed: 4290135821\r\nINFO: Loaded 1 modules   (56276 inline 8-bit counters): 56276 [0xe948a8, 0xea247c), \r\nINFO: Loaded 1 PC tables (56276 PCs): 56276 [0xabb420,0xb97160), \r\n/out/xmlsec_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x625000002992 at pc 0x0000004eb25d bp 0x7ffffffe12d0 sp 0x7ffffffe0a80\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0x625000002992 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 40 (1-byte-read-heap-use-after-free)\r\n    #0 0x4eb25c in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cc:23\r\n    #1 0x80f92d in xmlStrndup /src/libxml2/xmlstring.c:50:5\r\n    #2 0x8a50c3 in xmlSAX2TextNode /src/libxml2/SAX2.c:1902:17\r\n    #3 0x8a29f4 in xmlSAX2AttributeNs /src/libxml2/SAX2.c:2065:8\r\n    #4 0x8a1dee in xmlSAX2StartElementNs /src/libxml2/SAX2.c\r\n    #5 0x6d3eb0 in xmlParseStartTag2 /src/libxml2/parser.c:9583:6\r\n    #6 0x6cfb29 in xmlParseElement /src/libxml2/parser.c:9928:16\r\n    #7 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #8 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014:5\r\n    #9 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #10 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014:5\r\n    #11 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #12 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014:5\r\n    #13 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #14 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014:5\r\n    #15 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #16 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014:5\r\n    #17 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #18 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014:5\r\n    #19 0x6cf117 in xmlParseContent /src/libxml2/parser.c:9846:6\r\n    #20 0x6d00ff in xmlParseElement /src/libxml2/parser.c:10014",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -19,7 +19,8 @@ Only **fixed, publicly disclosed** vulnerabilities are ever included. We do not 
 ## Milestones
 
 ### M0 — Foundation `target: Oct 2026`
-- [ ] 100 real antibodies from the ARVO reproducible corpus (double-check: fail on vulnerable / pass on fixed)
+- [x] Antibody extractor + **100 draft antibodies** from ARVO across 17 critical projects (stable IDs, provenance, evidence hashes)
+- [ ] Double-check the corpus (crash-on-vulnerable / clean-on-fixed) on a Docker host — runner ready (`tools/run-corpus-checks.sh`), CI job ready (`Corpus double-check`)
 - [ ] RFC-0: `ABX` antibody format specification published for public comment
 - [ ] Public repo: LICENSE (Apache-2.0), Security Policy, Threat Model, Code of Conduct
 - [ ] Own SBOM + self-immune-passport on every release (we use what we sell)

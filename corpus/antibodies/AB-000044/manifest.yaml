@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000044
+title: "harfbuzz: Use-of-uninitialized-value in hb-subset-fuzzer"
+cve: []
+cwe: ["CWE-457"]
+
+origin:
+  project: harfbuzz
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470110)"
+  fixed_in: 2dde6c803a9e
+
+attack:
+  class: memory-safety
+  target_fn: hb-subset-fuzzer
+  sanitizer: msan
+  crash_type: "Use-of-uninitialized-value"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470110-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "WARNING: MemorySanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470110"
+    repo: "https://github.com/harfbuzz/harfbuzz.git"
+    fix_commit: 2dde6c803a9e50c5bff74095187b0cb2e12eebdd
+    patch_url: "https://github.com/harfbuzz/harfbuzz/commit/2dde6c803a9e50c5bff74095187b0cb2e12eebdd"
+    docker:
+      vulnerable: "n132/arvo:42470110-vul"
+      fixed: "n132/arvo:42470110-fix"
+  evidence:
+    expected_crash_sha256: "d817dfb79109dc3ade2ad110395eedaa7101e34f833c66e84a60d5c19de7904c"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

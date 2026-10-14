@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000005
+title: "libxml2: Bad-free in libxml2_xml_reader_for_file_fuzzer"
+cve: []
+cwe: ["CWE-590"]
+
+origin:
+  project: libxml2
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42471662)"
+  fixed_in: 1567b55b72b8
+
+attack:
+  class: memory-safety
+  target_fn: libxml2_xml_reader_for_file_fuzzer
+  sanitizer: asan
+  crash_type: "Bad-free"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42471662-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42471662"
+    repo: "https://gitlab.gnome.org/GNOME/libxml2.git"
+    fix_commit: 1567b55b72b8366ce120ed042e03ed5b50d191d7
+    patch_url: "https://gitlab.gnome.org/GNOME/libxml2/-/commit/1567b55b72b8366ce120ed042e03ed5b50d191d7"
+    docker:
+      vulnerable: "n132/arvo:42471662-vul"
+      fixed: "n132/arvo:42471662-fix"
+  evidence:
+    expected_crash_sha256: "38209228d985afee205b12de2b589ba7d28f4f9abd7886e830acb73072df5a75"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

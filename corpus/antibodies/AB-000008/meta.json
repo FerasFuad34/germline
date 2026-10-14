@@ -1,0 +1,24 @@
+{
+  "id": "AB-000008",
+  "arvo_local_id": 42478580,
+  "project": "libxml2",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 8",
+  "severity": "High",
+  "fuzz_target": "libxml2_xml_reader_for_file_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "664f881008f40356c0502c8cc154e17e3c80e353",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/664f881008f40356c0502c8cc154e17e3c80e353",
+  "report_url": "https://issues.oss-fuzz.com/issues/42478580",
+  "docker": {
+    "vulnerable": "n132/arvo:42478580-vul",
+    "fixed": "n132/arvo:42478580-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "ea2afe86e9d6f39a3d03f19385f9b55119afb2616946416034b9db1451614f8b",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/libxml2_xml_reader_for_file_fuzzer < INPUT_FILE\r\nor\r\n  /out/libxml2_xml_reader_for_file_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/libxml2_xml_reader_for_file_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 489 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x60d000000138 at pc 0x00000056eca6 bp 0x7fffffffdf00 sp 0x7fffffffdef8\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x60d000000138 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 51 (8-byte-read-heap-use-after-free)\r\n    #0 0x56eca5 in xmlTextReaderFreeNodeList /src/libxml2/xmlreader.c:371:32\r\n    #1 0x561b3c in xmlTextReaderFreeDoc /src/libxml2/xmlreader.c:565:32\r\n    #2 0x56168a in xmlFreeTextReader /src/libxml2/xmlreader.c:2294:3\r\n    #3 0x4c8c94 in LLVMFuzzerTestOneInput /src/libxml2_xml_reader_for_file_fuzzer.cc:50:3\r\n    #4 0x4cca1e in ExecuteFilesOnyByOne /src/libfuzzer/afl/afl_driver.cpp:216:5\r\n    #5 0x4cca1e in main /src/libfuzzer/afl/afl_driver.cpp:253:12\r\n    #6 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #7 0x41e2d8 in _start (/out/libxml2_xml_reader_for_file_fuzzer+0x41e2d8)\r\n\r\nDEDUP_TOKEN: xmlTextReaderFreeNodeList--xmlTextReaderFreeDoc--xmlFreeTextReader\r\n\u001b[1m\u001b[32m0x60d000000138 is located 40 bytes inside of 136-byte region [0x60d000000110,0x60d000000198)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mfreed by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x49649d in free /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cpp:123:3\r\n    #1 0x4fa558 in xmlHashFree /src/libxml2/hash.c:342:7\r\n    #2 0x4d78ff in xmlFreeDtd /src/libxml2/tree.c:1146:9\r\n    #3 0x561abc in xmlTextReaderFreeDo",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

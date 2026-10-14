@@ -1,0 +1,24 @@
+{
+  "id": "AB-000067",
+  "arvo_local_id": 42481819,
+  "project": "ghostpdl",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 8",
+  "severity": "High",
+  "fuzz_target": "gstoraster_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://cgit.ghostscript.com/ghostpdl.git",
+  "fix_commit": "6fc5cbc5bc57ae2c47d1276f1ea0c0f16017b4bb\n06a08fca00194531df25652b46eca8f8e4dfd7cc\nc5883877d1dc7abbd7600eb688f7cf4ad34db0cc\n1f6b351a5048b5a14d52431c833da6ed3386a7bf\ncd5f21df6c710664ff0ba3f100ca5283d9367ed8\n5fc8e7c0b656d4e2be8f5e316121f06039c35273\nb58e9010ce17bce450e4c042b93bafc460b9d94a\nd7d68f45bfc227f7c7a6fdd5f8ef078bbf7ca77f\nd86e9d8251e142ab9aae9f50923414c0c18bf1d3\n9fd069e5c91126e78b51625c72d884615370098c\nf5b7acb59c4f2e88591aab9f355813e0b7b68db5",
+  "patch_url": "https://cgit.ghostscript.com/ghostpdl.gitf5b7acb59c4f2e88591aab9f355813e0b7b68db5",
+  "report_url": "https://issues.oss-fuzz.com/issues/42481819",
+  "docker": {
+    "vulnerable": "n132/arvo:42481819-vul",
+    "fixed": "n132/arvo:42481819-fix"
+  },
+  "detection_marker": "Heap-use-after-free READ 8",
+  "expected_crash_sha256": "84cb32a2d28552758b9ce2708b974158e4b07c5e86717f5e2d2adeccc3eb3643",
+  "expected_crash_excerpt": "INFO: Seed: 3330491533\r\nINFO: Loaded 3 modules   (131456 inline 8-bit counters): 11439 [0x7fa524420160, 0x7fa524422e0f), 846 [0x7fa524675920, 0x7fa524675c6e), 119171 [0x2759290, 0x2776413), \r\nINFO: Loaded 3 PC tables (131456 PCs): 11439 [0x7fa524422e10,0x7fa52444f900), 846 [0x7fa524675c70,0x7fa524679150), 119171 [0x1dc4470,0x1f95ca0), \r\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nINFO: Start rendering...\r\nINFO: Processing page 1...\r\nError: /undefined in ",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

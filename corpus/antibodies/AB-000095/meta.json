@@ -1,0 +1,24 @@
+{
+  "id": "AB-000095",
+  "arvo_local_id": 42478556,
+  "project": "openssl",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 14",
+  "severity": "Medium",
+  "fuzz_target": "x509",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/openssl/openssl.git",
+  "fix_commit": "aec9667bd19a8ca9bdd519db3a231a95b9e92674",
+  "patch_url": "https://github.com/openssl/openssl/commit/aec9667bd19a8ca9bdd519db3a231a95b9e92674",
+  "report_url": "https://issues.oss-fuzz.com/issues/42478556",
+  "docker": {
+    "vulnerable": "n132/arvo:42478556-vul",
+    "fixed": "n132/arvo:42478556-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "dca215d315d18c5e98abb0ddc3dbbdfb90e0f7131c2e3067b98fb82becfcbf07",
+  "expected_crash_excerpt": "INFO: Seed: 1557858949\r\nINFO: Loaded 1 modules   (41982 inline 8-bit counters): 41982 [0xe4bb50, 0xe55f4e), \r\nINFO: Loaded 1 PC tables (41982 PCs): 41982 [0xe55f50,0xef9f30), \r\n/out/x509: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000007bd at pc 0x000000432b99 bp 0x7fffffffdb50 sp 0x7fffffffd310\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 14 at 0x6020000007bd thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 26 (multi-byte-read-heap-buffer-overflow)\r\n    #0 0x432b98 in strlen /src/llvm/projects/compiler-rt/lib/asan/../sanitizer_common/sanitizer_common_interceptors.inc:365:5\r\n    #1 0x58c647 in CRYPTO_strdup /src/openssl/crypto/o_str.c:21:25\r\n    #2 0x59d00d in X509V3_add_value /src/openssl/crypto/x509/v3_utl.c:46:28\r\n    #3 0x8b0f94 in i2v_GENERAL_NAME /src/openssl/crypto/x509/v3_alt.c:80:18\r\n    #4 0x8afe95 in i2v_GENERAL_NAMES /src/openssl/crypto/x509/v3_alt.c:57:15\r\n    #5 0x59c82f in X509V3_EXT_print /src/openssl/crypto/x509/v3_prn.c:117:21\r\n    #6 0x59cd74 in X509V3_extensions_print /src/openssl/crypto/x509/v3_prn.c:164:14\r\n    #7 0x59af12 in X509_print_ex /src/openssl/crypto/x509/t_x509.c:201:9\r\n    #8 0x4ca74c in FuzzerTestOneInput /src/openssl/fuzz/x509.c:37:9\r\n    #9 0x51a876 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:554:15\r\n    #10 0x4cb36f in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:292:6\r\n    #11 0x4d9002 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:775:9\r\n    #12 0x4ca9b7 in main /src/libfuzzer/FuzzerMain.cpp:19:10\r\n    #13 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #14 0x41fd58 in _start (/out/x509+0x41fd58)\r\n\r\nDEDUP_TOKEN: strlen--CRYPTO_strdup--X509V3_add_value\r\n\u001b[1m\u001b[32m0x6020000007bd is located 0 bytes to t",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

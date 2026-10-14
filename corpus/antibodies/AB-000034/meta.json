@@ -1,0 +1,24 @@
+{
+  "id": "AB-000034",
+  "arvo_local_id": 42472880,
+  "project": "imagemagick",
+  "sanitizer": "msan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "encoder_ept3_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36",
+  "report_url": "https://issues.oss-fuzz.com/issues/42472880",
+  "docker": {
+    "vulnerable": "n132/arvo:42472880-vul",
+    "fixed": "n132/arvo:42472880-fix"
+  },
+  "detection_marker": "MemorySanitizer:DEADLYSIGNAL",
+  "expected_crash_sha256": "a329a43a0253b0b3c84fbc1fc9df0d60bd43a60b4a27c9a3ca8bcc790c34b57b",
+  "expected_crash_excerpt": "INFO: Seed: 1334912712\r\nINFO: Loaded 1 modules   (166528 inline 8-bit counters): 166528 [0x2bdfbd8, 0x2c08658), \r\nINFO: Loaded 1 PC tables (166528 PCs): 166528 [0x2c08658,0x2e92e58), \r\n/out/encoder_ept3_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nMemorySanitizer:DEADLYSIGNAL\r\n\u001b[1m\u001b[31m==7==ERROR: MemorySanitizer: SEGV on unknown address 0x7ffff70b248c (pc 0x7ffff6ef30b7 bp 0x7ffffffe6c60 sp 0x7ffffffe6c28 T7)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\n    #0 0x7ffff6ef30b6 in __tolower_l (/lib/x86_64-linux-gnu/libc.so.6+0x2e0b6)\r\n    #1 0x9ef7b0 in LocaleLowercase /src/imagemagick/MagickCore/locale.c:1535:10\r\n    #2 0xc60dd1 in GlobExpression /src/imagemagick/MagickCore/token.c:544:17\r\n    #3 0xc60a7e in GlobExpression /src/imagemagick/MagickCore/token.c:411:18\r\n    #4 0xf5c398 in ReadPSImage /src/imagemagick/coders/ps.c:617:13\r\n    #5 0x7f24c2 in ReadImage /src/imagemagick/MagickCore/constitute.c:547:15\r\n    #6 0x71cbb3 in BlobToImage /src/imagemagick/MagickCore/blob.c:496:9\r\n    #7 0x1187648 in ReadEPTImage /src/imagemagick/coders/ept.c:252:9\r\n    #8 0x7f24c2 in ReadImage /src/imagemagick/MagickCore/constitute.c:547:15\r\n    #9 0x71cbb3 in BlobToImage /src/imagemagick/MagickCore/blob.c:496:9\r\n    #10 0x595a47 in Magick::Image::read(Magick::Blob const&) /src/imagemagick/Magick++/lib/Image.cpp:4028:12\r\n    #11 0x4a8f4d in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/encoder_fuzzer.cc:46:11\r\n    #12 0x4f2abb in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:532:15\r\n    #13 0x4ab8a2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:284:6\r\n    #14 0x4bc64c in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\r\n    #15 0x4aa9d1 in main /src/libfuzzer/FuzzerMain.cpp:19:10\r\n    #16 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n   ",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

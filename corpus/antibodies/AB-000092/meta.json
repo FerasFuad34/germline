@@ -1,0 +1,24 @@
+{
+  "id": "AB-000092",
+  "arvo_local_id": 42499092,
+  "project": "freetype2",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 8",
+  "severity": "Medium",
+  "fuzz_target": "ftfuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/freetype/freetype2",
+  "fix_commit": "e9a154e70015e602d695d65a588ecb38f5bb38cc",
+  "patch_url": "https://github.com/freetype/freetype2/commit/e9a154e70015e602d695d65a588ecb38f5bb38cc",
+  "report_url": "https://issues.oss-fuzz.com/issues/42499092",
+  "docker": {
+    "vulnerable": "n132/arvo:42499092-vul",
+    "fixed": "n132/arvo:42499092-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "9648fe623bfb02a7f96f5394064fc0f3aa95c1519f607421606af191c281b064",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 3401037362\r\nINFO: Loaded 1 modules   (22048 inline 8-bit counters): 22048 [0x555555a48830, 0x555555a4de50), \r\nINFO: Loaded 1 PC tables (22048 PCs): 22048 [0x555555a4de50,0x555555aa4050), \r\n/out/ftfuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5020000002e0 at pc 0x55555588718a bp 0x7fffffffd350 sp 0x7fffffffd348\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x5020000002e0 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\r\n    #0 0x555555887189 in tt_hadvance_adjust /src/freetype2/src/truetype/ttgxvar.c:851:19\r\n    #1 0x5555558529e3 in tt_face_get_metrics /src/freetype2/src/sfnt/ttmtx.c:306:11\r\n    #2 0x5555557495d5 in cff_slot_load /src/freetype2/src/cff/cffgload.c:3089:11\r\n    #3 0x5555557495d5 in cff_glyph_load /src/freetype2/src/cff/cffdrivr.c:181:13\r\n    #4 0x55555577e5e8 in FT_Load_Glyph /src/freetype2/src/base/ftobjs.c:745:15\r\n    #5 0x55555570bcee in LLVMFuzzerTestOneInput /src/freetype2/./src/tools/ftfuzzer/ftfuzzer.cc:284:18\r\n    #6 0x5555558e34b0 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:614:13\r\n    #7 0x5555558ce725 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:327:6\r\n    #8 0x5555558d41bf in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:862:9\r\n    #9 0x5555558ff462 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\r\n    #10 0x7ffff7c38082 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x24082) (BuildId: 0323ab4806bee6f846d9ad4bccfc29afdca49a58)\r\n    #11 0x55555563296d in _start (/out/ftfuzzer+0xde96d)\r\n\r\nDEDUP_TOKEN: tt_hadvance_adjust--tt_face_get_",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

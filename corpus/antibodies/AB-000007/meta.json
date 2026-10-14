@@ -1,0 +1,24 @@
+{
+  "id": "AB-000007",
+  "arvo_local_id": 42475106,
+  "project": "libxml2",
+  "sanitizer": "ubsan",
+  "crash_type": "Index-out-of-bounds",
+  "severity": "Medium",
+  "fuzz_target": "libxml2_xml_read_memory_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "474967241cdcce6d3a2fd356079571eee794ec12",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/474967241cdcce6d3a2fd356079571eee794ec12",
+  "report_url": "https://issues.oss-fuzz.com/issues/42475106",
+  "docker": {
+    "vulnerable": "n132/arvo:42475106-vul",
+    "fixed": "n132/arvo:42475106-fix"
+  },
+  "detection_marker": "runtime error:",
+  "expected_crash_sha256": "bfd4a0223c27af3a3205afa6f483578d4fea73e9130425c45bc68f3cb9d56ab4",
+  "expected_crash_excerpt": "INFO: Seed: 145191291\r\nINFO: Loaded 0 modules (0 guards): \r\n/out/libxml2_xml_read_memory_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1mparser.c:1282:5:\u001b[1m\u001b[31m runtime error: \u001b[1m\u001b[0m\u001b[1mindex 5 out of bounds for type 'const xmlChar *[5]'\u001b[1m\u001b[0m\r\n    #0 0x4671f3 in xmlAddDefAttrs /src/libxml2/parser.c:1282:45\r\n    #1 0x466c11 in xmlParseAttributeListDecl /src/libxml2/parser.c:6181:3\r\n    #2 0x468de2 in xmlParseMarkupDecl /src/libxml2/parser.c:7002:7\r\n    #3 0x473424 in xmlParseInternalSubset /src/libxml2/parser.c:8482:6\r\n    #4 0x472f79 in xmlParseDocument /src/libxml2/parser.c:10930:6\r\n    #5 0x479a4b in xmlDoRead /src/libxml2/parser.c:15445:5\r\n    #6 0x42d996 in LLVMFuzzerTestOneInput /src/libxml2_xml_read_memory_fuzzer.cc:31:20\r\n    #7 0x43cd1d in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:458:13\r\n    #8 0x43d0f7 in fuzzer::Fuzzer::RunOne(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:397:3\r\n    #9 0x42e7b8 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:268:6\r\n    #10 0x432c58 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:683:9\r\n    #11 0x42e41c in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #12 0x7ffff6ee682f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #13 0x406758 in _start (/out/libxml2_xml_read_memory_fuzzer+0x406758)\r\n\r\nDEDUP_TOKEN: xmlAddDefAttrs--xmlParseAttributeListDecl--xmlParseMarkupDecl\r\nSUMMARY: UndefinedBehaviorSanitizer: undefined-behavior parser.c:1282:5 in \r\n",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

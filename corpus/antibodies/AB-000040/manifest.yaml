@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000040
+title: "imagemagick: Stack-buffer-overflow READ 8 in encoder_heic_fuzzer"
+cve: []
+cwe: ["CWE-121"]
+
+origin:
+  project: imagemagick
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42475836)"
+  fixed_in: cdddf99e151c
+
+attack:
+  class: memory-safety
+  target_fn: encoder_heic_fuzzer
+  sanitizer: asan
+  crash_type: "Stack-buffer-overflow READ 8"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42475836-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42475836"
+    repo: "https://github.com/imagemagick/imagemagick"
+    fix_commit: cdddf99e151c9c2750af70e172d4b6dcb481e1b0
+    patch_url: "https://github.com/imagemagick/imagemagick/commit/cdddf99e151c9c2750af70e172d4b6dcb481e1b0"
+    docker:
+      vulnerable: "n132/arvo:42475836-vul"
+      fixed: "n132/arvo:42475836-fix"
+  evidence:
+    expected_crash_sha256: "ac31f0bd54d1603c86f3dc534c581cf1089ef077d885efe0be7350f1cd89ba7e"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

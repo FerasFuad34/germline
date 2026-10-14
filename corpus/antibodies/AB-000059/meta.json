@@ -1,0 +1,24 @@
+{
+  "id": "AB-000059",
+  "arvo_local_id": 42470183,
+  "project": "wireshark",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 1",
+  "severity": "Medium",
+  "fuzz_target": "fuzzshark_ip",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/wireshark/wireshark.git",
+  "fix_commit": "38657fad58034ff5557caef10ef679b4ac404dbd",
+  "patch_url": "https://github.com/wireshark/wireshark/commit/38657fad58034ff5557caef10ef679b4ac404dbd",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470183",
+  "docker": {
+    "vulnerable": "n132/arvo:42470183-vul",
+    "fixed": "n132/arvo:42470183-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "2fc127d67da7cdf09fdd330e96a9d544856a444e9d9da48556a8ac29f117c1fa",
+  "expected_crash_excerpt": "oss-fuzzshark: disabling: udp\r\noss-fuzzshark: disabling: udplite\r\noss-fuzzshark: disabling: ospf\r\noss-fuzzshark: disabling: bgp\r\noss-fuzzshark: disabling: dhcp\r\noss-fuzzshark: disabling: json\r\noss-fuzzshark: disabling: snort\r\noss-fuzzshark: configured for dissector: ip\r\nINFO: Seed: 1599897610\r\nINFO: Loaded 1 modules   (321751 inline 8-bit counters): 321751 [0xcec3348, 0xcf11c1f), \r\nINFO: Loaded 1 PC tables (321751 PCs): 321751 [0xcf11c20,0xd3fa990), \r\n/out/fuzzshark_ip: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000da751 at pc 0x000000647978 bp 0x7ffc4c5d8e70 sp 0x7ffc4c5d8e68\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0x6020000da751 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\r\n    #0 0x647977 in detect_trailing_stray_characters /src/wireshark/epan/proto.c:2267:7\r\n    #1 0x647977 in proto_tree_new_item /src/wireshark/epan/proto.c:2729\r\n    #2 0x64f818 in ptvcursor_add /src/wireshark/epan/proto.c:3349:9\r\n    #3 0x23ee388 in add_ptvc_field /src/wireshark/epan/dissectors/packet-ncp2222.inc:2420:12\r\n    #4 0x23db93a in _process_ptvc_record /src/wireshark/epan/dissectors/packet-ncp2222.inc:2583:17\r\n    #5 0x23db93a in process_ptvc_record /src/wireshark/epan/dissectors/packet-ncp2222.inc:2649\r\n    #6 0x23d8fe8 in dissect_ncp_request /src/wireshark/epan/dissectors/packet-ncp2222.inc:7223:17\r\n    #7 0x13f0d1d in dissect_ncp_common /src/wireshark/epan/dissectors/packet-ncp.c:1191:13\r\n    #8 0x13ef3ea in dissect_ncp /src/wireshark/epan/dissectors/packet-ncp.c:1287:5\r\n    #9 0x5ef583 in call_dissector_through_handle /src/wireshark/epan/packet.c:692:9\r\n    #10 0x5ef583 in call_dissector_work /src/wireshark/epan/packet.c:777\r\n    #11 0x5ef039 in dissector_try_uint_new /src/wireshark/epan/packet.c:1359:8\r\n    #12 0x1142c47 in dissect_ipx /src/wireshark/epan/dissectors/packet-ipx.c:430:6\r\n    #13 0x5ef583 in call",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

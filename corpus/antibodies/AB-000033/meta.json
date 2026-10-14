@@ -1,0 +1,24 @@
+{
+  "id": "AB-000033",
+  "arvo_local_id": 42472871,
+  "project": "imagemagick",
+  "sanitizer": "asan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "encoder_label_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36",
+  "report_url": "https://issues.oss-fuzz.com/issues/42472871",
+  "docker": {
+    "vulnerable": "n132/arvo:42472871-vul",
+    "fixed": "n132/arvo:42472871-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "3dc097a43539670daf5ba4d4882f967b0b715ed0ad5b6bc6cbf30e51ac8e8308",
+  "expected_crash_excerpt": "INFO: Seed: 82196377\r\nINFO: Loaded 1 modules   (166749 inline 8-bit counters): 166749 [0x203ef88, 0x2067ae5), \r\nINFO: Loaded 1 PC tables (166749 PCs): 166749 [0x2067ae8,0x22f30b8), \r\n/out/encoder_label_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x7ffff778057c (pc 0x7ffff6ef30b7 bp 0x7fffffffda00 sp 0x7fffffffd9b8 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\nSCARINESS: 20 (wild-addr-read)\r\n    #0 0x7ffff6ef30b6 in __tolower_l (/lib/x86_64-linux-gnu/libc.so.6+0x2e0b6)\r\n    #1 0x8f5a07 in GlobExpression /src/imagemagick/MagickCore/token.c:544:66\r\n    #2 0x8f58c7 in GlobExpression /src/imagemagick/MagickCore/token.c:411:18\r\n    #3 0x84f7fb in InterpretImageProperties /src/imagemagick/MagickCore/property.c:3940:17\r\n    #4 0x9c9278 in ReadLABELImage /src/imagemagick/coders/label.c:127:9\r\n    #5 0x6e6922 in ReadImage /src/imagemagick/MagickCore/constitute.c:547:15\r\n    #6 0x5c4205 in Magick::Image::read(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) /src/imagemagick/Magick++/lib/Image.cpp:4094:12\r\n    #7 0x537760 in fuzzEncoderWithStringFilename(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned char const*, unsigned long, bool (*)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)) /src/imagemagick/Magick++/fuzz/encoder_utils.cc:15:11\r\n    #8 0x5374e9 in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/encoder_label_fuzzer.cc:19:10\r\n    #9 0x563705 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:532:15\r\n    #10 0x539a06 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:284:6\r\n    #11 0x5452c6 in fuzzer::FuzzerDriver(int*, char***, int (*)",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

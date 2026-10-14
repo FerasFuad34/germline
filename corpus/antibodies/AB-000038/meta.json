@@ -1,0 +1,24 @@
+{
+  "id": "AB-000038",
+  "arvo_local_id": 42474040,
+  "project": "imagemagick",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free WRITE 4",
+  "severity": "High",
+  "fuzz_target": "encoder_mat_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "f7206618d27c2e69d977abf40e3035a33e5f6be0",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/f7206618d27c2e69d977abf40e3035a33e5f6be0",
+  "report_url": "https://issues.oss-fuzz.com/issues/42474040",
+  "docker": {
+    "vulnerable": "n132/arvo:42474040-vul",
+    "fixed": "n132/arvo:42474040-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "85c7d640b45df140c6f6b63c92461b8ce2de83be3cc021b3ae43ddc165c0b40a",
+  "expected_crash_excerpt": "INFO: Seed: 4520750\r\nINFO: Loaded 1 modules   (167867 inline 8-bit counters): 167867 [0x20293b0, 0x205236b), \r\nINFO: Loaded 1 PC tables (167867 PCs): 167867 [0x2052370,0x22e1f20), \r\n/out/encoder_mat_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x62700009691c at pc 0x0000006ee74f bp 0x7fffffffdd50 sp 0x7fffffffdd48\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 4 at 0x62700009691c thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 46 (4-byte-write-heap-use-after-free)\r\n    #0 0x6ee74e in ReadImage /src/imagemagick/MagickCore/constitute.c:659:16\r\n    #1 0x688291 in BlobToImage /src/imagemagick/MagickCore/blob.c:496:9\r\n    #2 0x5ca7d2 in Magick::Image::read(Magick::Blob const&) /src/imagemagick/Magick++/lib/Image.cpp:4028:12\r\n    #3 0x5379b1 in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/encoder_fuzzer.cc:46:11\r\n    #4 0x578df6 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:529:15\r\n    #5 0x5391e6 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:286:6\r\n    #6 0x544d13 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:715:9\r\n    #7 0x53885c in main /src/libfuzzer/FuzzerMain.cpp:19:10\r\n    #8 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #9 0x41f298 in _start (/out/encoder_mat_fuzzer+0x41f298)\r\n\r\nDEDUP_TOKEN: ReadImage--BlobToImage--Magick::Image::read(Magick::Blob const&)\r\n\u001b[1m\u001b[32m0x62700009691c is located 28 bytes inside of 13504-byte region [0x627000096900,0x627000099dc0)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mfreed by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x4f1da0 in free /src/llvm/projects/compiler-rt/lib/asan/asan_malloc_linux.cc:123\r\n    #1 0x7ebe11 in RelinquishMagickMemory /src/imagemagick/MagickCore/memory.c:1074:3\r\n    #2 0x7bb309 in DestroyImage /src/imag",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

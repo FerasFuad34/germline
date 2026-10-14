@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000058
+title: "curl: Heap-use-after-free READ 6 in curl_fuzzer_http"
+cve: []
+cwe: ["CWE-416"]
+
+origin:
+  project: curl
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42478820)"
+  fixed_in: 02c6b984cb7a
+
+attack:
+  class: memory-safety
+  target_fn: curl_fuzzer_http
+  sanitizer: asan
+  crash_type: "Heap-use-after-free READ 6"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42478820-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42478820"
+    repo: "https://github.com/curl/curl.git"
+    fix_commit: 02c6b984cb7a2e01f290544a53a24d30fc7ab32e
+    patch_url: "https://github.com/curl/curl/commit/02c6b984cb7a2e01f290544a53a24d30fc7ab32e"
+    docker:
+      vulnerable: "n132/arvo:42478820-vul"
+      fixed: "n132/arvo:42478820-fix"
+  evidence:
+    expected_crash_sha256: "eabdbf3d5b93571bc49b8d870b98309e699ffd6a34e9358f69e5f15bdbd87476"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

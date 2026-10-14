@@ -1,0 +1,24 @@
+{
+  "id": "AB-000072",
+  "arvo_local_id": 42478840,
+  "project": "php-src",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 1",
+  "severity": "Medium",
+  "fuzz_target": "php-fuzz-mbstring",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/php/php-src.git",
+  "fix_commit": "1806ce9cb019ee74ddb540cbc07daf121dcb5537\n1cde9e852879afe123945fe42e831a6715abb866",
+  "patch_url": "https://github.com/php/php-src/commit/1cde9e852879afe123945fe42e831a6715abb866",
+  "report_url": "https://issues.oss-fuzz.com/issues/42478840",
+  "docker": {
+    "vulnerable": "n132/arvo:42478840-vul",
+    "fixed": "n132/arvo:42478840-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "986fed2ccf94c1fee45a69011de932e0268cf9b52b93b647b9225b227144fc2d",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/php-fuzz-mbstring < INPUT_FILE\r\nor\r\n  /out/php-fuzz-mbstring INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/php-fuzz-mbstring [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 8 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000020f4 at pc 0x000000eba481 bp 0x7ffd6c3d3d10 sp 0x7ffd6c3d3d08\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0x6020000020f4 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\r\n    #0 0xeba480 in match_at /src/php-src/oniguruma/src/regexec.c:2892:17\r\n    #1 0xebf5d6 in search_in_range /src/php-src/oniguruma/src/regexec.c:5628:7\r\n    #2 0xec1036 in onig_search_with_param /src/php-src/oniguruma/src/regexec.c:5758:10\r\n    #3 0x773eb9 in _php_mb_onig_search /src/php-src/ext/mbstring/php_mbregex.c:876:8\r\n    #4 0x76f81c in _php_mb_regex_ereg_exec /src/php-src/ext/mbstring/php_mbregex.c:934:6\r\n    #5 0xb6b6cf in zend_call_function /src/php-src/Zend/zend_execute_API.c:799:4\r\n    #6 0xb6a299 in _call_user_function_ex /src/php-src/Zend/zend_execute_API.c:627:9\r\n    #7 0xe5a3c8 in fuzzer_call_php_func_zval /src/php-src/sapi/fuzzer/fuzzer-sapi.c:244:2\r\n    #8 0xe5a72f in fuzzer_call_php_func /src/php-src/sapi/fuzzer/fuzzer-sapi.c:264:2\r\n    #9 0xe594ff in LLVMFuzzerTestOneInput /src/php-src/sapi/fuzzer/fuzzer-mbstring.c:55:2\r\n    #10 0xedf2de in ExecuteFilesOnyByOne /src/libfuzzer/afl/afl_driver.cpp:216:5\r\n    #11 0xedf2de in main /src/libfuzzer/afl/afl_driver.cpp:253:12\r\n    #12 0x7f374c5de82f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #13 0x4657a8 in _start (/out/php-fuzz-mbstring+0x4657a8)\r\n\r\nDEDU",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,31 @@
+# GERMLINE — antibody selection config
+# First batch: 100 antibodies, prioritising famous critical libraries (storytelling)
+# and diversity of crash types. Deterministic: same config + same arvo.db => same corpus.
+#
+# cap_per_crash_type: within a project, at most N antibodies of the same crash_type.
+target: 100
+cap_per_crash_type: 2
+prefer_severity: ["High", "Medium"]   # annotation only; selection is by localId order
+
+projects:
+  # project: quota
+  libxml2: 14        # XML parser — world-critical, 118 available
+  ffmpeg: 14         # media — 400 available
+  imagemagick: 12    # images — 459 available
+  harfbuzz: 10       # text shaping — 151 available
+  curl: 8            # HTTP — 39 available
+  wireshark: 7       # network analysis — 102 available
+  ghostpdl: 6        # PostScript/PDF — 177 available
+  php-src: 5         # language runtime — 108 available
+  libarchive: 5      # archives — 31 available
+  gpac: 4            # media — 89 available
+  binutils-gdb: 4    # toolchain — 165 available
+  freetype2: 3       # fonts — 14 available
+  openssl: 3         # crypto — 7 available
+  libwebp: 2         # images (WebP) — 2 available
+  zlib: 1            # compression — 1 available
+  libpng: 1          # PNG — 1 available
+  libtiff: 1         # TIFF — 1 available
+
+# If quotas can't be filled (dedup/gaps), fill from these in order
+fallbacks: [ndpi, mupdf, libredwg, c-blosc2, skia, mruby, zstd, exiv2, openthread, wolfssl]

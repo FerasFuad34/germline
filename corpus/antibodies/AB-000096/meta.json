@@ -1,0 +1,24 @@
+{
+  "id": "AB-000096",
+  "arvo_local_id": 42498407,
+  "project": "libwebp",
+  "sanitizer": "asan",
+  "crash_type": "Negative-size-param",
+  "severity": "Medium",
+  "fuzz_target": "advanced_api_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://chromium.googlesource.com/webm/libwebp",
+  "fix_commit": "277d30749f15d3fd99649c9347867ddc2fe4f32e",
+  "patch_url": "https://chromium.googlesource.com/webm/libwebp/+/277d30749f15d3fd99649c9347867ddc2fe4f32e%5E%21/",
+  "report_url": "https://issues.oss-fuzz.com/issues/42498407",
+  "docker": {
+    "vulnerable": "n132/arvo:42498407-vul",
+    "fixed": "n132/arvo:42498407-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "604e2876e064442739a2db759a476e4b4278f69764af32d3440680d2dfb9a492",
+  "expected_crash_excerpt": "============================== INFO ================================\r\nThis binary is built for afl++.\r\nTo use with afl-cmin or afl-cmin.bash pass '-' as single command line option\r\nTo run the target function on individual input(s) execute this:\r\n  /out/advanced_api_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] -- /out/advanced_api_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: INT_MAX)\r\nFor stdin input processing, pass '-' as single command line option.\r\nFor file input processing, pass '@@' as single command line option.\r\n===================================================================\r\nReading 174 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: negative-size-param: (size=-8558995456)\r\n\u001b[1m\u001b[0mSCARINESS: 10 (negative-size-param)\r\n    #0 0x497ef9 in __asan_memset /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:26:3\r\n    #1 0x5bc339 in WebPRescalerInit /src/libwebp/src/utils/rescaler_utils.c:74:3\r\n    #2 0x505311 in AllocateAndInitRescaler /src/libwebp/src/dec/vp8l_dec.c:562:3\r\n    #3 0x503c97 in VP8LDecodeImage /src/libwebp/src/dec/vp8l_dec.c:1695:29\r\n    #4 0x51b15e in DecodeInto /src/libwebp/src/dec/webp_dec.c:505:14\r\n    #5 0x51deba in WebPDecode /src/libwebp/src/dec/webp_dec.c:779:14\r\n    #6 0x4cd885 in LLVMFuzzerTestOneInput /src/libwebp/tests/fuzzer/advanced_api_fuzzer.c:108:7\r\n    #7 0x4cc9f0 in ExecuteFilesOnyByOne /src/aflplusplus/utils/aflpp_driver/aflpp_driver.c:191:7\r\n    #8 0x4cc7bf in main /src/aflplusplus/utils/aflpp_driver/aflpp_driver.c\r\n    #9 0x7ffff6ee583f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\r\n    #10 0x41caf8 in _start (/out/advanced_api_fuzzer+0x41caf8)\r\n\r\nDEDUP_TOKEN: __asan_memset--WebPRescalerInit--AllocateAndInitRescaler\r\n\u001b[1m\u001b[32m0x7ffd31368868 is located 104 bytes inside of 9698483048-byte region [0x7ffd31368800,0x7ff",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000046
+title: "harfbuzz: Heap-buffer-overflow READ 4 in hb-subset-get-codepoints-fuzzer"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: harfbuzz
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470383)"
+  fixed_in: f8ccb545c47a
+
+attack:
+  class: memory-safety
+  target_fn: hb-subset-get-codepoints-fuzzer
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow READ 4"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470383-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470383"
+    repo: "https://github.com/harfbuzz/harfbuzz.git"
+    fix_commit: f8ccb545c47abe8f0f4ed318ff7b5bf176913893
+    patch_url: "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893"
+    docker:
+      vulnerable: "n132/arvo:42470383-vul"
+      fixed: "n132/arvo:42470383-fix"
+  evidence:
+    expected_crash_sha256: "587c7b6c05eee5df2b82b4d0234cd8b7f3403d56733621c75b5cd65bd8f8a961"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

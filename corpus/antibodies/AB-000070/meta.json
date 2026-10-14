@@ -1,0 +1,24 @@
+{
+  "id": "AB-000070",
+  "arvo_local_id": 42492999,
+  "project": "ghostpdl",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free WRITE 4",
+  "severity": "High",
+  "fuzz_target": "gstoraster_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://cgit.ghostscript.com/ghostpdl.git",
+  "fix_commit": "7861fcad13c497728189feafb41cd57b5b50ea25",
+  "patch_url": "https://cgit.ghostscript.com/ghostpdl.git7861fcad13c497728189feafb41cd57b5b50ea25",
+  "report_url": "https://issues.oss-fuzz.com/issues/42492999",
+  "docker": {
+    "vulnerable": "n132/arvo:42492999-vul",
+    "fixed": "n132/arvo:42492999-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "ef6eb2a6fc155b8beceba1538cee5aadb6eba5bd4049f3f524f0f163b54ffb7d",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 3437178859\r\nINFO: Loaded 3 modules   (142998 inline 8-bit counters): 11938 [0x7ffff7b7a3c0, 0x7ffff7b7d262), 890 [0x7ffff7dd2980, 0x7ffff7dd2cfa), 130170 [0x28146a0, 0x283431a), \r\nINFO: Loaded 3 PC tables (142998 PCs): 11938 [0x7ffff7b7d268,0x7ffff7babc88), 890 [0x7ffff7dd2d00,0x7ffff7dd64a0), 130170 [0x1e4ba50,0x20481f0), \r\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nINFO: Start rendering...\r\nINFO: Processing page 1...\r\n=================================================================\r\n\u001b[1m\u001b[31m==6==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x62700003e800 at pc 0x000000d27c63 bp 0x7fffffffd070 sp 0x7fffffffd068\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 4 at 0x62700003e800 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 46 (4-byte-write-heap-buffer-overflow-far-from-bounds)\r\n    #0 0xd27c62 in sampled_data_sample /src/ghostpdl/./psi/zfsample.c:464:9\r\n    #1 0xd28687 in sampled_data_continue /src/ghostpdl/./psi/zfsample.c:562:12\r\n    #2 0xbf89a2 in interp /src/ghostpdl/./psi/interp.c:1347:28\r\n    #3 0xbf58ca in gs_call_interp /src/ghostpdl/./psi/interp.c:520:12\r\n    #4 0xbf51fd in gs_interpret /src/ghostpdl/./psi/interp.c:477:12\r\n    #5 0x55f9ea in gs_main_interpret /src/ghostpdl/./psi/imain.c:257:12\r\n    #6 0x55fffc in gs_main_run_string_end /src/ghostpdl/./psi/imain.c:945:12\r\n    #7 0x55fa97 in gs_main_run_string_with_length /src/ghostpdl/./psi/imain.c:889:12\r\n    #8 0x55c262 in gs_main_run_string /src/ghostpdl/./psi/imain.c:870:12\r\n    #9 0xd67ad3 in run_string /src/ghostpdl/./psi/imainarg.c:1166:12\r\n    #10 0xd64188 in swproc /src/ghostpdl/./psi/imainarg.c:367:20\r\n    #11 0xd61f29 in gs_main_init_with_args01 /src/ghostpdl/./psi/imainarg.c:224:24\r\n    #12 0xd678b9 in gs_main_init_with_args /src/ghostpdl/./psi/imainarg.c:289:16\r\n    #13 0xbe3c14 in psapi_init_with_args /src/ghostpdl/./psi/psapi.c:280:12\r\n    #14 0x5588a0 in gsapi_init_with_args /src/ghostpdl/./psi/iapi.c:239:12",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

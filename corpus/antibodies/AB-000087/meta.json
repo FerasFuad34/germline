@@ -1,0 +1,24 @@
+{
+  "id": "AB-000087",
+  "arvo_local_id": 42479123,
+  "project": "binutils-gdb",
+  "sanitizer": "asan",
+  "crash_type": "Stack-buffer-overflow WRITE 1",
+  "severity": "High",
+  "fuzz_target": "fuzz_disassemble",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "git://sourceware.org/git/binutils-gdb.git",
+  "fix_commit": "bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83",
+  "patch_url": "https://github.com/bminor/binutils-gdb/commit/bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83",
+  "report_url": "https://issues.oss-fuzz.com/issues/42479123",
+  "docker": {
+    "vulnerable": "n132/arvo:42479123-vul",
+    "fixed": "n132/arvo:42479123-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "cff95b7e1200aee27cd8edfd06f474d3e0dada17919c2edffee3b553c4451a92",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/fuzz_disassemble < INPUT_FILE\r\nor\r\n  /out/fuzz_disassemble INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/fuzz_disassemble [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 12 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff7f3c85a at pc 0x000000667604 bp 0x7fffffffdec0 sp 0x7fffffffdeb8\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 1 at 0x7ffff7f3c85a thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 46 (1-byte-write-stack-buffer-overflow)\r\n    #0 0x667603 in get_indirect_operand /src/binutils-gdb/opcodes/tic30-dis.c:267:22\r\n    #1 0x665a83 in print_two_operand /src/binutils-gdb/opcodes/tic30-dis.c:385:4\r\n    #2 0x664f77 in print_insn_tic30 /src/binutils-gdb/opcodes/tic30-dis.c:700:12\r\n    #3 0x4c907b in LLVMFuzzerTestOneInput /src/binutils-gdb/fuzz/fuzz_disassemble.c:71:13\r\n    #4 0x4c98fe in ExecuteFilesOnyByOne /src/libfuzzer/afl/afl_driver.cpp:216:5\r\n    #5 0x4c98fe in main /src/libfuzzer/afl/afl_driver.cpp:253:12\r\n    #6 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #7 0x41e478 in _start (/out/fuzz_disassemble+0x41e478)\r\n\r\nDEDUP_TOKEN: get_indirect_operand--print_two_operand--print_insn_tic30\r\n\u001b[1m\u001b[32mAddress 0x7ffff7f3c85a is located in stack of thread T0 at offset 90 in frame\u001b[1m\u001b[0m\r\n\u001b[1m\u001b[0m    #0 0x66576f in print_two_operand /src/binutils-gdb/opcodes/tic30-dis.c:343\r\n\r\nDEDUP_TOKEN: print_two_operand\r\n  This frame has 3 object(s):\r\n    [32, 44) 'name' (line 344)\r\n    [64, 90) 'operand' (line 345)\u001b[1m\u001b[32m <== Memory access at offset 90 overflows this variable\u001b[1m\u001b[0m\r\n    [128, 132) 'f_number' (line 350)\r\nHINT: this may be a fa",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

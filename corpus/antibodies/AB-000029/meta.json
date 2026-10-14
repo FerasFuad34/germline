@@ -1,0 +1,24 @@
+{
+  "id": "AB-000029",
+  "arvo_local_id": 42470067,
+  "project": "imagemagick",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "encoder_label_fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "cfd2824f02b6cee4ed6e105d50035c74142d9bf0",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/cfd2824f02b6cee4ed6e105d50035c74142d9bf0",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470067",
+  "docker": {
+    "vulnerable": "n132/arvo:42470067-vul",
+    "fixed": "n132/arvo:42470067-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "aedcb67ef0ba63e95090491a9ace73d28e1c969fd949b836b8a523f0f4f33450",
+  "expected_crash_excerpt": "INFO: Seed: 1872230613\r\nINFO: Loaded 1 modules   (167790 inline 8-bit counters): 167790 [0x2bc4f68, 0x2beded6), \r\nINFO: Loaded 1 PC tables (167790 PCs): 167790 [0x2beded8,0x2e7d5b8), \r\n/out/encoder_label_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0xc60fb8 in GetNextUTFCode /src/imagemagick/./MagickCore/token-private.h:117:9\r\n    #1 0xc5ed36 in GetUTFCode /src/imagemagick/./MagickCore/token-private.h:141:10\r\n    #2 0xc5e803 in GlobExpression /src/imagemagick/MagickCore/token.c:568:10\r\n    #3 0xaea0bf in InterpretImageProperties /src/imagemagick/MagickCore/property.c:3944:17\r\n    #4 0xe2fb86 in ReadLABELImage /src/imagemagick/coders/label.c:127:9\r\n    #5 0x7eeb8d in ReadImage /src/imagemagick/MagickCore/constitute.c:550:15\r\n    #6 0x59a986 in Magick::Image::read(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&) /src/imagemagick/Magick++/lib/Image.cpp:4095:12\r\n    #7 0x4a59c4 in fuzzEncoderWithStringFilename(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >, unsigned char const*, unsigned long, bool (*)(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&)) /src/imagemagick/Magick++/fuzz/encoder_utils.cc:15:11\r\n    #8 0x4a56c5 in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/encoder_label_fuzzer.cc:19:10\r\n    #9 0x5071b8 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:575:15\r\n    #10 0x4c51a6 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\r\n    #11 0x4d5d1b in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:715:9\r\n    #12 0x4a8201 in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #13 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #14 0x",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

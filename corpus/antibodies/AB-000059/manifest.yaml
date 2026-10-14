@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000059
+title: "wireshark: Heap-buffer-overflow READ 1 in fuzzshark_ip"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: wireshark
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470183)"
+  fixed_in: 38657fad5803
+
+attack:
+  class: memory-safety
+  target_fn: fuzzshark_ip
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow READ 1"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470183-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470183"
+    repo: "https://github.com/wireshark/wireshark.git"
+    fix_commit: 38657fad58034ff5557caef10ef679b4ac404dbd
+    patch_url: "https://github.com/wireshark/wireshark/commit/38657fad58034ff5557caef10ef679b4ac404dbd"
+    docker:
+      vulnerable: "n132/arvo:42470183-vul"
+      fixed: "n132/arvo:42470183-fix"
+  evidence:
+    expected_crash_sha256: "2fc127d67da7cdf09fdd330e96a9d544856a444e9d9da48556a8ac29f117c1fa"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000049",
+  "arvo_local_id": 42470841,
+  "project": "harfbuzz",
+  "sanitizer": "asan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "hb-shape-fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "5c65ed800de4caef5ee9ad2111225fa5d8235737",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/5c65ed800de4caef5ee9ad2111225fa5d8235737",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470841",
+  "docker": {
+    "vulnerable": "n132/arvo:42470841-vul",
+    "fixed": "n132/arvo:42470841-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "0fa87d5de85651c84febf45e42758d001f5e8a8f3335f53ad77790c3f6d16dc1",
+  "expected_crash_excerpt": "INFO: Seed: 2810860276\r\nINFO: Loaded 1 modules   (13335 inline 8-bit counters): 13335 [0xa2e428, 0xa3183f), \r\nINFO: Loaded 1 PC tables (13335 PCs): 13335 [0xa31840,0xa659b0), \r\n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x617400000c70 (pc 0x0000006450a2 bp 0x7fffffffdd60 sp 0x7fffffffdc80 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\nSCARINESS: 20 (wild-addr-read)\r\n    #0 0x6450a1 in _hb_ot_shape_fallback_kern(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*) /src/harfbuzz/src/hb-ot-shape-fallback.cc:458:25\r\n    #1 0x6130a6 in hb_ot_position(hb_ot_shape_context_t*) /src/harfbuzz/src/hb-ot-shape.cc:802:5\r\n    #2 0x610844 in hb_ot_shape_internal(hb_ot_shape_context_t*) /src/harfbuzz/src/hb-ot-shape.cc:877:3\r\n    #3 0x6101b3 in _hb_ot_shape /src/harfbuzz/src/hb-ot-shape.cc:904:3\r\n    #4 0x5f3cd5 in hb_shape_plan_execute /src/harfbuzz/src/./hb-shaper-list.hh:43:1\r\n    #5 0x5f2824 in hb_shape_full /src/harfbuzz/src/hb-shape.cc:141:19\r\n    #6 0x53038c in LLVMFuzzerTestOneInput /src/harfbuzz/./test/fuzzing/hb-shape-fuzzer.cc:20:5\r\n    #7 0x55ad98 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:570:15\r\n    #8 0x53103d in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:280:6\r\n    #9 0x53c8b3 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:713:9\r\n    #10 0x5306bc in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #11 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #12 0x41cfa8 in _start (/out/hb-shape-fuzzer+0x41cfa8)\r\n\r\nDEDUP_TOKEN: _hb_ot_shape_fallback_kern(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)--hb_ot_position(hb_ot_shape_context_t*)--hb_ot_shape_",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

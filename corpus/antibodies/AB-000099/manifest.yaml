@@ -1,0 +1,48 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000099
+title: "libpng: Heap-buffer-overflow WRITE {*} in libpng_read_fuzzer"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: libpng
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42498959)"
+  fixed_in: 357af1f09532
+
+attack:
+  class: memory-safety
+  target_fn: libpng_read_fuzzer
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow WRITE {*}"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42498959-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: High
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42498959"
+    repo: "https://github.com/glennrp/libpng.git"
+    fix_commit: 357af1f095320c76f7c9d2bcf7de48dd809358e4
+12384eae6fa138b528647cdf350b005509e95b6b
+a3d1057a735d923626f1f6bdc0f662a13d0cba6f
+    patch_url: "https://github.com/glennrp/libpng/commit/a3d1057a735d923626f1f6bdc0f662a13d0cba6f"
+    docker:
+      vulnerable: "n132/arvo:42498959-vul"
+      fixed: "n132/arvo:42498959-fix"
+  evidence:
+    expected_crash_sha256: "e46aed7390e99197419909a14bc4e29e6aed7ba56f6b7c2b01a5820efd0d0fef"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

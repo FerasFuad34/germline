@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000037
+title: "imagemagick: Heap-buffer-overflow READ 4 in encoder_j2k_fuzzer"
+cve: []
+cwe: ["CWE-122"]
+
+origin:
+  project: imagemagick
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42473556)"
+  fixed_in: 75477483fbf9
+
+attack:
+  class: memory-safety
+  target_fn: encoder_j2k_fuzzer
+  sanitizer: asan
+  crash_type: "Heap-buffer-overflow READ 4"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42473556-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42473556"
+    repo: "https://github.com/imagemagick/imagemagick"
+    fix_commit: 75477483fbf99382b4310233b1521cbcc5e7affd
+    patch_url: "https://github.com/imagemagick/imagemagick/commit/75477483fbf99382b4310233b1521cbcc5e7affd"
+    docker:
+      vulnerable: "n132/arvo:42473556-vul"
+      fixed: "n132/arvo:42473556-fix"
+  evidence:
+    expected_crash_sha256: "14c539aff6b68daade2ec91af40764e9c965a4194817793bfc5584c9044de500"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

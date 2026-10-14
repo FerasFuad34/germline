@@ -1,0 +1,24 @@
+{
+  "id": "AB-000043",
+  "arvo_local_id": 42470096,
+  "project": "harfbuzz",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 8",
+  "severity": "Medium",
+  "fuzz_target": "hb-subset-fuzzer",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470096",
+  "docker": {
+    "vulnerable": "n132/arvo:42470096-vul",
+    "fixed": "n132/arvo:42470096-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "4f2a591c35075dc63f5126df3df4572b0337156c593d787881d0f2ca47daad9c",
+  "expected_crash_excerpt": "INFO: Seed: 483224197\r\nINFO: Loaded 1 modules   (13009 inline 8-bit counters): 13009 [0xa27830, 0xa2ab01), \r\nINFO: Loaded 1 PC tables (13009 PCs): 13009 [0xa2ab08,0xa5d818), \r\n/out/hb-subset-fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000000180 at pc 0x00000062c544 bp 0x7fffffffd830 sp 0x7fffffffd828\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x606000000180 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\r\n    #0 0x62c543 in OT::Coverage::intersects(hb_set_t const*) const /src/harfbuzz/src/./hb-ot-layout-common.hh:952:42\r\n    #1 0x62c072 in OT::ContextFormat2::closure(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-gsubgpos.hh:1411:26\r\n    #2 0x62b3a9 in _hb_void_t const* OT::hb_closure_context_t::dispatch<OT::ContextFormat2>(OT::ContextFormat2 const&) /src/harfbuzz/src/./hb-ot-layout-gsubgpos.hh:49:49\r\n    #3 0x6295d3 in OT::hb_closure_context_t::return_t OT::Context::dispatch<OT::hb_closure_context_t>(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-gsubgpos.hh:1605:13\r\n    #4 0x628cf1 in OT::hb_closure_context_t::return_t OT::SubstLookupSubTable::dispatch<OT::hb_closure_context_t>(OT::hb_closure_context_t*, unsigned int) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:1102:20\r\n    #5 0x628a90 in OT::hb_closure_context_t::return_t OT::Lookup::dispatch<OT::SubstLookupSubTable, OT::hb_closure_context_t>(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-common.hh:643:71\r\n    #6 0x60c6c7 in OT::SubstLookup::closure(OT::hb_closure_context_t*, unsigned int) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:1157:42\r\n    #7 0x6010a8 in hb_ot_layout_lookups_substitute_closure /src/harfbuzz/src/hb-ot-layout.cc:972:40\r\n    #8 0x5deb16 in _gsub_closure(hb_face_t*, hb_set_t*) /src/harfbuzz/src/hb-subset-plan.cc:66:3\r\n    #9 0x5de4d9 in _populate_gids",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

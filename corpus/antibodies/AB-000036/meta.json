@@ -1,0 +1,24 @@
+{
+  "id": "AB-000036",
+  "arvo_local_id": 42473518,
+  "project": "imagemagick",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 8",
+  "severity": "Medium",
+  "fuzz_target": "bping_ptif_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/imagemagick/imagemagick",
+  "fix_commit": "7921e3f13b72e9e49a1dff434c256466a08205d4",
+  "patch_url": "https://github.com/imagemagick/imagemagick/commit/7921e3f13b72e9e49a1dff434c256466a08205d4",
+  "report_url": "https://issues.oss-fuzz.com/issues/42473518",
+  "docker": {
+    "vulnerable": "n132/arvo:42473518-vul",
+    "fixed": "n132/arvo:42473518-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "291de1e811b827ab1d0afe1a01876d5e138afd3afe1d00a0ea0cb47a0e7ebcbb",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/ping_ptif_fuzzer < INPUT_FILE\r\nor\r\n  /out/ping_ptif_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/ping_ptif_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 94 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000002f90 at pc 0x000000a81c2c bp 0x7fffffffda70 sp 0x7fffffffda68\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x602000002f90 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 23 (8-byte-read-heap-buffer-overflow)\r\n    #0 0xa81c2b in TIFFGetProperties /src/imagemagick/coders/tiff.c:796:64\r\n    #1 0xa7660d in ReadTIFFImage /src/imagemagick/coders/tiff.c:1494:5\r\n    #2 0x646a76 in ReadImage /src/imagemagick/MagickCore/constitute.c:500:13\r\n    #3 0x821fbb in ReadStream /src/imagemagick/MagickCore/stream.c:1043:9\r\n    #4 0x5f2d46 in PingBlob /src/imagemagick/MagickCore/blob.c:3579:13\r\n    #5 0x5535e4 in Magick::Image::ping(Magick::Blob const&) /src/imagemagick/Magick++/lib/Image.cpp:3861:12\r\n    #6 0x530feb in LLVMFuzzerTestOneInput /src/imagemagick/Magick++/fuzz/ping_fuzzer.cc:43:11\r\n    #7 0x53172f in ExecuteFilesOnyByOne(int, char**) /src/libfuzzer/afl/afl_driver.cpp:301:5\r\n    #8 0x531cde in main /src/libfuzzer/afl/afl_driver.cpp:339:12\r\n    #9 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #10 0x4202d8 in _start (/out/ping_ptif_fuzzer+0x4202d8)\r\n\r\nDEDUP_TOKEN: TIFFGetProperties--ReadTIFFImage--ReadImage\r\n\u001b[1m\u001b[32m0x602000002f91 is located 0 bytes to the right of 1-byte region [0x602000002f90,0x602000002f91)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mallocated by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x4ee5be in realloc /src/llvm/projects/compiler-",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

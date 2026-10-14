@@ -1,0 +1,24 @@
+{
+  "id": "AB-000075",
+  "arvo_local_id": 42481412,
+  "project": "php-src",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 4",
+  "severity": "High",
+  "fuzz_target": "php-fuzz-mbstring",
+  "fuzz_engine": "honggfuzz",
+  "language": "c++",
+  "repo": "https://github.com/php/php-src.git",
+  "fix_commit": "fd08f062ae5a3c92bfc0345da7e83ab320046864\nea1b8788773fe9d5fd517704da332f0725714b8b\n8dd91f52a52f0804970fe65738fade9be4bafd54",
+  "patch_url": "https://github.com/php/php-src/commit/8dd91f52a52f0804970fe65738fade9be4bafd54",
+  "report_url": "https://issues.oss-fuzz.com/issues/42481412",
+  "docker": {
+    "vulnerable": "n132/arvo:42481412-vul",
+    "fixed": "n132/arvo:42481412-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "890760f3a50ab3c9a10dceac1ae58557a0d3e696fae3eeeba6d176632a44b6ff",
+  "expected_crash_excerpt": "\u001b[1mAccepting input from '/tmp/poc'\u001b[0m\r\n\u001b[1mUsage for fuzzing: honggfuzz -P [flags] -- /out/php-fuzz-mbstring\u001b[0m\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x60700000baf0 at pc 0x000000f1e6d2 bp 0x7fffffffd590 sp 0x7fffffffd588\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x60700000baf0 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 45 (4-byte-read-heap-use-after-free)\r\n    #0 0xf1e6d1 in node_char_len1 /src/php-src/oniguruma/src/regcomp.c:715:11\r\n    #1 0xf1d99a in node_char_len1 /src/php-src/oniguruma/src/regcomp.c:906:11\r\n    #2 0xf1da1f in node_char_len1 /src/php-src/oniguruma/src/regcomp.c:720:13\r\n    #3 0xf1dd8e in node_char_len1 /src/php-src/oniguruma/src/regcomp.c:741:13\r\n    #4 0xf1c756 in tune_look_behind /src/php-src/oniguruma/src/regcomp.c:4498:7\r\n    #5 0xf0fadb in tune_tree /src/php-src/oniguruma/src/regcomp.c:5527:13\r\n    #6 0xf0b8ce in onig_compile /src/php-src/oniguruma/src/regcomp.c:7035:7\r\n    #7 0xf138bd in onig_new /src/php-src/oniguruma/src/regcomp.c:7255:7\r\n    #8 0x73b057 in php_mbregex_compile_pattern /src/php-src/ext/mbstring/php_mbregex.c:466:19\r\n    #9 0x7367d5 in _php_mb_regex_ereg_exec /src/php-src/ext/mbstring/php_mbregex.c:929:7\r\n    #10 0xb9c117 in zend_call_function /src/php-src/Zend/zend_execute_API.c\r\n    #11 0xb9ab19 in _call_user_function_ex /src/php-src/Zend/zend_execute_API.c:606:9\r\n    #12 0xed9f87 in fuzzer_call_php_func_zval /src/php-src/sapi/fuzzer/fuzzer-sapi.c:247:2\r\n    #13 0xeda2e2 in fuzzer_call_php_func /src/php-src/sapi/fuzzer/fuzzer-sapi.c:267:2\r\n    #14 0xed8f5d in LLVMFuzzerTestOneInput /src/php-src/sapi/fuzzer/fuzzer-mbstring.c:44:2\r\n    #15 0xf6dc04 in HonggfuzzMain (/out/php-fuzz-mbstring+0xf6dc04)\r\n    #16 0x7ffff6cca82f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #17 0x443028 in _start (/out/php-fuzz-mbstring+0x443028)\r\n\r\nDEDUP_TOKEN: node_char_len1--node_char_len1--node_char_len1\r\n\u001b[1m\u001b[32m0x60700000baf0 is locate",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

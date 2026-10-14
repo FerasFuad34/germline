@@ -1,0 +1,48 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000074
+title: "php-src: Use-of-uninitialized-value in php-fuzz-mbstring"
+cve: []
+cwe: ["CWE-457"]
+
+origin:
+  project: php-src
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42480756)"
+  fixed_in: b5e004379647
+
+attack:
+  class: memory-safety
+  target_fn: php-fuzz-mbstring
+  sanitizer: msan
+  crash_type: "Use-of-uninitialized-value"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42480756-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "WARNING: MemorySanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42480756"
+    repo: "https://github.com/php/php-src.git"
+    fix_commit: b5e004379647bd1ebb75eb2eac8826fb6abdd3d8
+d8ad2f4695ebd6dc2d4e668d9baeac1c071791a6
+24ccbb00573445b0df5e940a77e7363ace3c31f3
+    patch_url: "https://github.com/php/php-src/commit/24ccbb00573445b0df5e940a77e7363ace3c31f3"
+    docker:
+      vulnerable: "n132/arvo:42480756-vul"
+      fixed: "n132/arvo:42480756-fix"
+  evidence:
+    expected_crash_sha256: "7bfff5d6469e731d5f4f8f74014c8162578f8fccca4749b03ee35a77b0781d60"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

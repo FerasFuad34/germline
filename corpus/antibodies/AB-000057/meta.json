@@ -1,0 +1,24 @@
+{
+  "id": "AB-000057",
+  "arvo_local_id": 42477466,
+  "project": "curl",
+  "sanitizer": "asan",
+  "crash_type": "Heap-buffer-overflow READ 1",
+  "severity": "Medium",
+  "fuzz_target": "curl_fuzzer_smb",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/curl/curl.git",
+  "fix_commit": "65fda739ee35c090b2e6d91229287de734f0fbae",
+  "patch_url": "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae",
+  "report_url": "https://issues.oss-fuzz.com/issues/42477466",
+  "docker": {
+    "vulnerable": "n132/arvo:42477466-vul",
+    "fixed": "n132/arvo:42477466-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "909f06d9799623947baa188a801210f9e112ff63673ecab5a52b8e870f95f68c",
+  "expected_crash_excerpt": "INFO: Seed: 3423249963\r\nINFO: Loaded 1 modules   (63295 inline 8-bit counters): 63295 [0x89ce2f0, 0x89dda2f), \r\nINFO: Loaded 1 PC tables (63295 PCs): 63295 [0x89dda30,0x8a59428), \r\n/out/curl_fuzzer_smb: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0xf0a00698 at pc 0x081d331d bp 0xffca7898 sp 0xffca7890\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0xf0a00698 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 12 (1-byte-read-heap-buffer-overflow)\r\n    #0 0x81d331c in to_u32(unsigned char const*) /src/curl_fuzzer/curl_fuzzer.cc:109:8\r\n    #1 0x81d3d13 in fuzz_get_tlv_comn(fuzz_data*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:72:17\r\n    #2 0x81d7247 in fuzz_add_mime_part(tlv*, curl_mimepart_s*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:242:16\r\n    #3 0x81d52a4 in fuzz_parse_tlv(fuzz_data*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:152:7\r\n    #4 0x81d197c in LLVMFuzzerTestOneInput /src/curl_fuzzer/curl_fuzzer.cc:60:10\r\n    #5 0x80d7436 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned int) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:554:15\r\n    #6 0x80c3733 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned int) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\r\n    #7 0x80c8e48 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned int)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\r\n    #8 0x80ed587 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\r\n    #9 0xf2e2d636 in __libc_start_main (/lib32/libc.so.6+0x18636)\r\n    #10 0x809e668 in _start (/out/curl_fuzzer_smb+0x809e668)\r\n\r\nDEDUP_TOKEN: to_u32(unsigned char const*)--fuzz_get_tlv_comn(fuzz_data*, tlv*)--fuzz_add_mime_part(tlv*, curl_mimepart_s*)\r\n\u001b[1m\u001b[32m0xf0a00698 is located 0 bytes to the right of 8-byte region [0xf0a00690,0xf0a00698)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mallocated by thread T0 here:\u001b[1m\u001b[0m\r\n",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000042",
+  "arvo_local_id": 42470094,
+  "project": "harfbuzz",
+  "sanitizer": "asan",
+  "crash_type": "Stack-use-after-return READ 1",
+  "severity": "Medium",
+  "fuzz_target": "hb-subset-fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://github.com/harfbuzz/harfbuzz.git",
+  "fix_commit": "2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+  "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+  "report_url": "https://issues.oss-fuzz.com/issues/42470094",
+  "docker": {
+    "vulnerable": "n132/arvo:42470094-vul",
+    "fixed": "n132/arvo:42470094-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "da6b44cf38eaed3e763a11aa7b7f488de0dc4045f729849e6b1ea4d0d8f8cedf",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/hb-subset-fuzzer < INPUT_FILE\r\nor\r\n  /out/hb-subset-fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/hb-subset-fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 284427 bytes from /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: stack-use-after-return on address 0x7ffff7f29da2 at pc 0x0000005365ae bp 0x7fffffffd930 sp 0x7fffffffd928\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 1 at 0x7ffff7f29da2 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 50 (1-byte-read-stack-use-after-return)\r\n    #0 0x5365ad in BEInt<unsigned short, 2>::operator unsigned short() const /src/harfbuzz/src/./hb-machinery.hh:625:13\r\n    #1 0x58f07a in OT::CoverageFormat2::Iter::more() /src/harfbuzz/src/./hb-ot-layout-common.hh:864:42\r\n    #2 0x59c129 in OT::SingleSubstFormat2::closure(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:127:63\r\n    #3 0x59bc63 in _hb_void_t const* OT::hb_closure_context_t::dispatch<OT::SingleSubstFormat2>(OT::SingleSubstFormat2 const&) /src/harfbuzz/src/./hb-ot-layout-gsubgpos.hh:49:49\r\n    #4 0x59b09a in OT::hb_closure_context_t::return_t OT::SingleSubst::dispatch<OT::hb_closure_context_t>(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:241:13\r\n    #5 0x59ad94 in OT::hb_closure_context_t::return_t OT::SubstLookupSubTable::dispatch<OT::hb_closure_context_t>(OT::hb_closure_context_t*, unsigned int) const /src/harfbuzz/src/./hb-ot-layout-gsub-table.hh:1098:19\r\n    #6 0x59abd5 in OT::hb_closure_context_t::return_t OT::Lookup::dispatch<OT::SubstLookupSubTable, OT::hb_closure_context_t>(OT::hb_closure_context_t*) const /src/harfbuzz/src/./hb-ot-layout-common",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

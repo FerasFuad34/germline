@@ -1,0 +1,24 @@
+{
+  "id": "AB-000088",
+  "arvo_local_id": 42479126,
+  "project": "binutils-gdb",
+  "sanitizer": "asan",
+  "crash_type": "Global-buffer-overflow READ 4",
+  "severity": "Medium",
+  "fuzz_target": "fuzz_disassemble",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "git://sourceware.org/git/binutils-gdb.git",
+  "fix_commit": "dee334510fe3940456bd282fc9da9ff9257d8483",
+  "patch_url": "https://github.com/bminor/binutils-gdb/commit/dee334510fe3940456bd282fc9da9ff9257d8483",
+  "report_url": "https://issues.oss-fuzz.com/issues/42479126",
+  "docker": {
+    "vulnerable": "n132/arvo:42479126-vul",
+    "fixed": "n132/arvo:42479126-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "f4cce08478fe390436e3966f8cd746c0fca77cd13c5fc0c813a41d5422298dee",
+  "expected_crash_excerpt": "INFO: Seed: 1519086707\r\nINFO: Loaded 1 modules   (186107 inline 8-bit counters): 186107 [0x36f7f50, 0x372564b), \r\nINFO: Loaded 1 PC tables (186107 PCs): 186107 [0x28021a8,0x2ad9158), \r\n/out/fuzz_disassemble: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000002002470 at pc 0x00000077a863 bp 0x7fffffffdd20 sp 0x7fffffffdd18\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 4 at 0x000002002470 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 27 (4-byte-read-global-buffer-overflow-far-from-bounds)\r\n    #0 0x77a862 in ripBits /src/binutils-gdb/opcodes/xgate-dis.c:306:19\r\n    #1 0x779771 in print_insn /src/binutils-gdb/opcodes/xgate-dis.c:172:25\r\n    #2 0x778940 in print_insn_xgate /src/binutils-gdb/opcodes/xgate-dis.c:278:10\r\n    #3 0x4c951d in LLVMFuzzerTestOneInput /src/binutils-gdb/fuzz/fuzz_disassemble.c:71:13\r\n    #4 0x519936 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:556:15\r\n    #5 0x4ca46f in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:292:6\r\n    #6 0x4d80d2 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:774:9\r\n    #7 0x4c9ab7 in main /src/libfuzzer/FuzzerMain.cpp:19:10\r\n    #8 0x7ffff6ee582f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #9 0x41e8f8 in _start (/out/fuzz_disassemble+0x41e8f8)\r\n\r\nDEDUP_TOKEN: ripBits--print_insn--print_insn_xgate\r\n\u001b[1m\u001b[32m0x000002002470 is located 24 bytes to the right of global variable 'xgate_opcodes' defined in 'xgate-opc.c:99:27' (0x2001580) of size 3800\r\n\u001b[1m\u001b[0mSUMMARY: AddressSanitizer: global-buffer-overflow /src/binutils-gdb/opcodes/xgate-dis.c:306:19 in ripBits\r\nShadow bytes around the buggy address:\r\n  0x0000803f8430: \u001b[1m\u001b[0m00\u001b[1m\u001b[0m \u001b[1m\u001b[0m00\u001b[1m\u001b[0m \u001b[1m\u001b[0m00\u001b[1m\u001b[0m \u001b[1m\u001b[0m00\u001b[1m\u001b[0m \u001b[1m\u001b[0m00\u001b[1m\u001b[0m \u001b",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

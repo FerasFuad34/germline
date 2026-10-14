@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000098
+title: "zlib: Use-of-uninitialized-value in example_dict_fuzzer"
+cve: []
+cwe: ["CWE-457"]
+
+origin:
+  project: zlib
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42514310)"
+  fixed_in: 981ee7570ad9
+
+attack:
+  class: memory-safety
+  target_fn: example_dict_fuzzer
+  sanitizer: msan
+  crash_type: "Use-of-uninitialized-value"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42514310-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "WARNING: MemorySanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42514310"
+    repo: "https://github.com/madler/zlib.git"
+    fix_commit: 981ee7570ad98a3cf1ae74d737e2ee619ed79171
+    patch_url: "https://github.com/madler/zlib/commit/981ee7570ad98a3cf1ae74d737e2ee619ed79171"
+    docker:
+      vulnerable: "n132/arvo:42514310-vul"
+      fixed: "n132/arvo:42514310-fix"
+  evidence:
+    expected_crash_sha256: "407e88b65e6ab4cc4767572fba03b6eab20a31bca68f4673c2c52d00d342a2c9"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

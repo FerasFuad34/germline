@@ -1,0 +1,24 @@
+{
+  "id": "AB-000012",
+  "arvo_local_id": 42486665,
+  "project": "libxml2",
+  "sanitizer": "asan",
+  "crash_type": "Heap-use-after-free READ 8",
+  "severity": "High",
+  "fuzz_target": "xml",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "19cae17f5a2acfbd5554d145bb87cd6bf2de244f",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/19cae17f5a2acfbd5554d145bb87cd6bf2de244f",
+  "report_url": "https://issues.oss-fuzz.com/issues/42486665",
+  "docker": {
+    "vulnerable": "n132/arvo:42486665-vul",
+    "fixed": "n132/arvo:42486665-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "2aa9db2e0da20a7e9b293a71dc19f312eb0407e538a0957a0e0ad792ee139f96",
+  "expected_crash_excerpt": "INFO: Seed: 1625748729\r\nINFO: Loaded 1 modules   (46011 inline 8-bit counters): 46011 [0xc1eb00, 0xc29ebb), \r\nINFO: Loaded 1 PC tables (46011 PCs): 46011 [0x8bc910,0x9704c0), \r\n/out/xml: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x604000000468 at pc 0x000000776be1 bp 0x7ffc273c4810 sp 0x7ffc273c4808\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mREAD of size 8 at 0x604000000468 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 51 (8-byte-read-heap-use-after-free)\r\n    #0 0x776be0 in xmlNodeDumpOutputInternal /src/libxml2/xmlsave.c:897:48\r\n    #1 0x772a52 in xmlDocContentDumpOutput /src/libxml2/xmlsave.c:1228:7\r\n    #2 0x778abf in xmlDocDumpFormatMemoryEnc /src/libxml2/xmlsave.c:2392:5\r\n    #3 0x778e25 in xmlDocDumpMemory /src/libxml2/xmlsave.c:2424:5\r\n    #4 0x5538be in LLVMFuzzerTestOneInput /src/libxml2/fuzz/xml.c:53:5\r\n    #5 0x458ab1 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:559:15\r\n    #6 0x444252 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:301:6\r\n    #7 0x44a1ed in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:801:9\r\n    #8 0x471ad2 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\r\n    #9 0x7f0830d6583f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\r\n    #10 0x41e9f8 in _start (/out/xml+0x41e9f8)\r\n\r\nDEDUP_TOKEN: xmlNodeDumpOutputInternal--xmlDocContentDumpOutput--xmlDocDumpFormatMemoryEnc\r\n\u001b[1m\u001b[32m0x604000000468 is located 24 bytes inside of 48-byte region [0x604000000450,0x604000000480)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mfreed by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x520c3d in free /src/llvm-project/compiler-rt/lib/asan/asan_malloc_linux.cpp:123:3\r\n    #1 0x5ca0d9 in xmlFreeNs /src/libxml2",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

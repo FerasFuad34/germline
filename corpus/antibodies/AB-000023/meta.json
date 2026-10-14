@@ -1,0 +1,24 @@
+{
+  "id": "AB-000023",
+  "arvo_local_id": 42472627,
+  "project": "ffmpeg",
+  "sanitizer": "asan",
+  "crash_type": "UNKNOWN WRITE",
+  "severity": "High",
+  "fuzz_target": "ffmpeg_AV_CODEC_ID_HYMT_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://git.ffmpeg.org/ffmpeg.git",
+  "fix_commit": "ab160efa2850715de32e24fed846a0f6ef7244ab",
+  "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ab160efa2850715de32e24fed846a0f6ef7244ab",
+  "report_url": "https://issues.oss-fuzz.com/issues/42472627",
+  "docker": {
+    "vulnerable": "n132/arvo:42472627-vul",
+    "fixed": "n132/arvo:42472627-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "778c59c4d696527e7c5e33ae606b864f7249fc46e855964fc027dbf21d0fdeb9",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer < INPUT_FILE\r\nor\r\n  /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 1025 bytes from /tmp/poc\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x621000010000 (pc 0x0000007ac658 bp 0x7ffd822445f0 sp 0x7ffd822443f8 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a WRITE memory access.\r\nSCARINESS: 30 (wild-addr-write)\r\n    #0 0x7ac657 in ff_add_median_pred_sse2 (/out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer+0x7ac657)\r\n\r\nDEDUP_TOKEN: ff_add_median_pred_sse2\r\nAddressSanitizer can not provide additional info.\r\nSUMMARY: AddressSanitizer: SEGV (/out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer+0x7ac657) in ff_add_median_pred_sse2\r\n==7==ABORTING\r\n",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

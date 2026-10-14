@@ -1,0 +1,24 @@
+{
+  "id": "AB-000014",
+  "arvo_local_id": 42496802,
+  "project": "libxml2",
+  "sanitizer": "ubsan",
+  "crash_type": "Bad-cast",
+  "severity": "High",
+  "fuzz_target": "xml",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
+  "fix_commit": "bfd2f4300fb348a0fb8265a17546a0eb8bdec719",
+  "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bfd2f4300fb348a0fb8265a17546a0eb8bdec719",
+  "report_url": "https://issues.oss-fuzz.com/issues/42496802",
+  "docker": {
+    "vulnerable": "n132/arvo:42496802-vul",
+    "fixed": "n132/arvo:42496802-fix"
+  },
+  "detection_marker": "runtime error:",
+  "expected_crash_sha256": "419e133e7eeb4309d8842bc0ae2fdd9fa967a225f09c6a4187cacfc64a6ed4a6",
+  "expected_crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\r\nINFO: Seed: 1134090127\r\nINFO: Loaded 1 modules   (55443 inline 8-bit counters): 55443 [0xb3c9a0, 0xb4a233), \r\nINFO: Loaded 1 PC tables (55443 PCs): 55443 [0x6f8e00,0x7d1730), \r\n/out/xml: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1mparser.c:9963:20:\u001b[1m\u001b[31m runtime error: \u001b[1m\u001b[0m\u001b[1mmember access within address 0x000000000018 with insufficient space for an object of type 'xmlStartTag' (aka 'struct _xmlStartTag')\u001b[1m\u001b[0m\r\n\u001b[1m0x000000000018:\u001b[1m\u001b[30m note: \u001b[1m\u001b[0mpointer points here\u001b[1m\u001b[0m\r\n<memory cannot be printed>\r\n    #0 0x4e3a1c in xmlParseElement /src/libxml2/parser.c:9963:52\r\n    #1 0x4e6c5b in xmlParseDocument /src/libxml2/parser.c:10800:2\r\n    #2 0x4f1abc in xmlDoRead /src/libxml2/parser.c:15152:5\r\n    #3 0x4f1c74 in xmlReadMemory /src/libxml2/parser.c:15238:13\r\n    #4 0x4b4e22 in LLVMFuzzerTestOneInput /src/libxml2/fuzz/xml.c:55:11\r\n    #5 0x442f13 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:599:15\r\n    #6 0x42cd22 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:323:6\r\n    #7 0x432b6a in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:856:9\r\n    #8 0x45e852 in main /src/llvm-project/compiler-rt/lib/fuzzer/FuzzerMain.cpp:20:10\r\n    #9 0x7ffff6ee583f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2083f)\r\n    #10 0x407a08 in _start (/out/xml+0x407a08)\r\n\r\nDEDUP_TOKEN: xmlParseElement--xmlParseDocument--xmlDoRead\r\nSUMMARY: UndefinedBehaviorSanitizer: undefined-behavior parser.c:9963:20 in \r\n",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

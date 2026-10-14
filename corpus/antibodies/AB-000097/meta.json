@@ -1,0 +1,24 @@
+{
+  "id": "AB-000097",
+  "arvo_local_id": 42500241,
+  "project": "libwebp",
+  "sanitizer": "asan",
+  "crash_type": "UNKNOWN READ",
+  "severity": "Medium",
+  "fuzz_target": "jpegsave_file_fuzzer",
+  "fuzz_engine": "honggfuzz",
+  "language": "c++",
+  "repo": "https://chromium.googlesource.com/webm/libwebp",
+  "fix_commit": "e542fc7a8a264562ec678970f64d6ad12a7b554a",
+  "patch_url": "https://chromium.googlesource.com/webm/libwebp/+/e542fc7a8a264562ec678970f64d6ad12a7b554a%5E%21/",
+  "report_url": "https://issues.oss-fuzz.com/issues/42500241",
+  "docker": {
+    "vulnerable": "n132/arvo:42500241-vul",
+    "fixed": "n132/arvo:42500241-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "dc60fa6d76f5cc2b985922fd807396dffcbe9acc40fbecc481ba39c800ba5dfc",
+  "expected_crash_excerpt": "\u001b[1mAccepting input from '/tmp/poc'\u001b[0m\r\n\u001b[1mUsage for fuzzing: honggfuzz -P [flags] -- /out/jpegsave_file_fuzzer\u001b[0m\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x61c10000080b (pc 0x7ffff7012d84 bp 0x7fffffffd460 sp 0x7fffffffcc18 T0)\r\n\u001b[1m\u001b[0m==7==The signal is caused by a READ memory access.\r\nSCARINESS: 20 (wild-addr-read)\r\n    #0 0x7ffff7012d84  (/lib/x86_64-linux-gnu/libc.so.6+0x14dd84)\r\n    #1 0x49cad1 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3\r\n    #2 0x914e56 in exif_mnote_data_apple_load /src/libexif/libexif/apple/exif-mnote-data-apple.c:126:9\r\n    #3 0x9118bc in exif_mnote_data_load /src/libexif/libexif/exif-mnote-data.c:84:2\r\n    #4 0x8fe07c in interpret_maker_note /src/libexif/libexif/exif-data.c:835:3\r\n    #5 0x8fc979 in exif_data_load_data /src/libexif/libexif/exif-data.c:1010:2\r\n    #6 0x6ef331 in vips_exif_load_data_without_fix /src/libvips/libvips/foreign/exif.c:179:2\r\n    #7 0x6ef0b1 in vips__exif_parse /src/libvips/libvips/foreign/exif.c:488:13\r\n    #8 0x4dc07a in vips_image_set /src/libvips/libvips/iofuncs/header.c:1115:7\r\n    #9 0x4dd420 in vips_image_set_blob /src/libvips/libvips/iofuncs/header.c:1532:2\r\n    #10 0x7000d9 in vips_foreign_load_heif_set_header /src/libvips/libvips/foreign/heifload.c:513:3\r\n    #11 0x6ff030 in vips_foreign_load_heif_header /src/libvips/libvips/foreign/heifload.c:769:6\r\n    #12 0x6fb828 in vips_foreign_load_build /src/libvips/libvips/foreign/foreign.c:1085:3\r\n    #13 0x6fe4dd in vips_foreign_load_heif_build /src/libvips/libvips/foreign/heifload.c:251:6\r\n    #14 0x701de1 in vips_foreign_load_heif_file_build /src/libvips/libvips/foreign/heifload.c:1103:6\r\n    #15 0x4ed479 in vips_object_build /src/libvips/libvips/iofuncs/object.c:367:6\r\n    #16 0x7b4481 in vips_cache_operation_buildp /src/libvips/libvips/iofuncs/cache.c:910:7\r\n    #17 0x4fafa4 in vi",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

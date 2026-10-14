@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-10-14T20:12:39+00:00",
+  "source": {
+    "dataset": "ARVO",
+    "db_version": "v3.0.0",
+    "table": "arvo"
+  },
+  "status": "draft — not yet double-checked",
+  "totals": {
+    "antibodies": 100,
+    "projects": 17,
+    "high_severity": 26
+  },
+  "by_project": {
+    "libxml2": 14,
+    "ffmpeg": 14,
+    "imagemagick": 12,
+    "harfbuzz": 10,
+    "curl": 8,
+    "wireshark": 7,
+    "ghostpdl": 6,
+    "php-src": 5,
+    "libarchive": 5,
+    "gpac": 4,
+    "binutils-gdb": 4,
+    "freetype2": 3,
+    "openssl": 3,
+    "libwebp": 2,
+    "zlib": 1,
+    "libpng": 1,
+    "libtiff": 1
+  },
+  "by_sanitizer": {
+    "msan": 14,
+    "asan": 76,
+    "ubsan": 10
+  },
+  "by_class": {
+    "memory-safety": 100
+  },
+  "by_severity": {
+    "Medium": 74,
+    "High": 26
+  }
+}

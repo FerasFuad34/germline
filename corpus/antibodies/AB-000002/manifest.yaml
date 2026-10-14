@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000002
+title: "libxml2: Use-of-uninitialized-value in libxml2_xml_read_memory_fuzzer"
+cve: []
+cwe: ["CWE-457"]
+
+origin:
+  project: libxml2
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470125)"
+  fixed_in: 074180119fc9
+
+attack:
+  class: memory-safety
+  target_fn: libxml2_xml_read_memory_fuzzer
+  sanitizer: msan
+  crash_type: "Use-of-uninitialized-value"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470125-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "WARNING: MemorySanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470125"
+    repo: "https://gitlab.gnome.org/GNOME/libxml2.git"
+    fix_commit: 074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e
+    patch_url: "https://gitlab.gnome.org/GNOME/libxml2/-/commit/074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e"
+    docker:
+      vulnerable: "n132/arvo:42470125-vul"
+      fixed: "n132/arvo:42470125-fix"
+  evidence:
+    expected_crash_sha256: "6029672b9013a9eeebdbf544928a40940252ef490b285be67b20cf60c682b35f"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft

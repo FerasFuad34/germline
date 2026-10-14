@@ -1,0 +1,24 @@
+{
+  "id": "AB-000066",
+  "arvo_local_id": 42477726,
+  "project": "ghostpdl",
+  "sanitizer": "asan",
+  "crash_type": "Null-dereference READ",
+  "severity": "Medium",
+  "fuzz_target": "gstoraster_fuzzer",
+  "fuzz_engine": "afl",
+  "language": "c++",
+  "repo": "https://cgit.ghostscript.com/ghostpdl.git",
+  "fix_commit": "77f79475fd0419d16f1efe7812a44a9720fef10b",
+  "patch_url": "https://cgit.ghostscript.com/ghostpdl.git77f79475fd0419d16f1efe7812a44a9720fef10b",
+  "report_url": "https://issues.oss-fuzz.com/issues/42477726",
+  "docker": {
+    "vulnerable": "n132/arvo:42477726-vul",
+    "fixed": "n132/arvo:42477726-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "7f639285e89804a3ba386aff48365d814532dfe0f73bb0681f2d2dfa50d7f3d5",
+  "expected_crash_excerpt": "======================= INFO =========================\r\nThis binary is built for AFL-fuzz.\r\nTo run the target function on individual input(s) execute this:\r\n  /out/gstoraster_fuzzer < INPUT_FILE\r\nor\r\n  /out/gstoraster_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\r\nTo fuzz with afl-fuzz execute this:\r\n  afl-fuzz [afl-flags] /out/gstoraster_fuzzer [-N]\r\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\r\n======================================================\r\nReading 120 bytes from /tmp/poc\r\nINFO: Start rendering...\r\nINFO: Processing page 1...\r\nAddressSanitizer:DEADLYSIGNAL\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x000000000000 bp 0x7fffe594eab0 sp 0x7fffe594ea88 T0)\r\n\u001b[1m\u001b[0m==7==Hint: pc points to the zero page.\r\n==7==The signal is caused by a READ memory access.\r\n==7==Hint: address points to the zero page.\r\nSCARINESS: 10 (null-deref)\r\n\r\nAddressSanitizer can not provide additional info.\r\nSUMMARY: AddressSanitizer: SEGV (<unknown module>) \r\n==7==ABORTING\r\n",
+  "expected_crash_excerpt_truncated": false,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000054",
+  "arvo_local_id": 42477424,
+  "project": "curl",
+  "sanitizer": "msan",
+  "crash_type": "Use-of-uninitialized-value",
+  "severity": "Medium",
+  "fuzz_target": "curl_fuzzer_pop3",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/curl/curl.git",
+  "fix_commit": "65fda739ee35c090b2e6d91229287de734f0fbae",
+  "patch_url": "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae",
+  "report_url": "https://issues.oss-fuzz.com/issues/42477424",
+  "docker": {
+    "vulnerable": "n132/arvo:42477424-vul",
+    "fixed": "n132/arvo:42477424-fix"
+  },
+  "detection_marker": "WARNING: MemorySanitizer",
+  "expected_crash_sha256": "8c0da3f1a8ece9b292fc9d32ade2aeb61cd198cd1c533423a79f1dda19c3a3fc",
+  "expected_crash_excerpt": "INFO: Seed: 2947230896\r\nINFO: Loaded 1 modules   (66323 inline 8-bit counters): 66323 [0x13a8e57, 0x13b916a), \r\nINFO: Loaded 1 PC tables (66323 PCs): 66323 [0x13b9170,0x14bc2a0), \r\n/out/curl_fuzzer_pop3: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n\u001b[1m\u001b[31m==7==WARNING: MemorySanitizer: use-of-uninitialized-value\r\n\u001b[1m\u001b[0m    #0 0x6d0713 in Curl_rand_hex /src/curl/lib/rand.c:178:14\r\n    #1 0x58f2c0 in curl_mime_init /src/curl/lib/mime.c:1224:8\r\n    #2 0x52acc3 in fuzz_parse_tlv(fuzz_data*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:146:22\r\n    #3 0x524fba in LLVMFuzzerTestOneInput /src/curl_fuzzer/curl_fuzzer.cc:60:10\r\n    #4 0x45ad81 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:554:15\r\n    #5 0x4455b1 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\r\n    #6 0x44b2ce in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\r\n    #7 0x474c52 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\r\n    #8 0x7f6b39af782f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #9 0x41ea58 in _start (/out/curl_fuzzer_pop3+0x41ea58)\r\n\r\nDEDUP_TOKEN: Curl_rand_hex--curl_mime_init--fuzz_parse_tlv(fuzz_data*, tlv*)\r\n  \u001b[1m\u001b[35mUninitialized value was stored to memory at\u001b[1m\u001b[0m\r\n    #0 0x6cf916 in Curl_rand /src/curl/lib/rand.c:135:9\r\n    #1 0x6d04b9 in Curl_rand_hex /src/curl/lib/rand.c:171:12\r\n    #2 0x58f2c0 in curl_mime_init /src/curl/lib/mime.c:1224:8\r\n    #3 0x52acc3 in fuzz_parse_tlv(fuzz_data*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:146:22\r\n    #4 0x524fba in LLVMFuzzerTestOneInput /src/curl_fuzzer/curl_fuzzer.cc:60:10\r\n    #5 0x45ad81 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:554:15\r\n    #6",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "AB-000056",
+  "arvo_local_id": 42477432,
+  "project": "curl",
+  "sanitizer": "asan",
+  "crash_type": "Negative-size-param",
+  "severity": "Medium",
+  "fuzz_target": "curl_fuzzer_smtp",
+  "fuzz_engine": "libfuzzer",
+  "language": "c++",
+  "repo": "https://github.com/curl/curl.git",
+  "fix_commit": "65fda739ee35c090b2e6d91229287de734f0fbae",
+  "patch_url": "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae",
+  "report_url": "https://issues.oss-fuzz.com/issues/42477432",
+  "docker": {
+    "vulnerable": "n132/arvo:42477432-vul",
+    "fixed": "n132/arvo:42477432-fix"
+  },
+  "detection_marker": "ERROR: AddressSanitizer",
+  "expected_crash_sha256": "ebdbefa9285fa13aabb32442c0ac6c2fbecef4d5b10a994c2f9c04d5d3e1627b",
+  "expected_crash_excerpt": "INFO: Seed: 3834137656\r\nINFO: Loaded 1 modules   (63295 inline 8-bit counters): 63295 [0x89ce2f0, 0x89dda2f), \r\nINFO: Loaded 1 PC tables (63295 PCs): 63295 [0x89dda30,0x8a59428), \r\n/out/curl_fuzzer_smtp: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: negative-size-param: (size=-1)\r\n\u001b[1m\u001b[0mSCARINESS: 10 (negative-size-param)\r\n    #0 0x819bf65 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3\r\n    #1 0x81d703d in fuzz_tlv_to_string(tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:214:5\r\n    #2 0x81d74b8 in fuzz_parse_mime_tlv(curl_mimepart_s*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:275:13\r\n    #3 0x81d727b in fuzz_add_mime_part(tlv*, curl_mimepart_s*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:247:10\r\n    #4 0x81d52a4 in fuzz_parse_tlv(fuzz_data*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:152:7\r\n    #5 0x81d197c in LLVMFuzzerTestOneInput /src/curl_fuzzer/curl_fuzzer.cc:60:10\r\n    #6 0x80d7436 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned int) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerLoop.cpp:554:15\r\n    #7 0x80c3733 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned int) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:292:6\r\n    #8 0x80c8e48 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned int)) /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerDriver.cpp:775:9\r\n    #9 0x80ed587 in main /src/llvm/projects/compiler-rt/lib/fuzzer/FuzzerMain.cpp:19:10\r\n    #10 0xf6d05636 in __libc_start_main (/lib32/libc.so.6+0x18636)\r\n    #11 0x809e668 in _start (/out/curl_fuzzer_smtp+0x809e668)\r\n\r\nDEDUP_TOKEN: __asan_memcpy--fuzz_tlv_to_string(tlv*)--fuzz_parse_mime_tlv(curl_mimepart_s*, tlv*)\r\n\u001b[1m\u001b[32m0xf490069c is located 0 bytes to the right of 12-byte region [0xf4900690,0xf490069c)\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[35mallocated by thread T0 here:\u001b[1m\u001b[0m\r\n    #0 0x819cb75 in mal",
+  "expected_crash_excerpt_truncated": true,
+  "generated_by": "germline-extractor/0.1 (ARVO v3.0.0)"
+}

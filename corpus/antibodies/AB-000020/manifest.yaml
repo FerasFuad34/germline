@@ -1,0 +1,46 @@
+# GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
+id: AB-000020
+title: "ffmpeg: Global-buffer-overflow READ 2 in ffmpeg_AV_CODEC_ID_ILBC_fuzzer"
+cve: []
+cwe: ["CWE-119"]
+
+origin:
+  project: ffmpeg
+  generation: g0
+  upstream: "OSS-Fuzz / ARVO (localId 42470870)"
+  fixed_in: e90f0ac334f2
+
+attack:
+  class: memory-safety
+  target_fn: ffmpeg_AV_CODEC_ID_ILBC_fuzzer
+  sanitizer: asan
+  crash_type: "Global-buffer-overflow READ 2"
+
+test:
+  kind: proof-of-vulnerability
+  harness: "docker run --rm n132/arvo:42470870-vul arvo"
+  expectation:
+    on_vulnerable: crash
+    on_fixed: clean
+  detection_marker: "ERROR: AddressSanitizer"
+
+severity:
+  level: Medium
+
+provenance:
+  generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
+  verified_by: []
+  source:
+    dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
+    report: "https://issues.oss-fuzz.com/issues/42470870"
+    repo: "https://git.ffmpeg.org/ffmpeg.git"
+    fix_commit: e90f0ac334f2bec0961955dceb824148594a4016
+    patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/e90f0ac334f2bec0961955dceb824148594a4016"
+    docker:
+      vulnerable: "n132/arvo:42470870-vul"
+      fixed: "n132/arvo:42470870-fix"
+  evidence:
+    expected_crash_sha256: "b495026e44ddbcd1fc0aaaa7131d6c867b06cbffea2dd9345f8b9dc7aebb8416"
+    expected_crash_excerpt_bytes: 2000
+
+status: draft
