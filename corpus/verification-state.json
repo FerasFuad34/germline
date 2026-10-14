@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14T20:52:00Z",
+  "updated_at": "2026-10-14T21:20:00Z",
   "policy": "Append-only. A recorded verdict is never edited; corrections are added as new runs. See corpus/VERIFICATION.md.",
   "runs": [
     {
@@ -40,6 +40,43 @@
       "url": "https://github.com/FerasFuad34/germline/actions/runs/38635106574",
       "artifact": "verification-report",
       "scope": "changed antibodies (first 3 of the diff)",
+      "totals": {
+        "verified": 3,
+        "mismatch": 0,
+        "environment_error": 0
+      },
+      "results": [
+        {
+          "id": "AB-000001",
+          "verdict": "verified",
+          "vulnerable": "crash",
+          "fixed": "clean",
+          "marker_matched": true
+        },
+        {
+          "id": "AB-000002",
+          "verdict": "verified",
+          "vulnerable": "crash",
+          "fixed": "clean",
+          "marker_matched": true
+        },
+        {
+          "id": "AB-000003",
+          "verdict": "verified",
+          "vulnerable": "crash",
+          "fixed": "clean",
+          "marker_matched": true
+        }
+      ]
+    },
+    {
+      "run_id": "38638413451",
+      "workflow": "Corpus double-check",
+      "runner": "github-actions/ubuntu-latest",
+      "date": "2026-10-14",
+      "url": "https://github.com/FerasFuad34/germline/actions/runs/38638413451",
+      "artifact": "verification-report",
+      "scope": "changed antibodies (first 3) — post-incident-fix re-verification",
       "totals": {
         "verified": 3,
         "mismatch": 0,

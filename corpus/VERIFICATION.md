@@ -67,3 +67,14 @@ the workflow failed loudly instead of reporting false success — by design.
 
 **Policy note.** Environment errors are never recorded as verdicts. They are
 investigated, root-caused, and documented here — nothing is silently retried.
+
+## Run #003 — 2026-10-14 · GitHub Actions (run 38638413451) — post-incident re-verification
+
+| Antibody | Verdict | Note |
+|---|---|---|
+| `AB-000001` | ✅ verified | 3rd consecutive independent verification |
+| `AB-000002` | ✅ verified | 3rd consecutive |
+| `AB-000003` | ✅ verified | 2nd consecutive |
+
+- **Result:** 3 verified · 0 mismatch · 0 errors — Incident #001 is closed.
+- **Cumulative:** 3 antibodies validated, each reproduced across multiple runs.
