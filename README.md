@@ -33,6 +33,13 @@ python3 tools/abx.py convert --corpus corpus --out corpus/abx --all   # render t
 python3 tools/abx.py validate corpus/abx/*.abx.json                   # schema + invariants (L2)
 ```
 
+## Demo video (90 s)
+
+[![GERMLINE demo](https://img.shields.io/badge/▶_watch-90s_demo-22d3ee)](https://github.com/FerasFuad34/germline/releases/download/v0.1.0/germline-demo-90s.mp4)
+
+Narrated walkthrough: the problem (immune amnesia), the antibody, the corpus,
+ABX/RFC-0, the verification log, and the Immune Gate.
+
 ## Dataset v0.1 (citable)
 
 A self-contained, citable package of the corpus — 100 antibody records, the 100

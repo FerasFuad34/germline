@@ -71,7 +71,8 @@ and founder of the GERMLINE project.
 | RFC-0 — ABX v0.1 specification | `docs/rfc/0001-abx-antibody-exchange-format.md` |
 | Verification log (append-only, per-run evidence) | `corpus/VERIFICATION.md` |
 | Datasheet (composition, cleaning, limits) | `dataset/DATASHEET.md` |
-| Live demo | [TODO: https://germline.onrender.com — verify availability before submission] |
+| **90-second demo video (public)** | https://github.com/FerasFuad34/germline/releases/download/v0.1.0/germline-demo-90s.mp4 |
+| Live demo | https://germline.onrender.com *(free tier; may take ~30 s to wake)* |
 
 ## 5. Work packages (6 months)
 
@@ -129,7 +130,7 @@ verified corpus, a frozen format, and published measurements.
 - [ ] Fill the 3 `[TODO]` identity fields (name, background, university) — 10 minutes
 - [x] Public repo + 100 antibodies + CI verification — done
 - [x] ABX v0.1 spec + schema + reference implementation — done
-- [ ] 90-second demo video link (public) — script produced; recording pending
+- [x] 90-second demo video — recorded, narrated, published: https://github.com/FerasFuad34/germline/releases/download/v0.1.0/germline-demo-90s.mp4
 - [ ] Zenodo DOI for corpus v0.1 (owner action, steps documented) — link it in §4 when minted
 - [ ] Confirm eligibility & payment logistics with NLnet (bank transfer to Yemen) — **email drafted, send early**
 - [ ] Re-verify the live demo link is up before submitting (§4)
