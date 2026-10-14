@@ -27,6 +27,7 @@ import argparse
 import datetime
 import hashlib
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -79,6 +80,21 @@ SANITIZER_MARKER = {
 }
 
 
+ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
+WS_RE = re.compile(r"[ \t]+")
+
+
+def first_line(value: str) -> str:
+    """ARVO stores multi-commit fixes and odd multi-line targets; keep scalars scalar."""
+    return (value or "").splitlines()[0].strip() if value else ""
+
+
+def strip_ansi(text: str) -> str:
+    """Remove terminal escape sequences: manifests must stay portable, strict-parsable YAML."""
+    text = ANSI_RE.sub("", text or "")
+    return WS_RE.sub(" ", text).strip()
+
+
 def normalize_crash_type(crash_type: str) -> str:
     """'Heap-buffer-overflow READ 4' -> 'heap-buffer-overflow' (drop ACCESS size suffixes)."""
     parts = (crash_type or "").strip().split()
@@ -106,14 +122,20 @@ def crash_cwes(crash_type: str) -> list[str]:
 
 
 def marker_for(sanitizer: str, crash_type: str, crash_output: str) -> str:
-    """Prefer the canonical sanitizer banner; verify it appears in crash_output."""
+    """Prefer the canonical sanitizer banner; verify it appears in crash_output.
+
+    Markers are normalized (ANSI stripped, whitespace collapsed, 120-char cap) so
+    that generated manifests remain valid, portable YAML for any strict parser.
+    """
     banner = SANITIZER_MARKER.get(sanitizer, "")
     if banner and banner in (crash_output or ""):
-        return banner
+        return strip_ansi(banner)[:120]
     # fallback: first sanitizer-ish line found in output
     for line in (crash_output or "").splitlines():
         if "Sanitizer" in line or "runtime error:" in line:
-            return line.strip()[:120]
+            cleaned = strip_ansi(line)
+            if cleaned:
+                return cleaned[:120]
     return crash_type or "crash"
 
 
@@ -151,6 +173,14 @@ def read_selection(path: Path) -> dict:
         elif section == "fallbacks" and line.strip().startswith("- "):
             sel["fallbacks"].append(line.strip()[2:].strip())
     return sel
+
+
+def load_verification_state(corpus_dir: Path) -> dict:
+    """Verification results are inputs to generation, so write-back stays deterministic."""
+    path = corpus_dir / "verification-state.json"
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {"runs": []}
 
 
 def pick_rows(cur, projects: dict[str, int], cap: int, target: int, fallbacks: list[str]) -> list[dict]:
@@ -194,7 +224,7 @@ def pick_rows(cur, projects: dict[str, int], cap: int, target: int, fallbacks: l
 MANIFEST_TMPL = """\
 # GERMLINE antibody — DRAFT (run tools/run-corpus-checks.sh to validate)
 id: {ab_id}
-title: "{title}"
+title: {title_yaml}
 cve: {cve}
 cwe: {cwe}
 
@@ -206,9 +236,9 @@ origin:
 
 attack:
   class: {klass}
-  target_fn: {fuzz_target}
+  target_fn: {fuzz_target_yaml}
   sanitizer: {sanitizer}
-  crash_type: "{crash_type}"
+  crash_type: {crash_type_yaml}
 
 test:
   kind: proof-of-vulnerability
@@ -216,20 +246,20 @@ test:
   expectation:
     on_vulnerable: crash
     on_fixed: clean
-  detection_marker: "{marker}"
+  detection_marker: {marker_yaml}
 
 severity:
   level: {severity}
 
 provenance:
   generated_by: "germline extractor v0.1 (ARVO {db_version})"
-  verified_by: []
+  verified_by: {verified_by}
   source:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
-    report: "{report_url}"
-    repo: "{repo_addr}"
-    fix_commit: {fix_commit}
-    patch_url: "{patch_url}"
+    report: {report_url_yaml}
+    repo: {repo_addr_yaml}
+    fix_commit: {fix_commit_yaml}
+    patch_url: {patch_url_yaml}
     docker:
       vulnerable: "{img_vul}"
       fixed: "{img_fix}"
@@ -237,13 +267,13 @@ provenance:
     expected_crash_sha256: "{crash_sha}"
     expected_crash_excerpt_bytes: {excerpt_len}
 
-status: draft
+status: {status}
 """
 
 README_TMPL = """\
 # {ab_id} — {title}
 
-**Status: 🟡 DRAFT** — generated from ARVO metadata; not yet double-checked on a Docker host.
+{status_line}
 
 | | |
 |---|---|
@@ -328,6 +358,16 @@ def main() -> int:
     ab_dir = out / "antibodies"
     ab_dir.mkdir(parents=True, exist_ok=True)
 
+    # verification write-back: statuses come from corpus/verification-state.json
+    vstate = load_verification_state(out)
+    vindex: dict[str, list[str]] = {}
+    for run in vstate.get("runs", []):
+        for res in run.get("results", []):
+            if res.get("verdict") == "verified":
+                vindex.setdefault(res["id"], []).append(
+                    f"{run.get('runner', 'unknown')}:run-{run.get('run_id', '?')}@{run.get('date', '?')}"
+                )
+
     # stable id map
     idmap_path = out / "id-map.json"
     idmap = json.loads(idmap_path.read_text(encoding="utf-8")) if idmap_path.exists() else {}
@@ -354,11 +394,12 @@ def main() -> int:
         sanitizer = rec["sanitizer"] or "unknown"
         crash_type = rec["crash_type"] or "unknown"
         severity = rec["severity"] or "unknown"
-        fuzz_target = rec["fuzz_target"] or "n/a"
-        fix_commit = rec["fix_commit"] or ""
-        patch_url = rec["patch_url"] or ""
-        report_url = rec["report"] or f"https://issues.oss-fuzz.com/issues/{local_id}"
-        repo_addr = rec["repo_addr"] or ""
+        fuzz_target = first_line(rec["fuzz_target"]) or "n/a"
+        fix_commits = [c.strip() for c in (rec["fix_commit"] or "").splitlines() if c.strip()]
+        fix_commit = fix_commits[0] if fix_commits else ""
+        patch_url = first_line(rec["patch_url"])
+        report_url = first_line(rec["report"]) or f"https://issues.oss-fuzz.com/issues/{local_id}"
+        repo_addr = first_line(rec["repo_addr"])
         crash_out = rec["crash_output"] or ""
         run_vul = (rec["reproducer_vul"] or f"docker run --rm n132/arvo:{local_id}-vul arvo").replace(" -it ", " ")
         run_fix = (rec["reproducer_fix"] or f"docker run --rm n132/arvo:{local_id}-fix arvo").replace(" -it ", " ")
@@ -366,6 +407,14 @@ def main() -> int:
         klass = crash_class(crash_type)
         cwes = crash_cwes(crash_type)
         marker = marker_for(sanitizer, crash_type, crash_out)
+        verified_by = vindex.get(ab_id, [])
+        status = "validated" if verified_by else "draft"
+        status_line = (
+            "**Status: \U0001F7E2 VALIDATED** \u2014 double-checked on a real runner: crashes on the "
+            "vulnerable build, stays clean on the fixed build (see `../../VERIFICATION.md`)."
+            if status == "validated" else
+            "**Status: \U0001F7E1 DRAFT** \u2014 generated from ARVO metadata; not yet double-checked on a Docker host."
+        )
         title = f"{project}: {crash_type} in {fuzz_target}"[:180]
         crash_sha = sha256_hex(crash_out.encode("utf-8", "replace"))
 
@@ -377,10 +426,15 @@ def main() -> int:
             project=project, local_id=local_id, fix_commit_short=fix_commit[:12],
             klass=klass, fuzz_target=fuzz_target, sanitizer=sanitizer, crash_type=crash_type,
             run_vul=run_vul, marker=marker, severity=severity,
+            title_yaml=json.dumps(title), fuzz_target_yaml=json.dumps(fuzz_target),
+            crash_type_yaml=json.dumps(crash_type), marker_yaml=json.dumps(marker),
+            report_url_yaml=json.dumps(report_url), repo_addr_yaml=json.dumps(repo_addr),
+            fix_commit_yaml=json.dumps(fix_commit), patch_url_yaml=json.dumps(patch_url),
             db_version=db_version, report_url=report_url, repo_addr=repo_addr,
             fix_commit=fix_commit, patch_url=patch_url,
             img_vul=f"n132/arvo:{local_id}-vul", img_fix=f"n132/arvo:{local_id}-fix",
             crash_sha=crash_sha, excerpt_len=min(2000, len(crash_out)),
+            status=status, verified_by=json.dumps(verified_by),
         ), encoding="utf-8")
 
         (d / "README.md").write_text(README_TMPL.format(
@@ -389,7 +443,7 @@ def main() -> int:
             sanitizer=sanitizer, crash_type=crash_type, severity=severity,
             fix_commit_short=fix_commit[:12], patch_url=patch_url,
             report_url=report_url, local_id=local_id, fuzz_target=fuzz_target,
-            marker=marker, run_vul=run_vul, run_fix=run_fix,
+            marker=marker, run_vul=run_vul, run_fix=run_fix, status_line=status_line,
         ), encoding="utf-8")
 
         (d / "meta.json").write_text(json.dumps({
@@ -397,6 +451,7 @@ def main() -> int:
             "sanitizer": sanitizer, "crash_type": crash_type, "severity": severity,
             "fuzz_target": fuzz_target, "fuzz_engine": rec["fuzz_engine"],
             "language": rec["language"], "repo": repo_addr, "fix_commit": fix_commit,
+            "fix_commits": fix_commits,
             "patch_url": patch_url, "report_url": report_url,
             "docker": {"vulnerable": f"n132/arvo:{local_id}-vul", "fixed": f"n132/arvo:{local_id}-fix"},
             "detection_marker": marker,
@@ -414,15 +469,24 @@ def main() -> int:
             "id": ab_id, "project": project, "sanitizer": sanitizer,
             "crash_type": crash_type, "severity": severity,
             "fix_commit": fix_commit[:12], "report_url": report_url,
+            "status": status,
         })
         stats["by_project"][project] = stats["by_project"].get(project, 0) + 1
         stats["by_sanitizer"][sanitizer] = stats["by_sanitizer"].get(sanitizer, 0) + 1
         stats["by_class"][klass] = stats["by_class"].get(klass, 0) + 1
         stats["by_severity"][severity] = stats["by_severity"].get(severity, 0) + 1
 
+    validated_count = sum(1 for r in index_rows if r["status"] == "validated")
     stats["totals"]["antibodies"] = len(index_rows)
     stats["totals"]["projects"] = len(stats["by_project"])
     stats["totals"]["high_severity"] = stats["by_severity"].get("High", 0)
+    stats["totals"]["verified"] = validated_count
+    latest_run = vstate["runs"][-1].get("run_id") if vstate.get("runs") else None
+    stats["status"] = (
+        f"{validated_count} verified / {len(index_rows) - validated_count} draft — "
+        f"double-check operational (latest run {latest_run})"
+        if validated_count else "draft — not yet double-checked"
+    )
 
     idmap_path.write_text(json.dumps(idmap, indent=2, sort_keys=True), encoding="utf-8")
     (out / "stats.json").write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -430,10 +494,10 @@ def main() -> int:
     # INDEX.md grouped by project
     lines = [
         "# GERMLINE Antibody Corpus — INDEX", "",
-        f"**{len(index_rows)} antibodies** (draft) across **{len(stats['by_project'])} projects** — "
+        f"**{len(index_rows)} antibodies** across **{len(stats['by_project'])} projects** — "
         f"generated {stats['generated_at']} from ARVO {db_version}.", "",
-        "> Status: 🟡 **draft** — each antibody must pass the double-check "
-        "(crash on vulnerable / clean on fixed) before being marked validated.", "",
+        f"> Status: \U0001F7E2 {validated_count} validated (double-checked on a real runner) \u00b7 "
+        f"\U0001F7E1 {len(index_rows) - validated_count} draft \u2014 full run log in `VERIFICATION.md`.", "",
     ]
     by_proj: dict[str, list[dict]] = {}
     for r in index_rows:
@@ -443,8 +507,9 @@ def main() -> int:
                   "| Antibody | Sanitizer | Crash type | Severity | Fix | Report |",
                   "|---|---|---|---|---|---|"]
         for r in items:
+            icon = "\U0001F7E2" if r["status"] == "validated" else "\U0001F7E1"
             lines.append(
-                f"| `{r['id']}` | {r['sanitizer']} | {r['crash_type']} | {r['severity']} "
+                f"| {icon} `{r['id']}` | {r['sanitizer']} | {r['crash_type']} | {r['severity']} "
                 f"| `{r['fix_commit']}` | [link]({r['report_url']}) |"
             )
         lines.append("")
@@ -452,6 +517,7 @@ def main() -> int:
 
     print(f"✅ Corpus written to {out}")
     print(f"   antibodies: {stats['totals']['antibodies']} | projects: {stats['totals']['projects']}")
+    print(f"   verified: {validated_count} | draft: {len(index_rows) - validated_count}")
     print(f"   by sanitizer: {stats['by_sanitizer']}")
     print(f"   index: {out/'INDEX.md'} | stats: {out/'stats.json'} | id-map: {idmap_path}")
     return 0

@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: x509
+  target_fn: "x509"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 14"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42478556"
     repo: "https://github.com/openssl/openssl.git"
-    fix_commit: aec9667bd19a8ca9bdd519db3a231a95b9e92674
+    fix_commit: "aec9667bd19a8ca9bdd519db3a231a95b9e92674"
     patch_url: "https://github.com/openssl/openssl/commit/aec9667bd19a8ca9bdd519db3a231a95b9e92674"
     docker:
       vulnerable: "n132/arvo:42478556-vul"

@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/FerasFuad34/germline/main/schema/abx-0.1.schema.json",
+  "title": "ABX 0.1 — Antibody Exchange Format",
+  "description": "Strict schema for GERMLINE antibody documents (RFC-0). Unknown fields are rejected: silent drift in a security format is itself a vulnerability class. See docs/rfc/0001-abx-antibody-exchange-format.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "abx_version", "kind", "id", "title", "subject", "vulnerability",
+    "challenge", "environments", "evidence", "provenance", "status", "integrity"
+  ],
+  "properties": {
+    "abx_version": { "const": "0.1" },
+    "kind": { "const": "antibody" },
+    "id": {
+      "type": "string",
+      "pattern": "^AB-[0-9]{6}$",
+      "description": "Immutable, globally unique antibody identifier (INV-2)."
+    },
+    "title": { "type": "string", "minLength": 8, "maxLength": 180 },
+
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project", "upstream", "language", "generation", "fixed_in"],
+      "properties": {
+        "project": { "type": "string", "minLength": 1 },
+        "upstream": { "type": "string", "format": "uri" },
+        "language": { "type": "string", "minLength": 1 },
+        "generation": { "type": "string", "pattern": "^g[0-9]+$" },
+        "fixed_in": { "type": "string", "minLength": 4 }
+      }
+    },
+
+    "vulnerability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifiers", "class", "crash_type", "sanitizer", "severity"],
+      "properties": {
+        "identifiers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cve", "cwe"],
+          "properties": {
+            "cve": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^CVE-[0-9]{4}-[0-9]{4,}$" }
+            },
+            "cwe": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^CWE-[0-9]+$" }
+            },
+            "oss_fuzz": { "type": "string", "pattern": "^[0-9]+$" }
+          }
+        },
+        "class": {
+          "type": "string",
+          "enum": ["memory-safety", "injection", "auth-bypass", "integer-overflow", "logic", "info-disclosure", "dos", "supply-chain", "unknown"]
+        },
+        "crash_type": { "type": "string", "minLength": 1 },
+        "sanitizer": { "type": "string", "enum": ["asan", "msan", "ubsan", "tsan", "none", "unknown"] },
+        "severity": { "type": "string", "enum": ["Low", "Medium", "High", "Critical", "unknown"] },
+        "cvss": { "type": ["number", "null"], "minimum": 0, "maximum": 10 }
+      }
+    },
+
+    "challenge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "harness", "target", "expect", "detector"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["proof-of-vulnerability", "invariant-check", "property-test", "differential"]
+        },
+        "harness": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
+        "expect": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["vulnerable", "fixed"],
+          "properties": {
+            "vulnerable": { "type": "string", "enum": ["crash", "error", "timeout", "misbehavior"] },
+            "fixed": { "const": "clean" }
+          },
+          "description": "INV-1: the two sides MUST differ; asymmetric by construction."
+        },
+        "detector": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "match"],
+          "properties": {
+            "type": { "type": "string", "enum": ["stdout-regex", "stderr-regex", "exit-code", "sanitizer-report"] },
+            "match": { "type": ["string", "integer"] }
+          },
+          "description": "INV-8: a positive description of failure, never of success."
+        }
+      }
+    },
+
+    "environments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vulnerable", "fixed"],
+      "properties": {
+        "vulnerable": { "$ref": "#/$defs/environment" },
+        "fixed": { "$ref": "#/$defs/environment" }
+      }
+    },
+
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report", "patch", "fix_commit", "crash_digest", "crash_excerpt"],
+      "properties": {
+        "report": { "type": "string", "format": "uri" },
+        "patch": { "type": "string", "format": "uri" },
+        "fix_commit": { "type": "string", "pattern": "^[0-9a-f]{7,40}$" },
+        "crash_digest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["alg", "value"],
+          "properties": {
+            "alg": { "const": "sha256" },
+            "value": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          }
+        },
+        "crash_excerpt": { "type": "string", "maxLength": 512 }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "generated_by", "generated_at", "license"],
+      "properties": {
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["dataset", "version", "record"],
+          "properties": {
+            "dataset": { "type": "string", "minLength": 1 },
+            "version": { "type": "string", "minLength": 1 },
+            "record": { "type": "string", "minLength": 1 }
+          }
+        },
+        "generated_by": { "type": "string", "minLength": 1 },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "license": { "type": "string", "minLength": 1 }
+      }
+    },
+
+    "status": { "type": "string", "enum": ["draft", "validated", "revoked"] },
+
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["last_verdict", "runs"],
+      "properties": {
+        "last_verdict": { "type": "string", "enum": ["verified", "mismatch", "environment-error"] },
+        "runs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["runner", "run_id", "run_url", "date", "observed", "verdict"],
+            "properties": {
+              "runner": { "type": "string", "minLength": 1 },
+              "run_id": { "type": "string", "minLength": 1 },
+              "run_url": { "type": "string", "format": "uri" },
+              "date": { "type": "string", "format": "date" },
+              "observed": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["vulnerable", "fixed"],
+                "properties": {
+                  "vulnerable": { "type": "string", "enum": ["crash", "error", "timeout", "misbehavior", "clean"] },
+                  "fixed": { "type": "string", "enum": ["crash", "error", "timeout", "misbehavior", "clean"] }
+                }
+              },
+              "verdict": { "type": "string", "enum": ["verified", "mismatch", "environment-error"] }
+            }
+          }
+        }
+      },
+      "description": "INV-5: append-only history of executions (VP-1…VP-6)."
+    },
+
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "value"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "value": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      },
+      "description": "INV-9: SHA-256 over the canonical body (document minus integrity and signatures)."
+    },
+
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["method", "signer", "value"],
+        "properties": {
+          "method": { "type": "string", "enum": ["ed25519", "sigstore", "sha256-detached"] },
+          "signer": { "type": "string", "minLength": 1 },
+          "value": { "type": "string", "minLength": 16 },
+          "signed_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+
+    "ext": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "The only extension point. Keys MUST be reverse-DNS namespaced, e.g. \"sh.germline.tags\"."
+    }
+  },
+
+  "$defs": {
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "ref"],
+      "properties": {
+        "type": { "type": "string", "enum": ["oci-image", "source-commit", "generation"] },
+        "ref": { "type": "string", "minLength": 3 },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      },
+      "description": "INV-3: pinned reference; floating tags (e.g. :latest) are invalid."
+    }
+  }
+}

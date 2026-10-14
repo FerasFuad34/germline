@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42479126-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzz_disassemble"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42479126-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42479126-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "f4cce08478fe390436e3966f8cd746c0fca77cd13c5fc0c813a41d5422298dee"
+    },
+    "crash_excerpt": "INFO: Seed: 1519086707\nINFO: Loaded 1 modules (186107 inline 8-bit counters): 186107 [0x36f7f50, 0x372564b),\nINFO: Loaded 1 PC tables (186107 PCs): 186107 [0x28021a8,0x2ad9158),\n/out/fuzz_disassemble: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: global-buffer-overflow on address 0x000002002470 at pc 0x00000077a863 bp 0x7fffffffdd20 sp 0x7fffffffdd18\nREAD of size 4 at 0x000002002470 thread T0\nSCARINESS: 27 (",
+    "fix_commit": "dee334510fe3940456bd282fc9da9ff9257d8483",
+    "patch": "https://github.com/bminor/binutils-gdb/commit/dee334510fe3940456bd282fc9da9ff9257d8483",
+    "report": "https://issues.oss-fuzz.com/issues/42479126"
+  },
+  "id": "AB-000088",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "22ffc60a03f1ea9dadbd8fc72bc1e3443483e4dbfce8f4da889b8db3c28144db"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42479126",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "dee334510fe3",
+    "generation": "g0",
+    "language": "c++",
+    "project": "binutils-gdb",
+    "upstream": "git://sourceware.org/git/binutils-gdb.git"
+  },
+  "title": "binutils-gdb: Global-buffer-overflow READ 4 in fuzz_disassemble",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Global-buffer-overflow READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-119"
+      ],
+      "oss_fuzz": "42479126"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: php-fuzz-mbstring
+  target_fn: "php-fuzz-mbstring"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 1"
 
@@ -34,8 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42478840"
     repo: "https://github.com/php/php-src.git"
-    fix_commit: 1806ce9cb019ee74ddb540cbc07daf121dcb5537
-1cde9e852879afe123945fe42e831a6715abb866
+    fix_commit: "1806ce9cb019ee74ddb540cbc07daf121dcb5537"
     patch_url: "https://github.com/php/php-src/commit/1cde9e852879afe123945fe42e831a6715abb866"
     docker:
       vulnerable: "n132/arvo:42478840-vul"

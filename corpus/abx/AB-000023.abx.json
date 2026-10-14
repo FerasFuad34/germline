@@ -1,0 +1,73 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42472627-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ffmpeg_AV_CODEC_ID_HYMT_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42472627-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42472627-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "778c59c4d696527e7c5e33ae606b864f7249fc46e855964fc027dbf21d0fdeb9"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer < INPUT_FILE\nor\n/out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_HYMT_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading ",
+    "fix_commit": "ab160efa2850715de32e24fed846a0f6ef7244ab",
+    "patch": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ab160efa2850715de32e24fed846a0f6ef7244ab",
+    "report": "https://issues.oss-fuzz.com/issues/42472627"
+  },
+  "id": "AB-000023",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "9e78fc57fe1a1b771846e8b5249fe9a690017145ae4770ad088fd007173b70cb"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42472627",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "ab160efa2850",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ffmpeg",
+    "upstream": "https://git.ffmpeg.org/ffmpeg.git"
+  },
+  "title": "ffmpeg: UNKNOWN WRITE in ffmpeg_AV_CODEC_ID_HYMT_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "UNKNOWN WRITE",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [],
+      "oss_fuzz": "42472627"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

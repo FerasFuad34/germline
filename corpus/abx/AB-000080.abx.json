@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473117-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "libarchive_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473117-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473117-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "c56ac74bcd79e73724b3730879d5769064232b464bf2203c0c41fcd925ff5ae1"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/libarchive_fuzzer < INPUT_FILE\nor\n/out/libarchive_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/libarchive_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 160 bytes from /tmp/poc\n===============",
+    "fix_commit": "3614747af54e60229a2bf11e8f40e1b975cc9ae6",
+    "patch": "https://github.com/libarchive/libarchive/commit/3614747af54e60229a2bf11e8f40e1b975cc9ae6",
+    "report": "https://issues.oss-fuzz.com/issues/42473117"
+  },
+  "id": "AB-000080",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "df850f3475ba7424c08fa7dd17b6bac0ddc12676d6140a5603ad733867f7c773"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473117",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "3614747af54e",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libarchive",
+    "upstream": "https://github.com/libarchive/libarchive.git"
+  },
+  "title": "libarchive: Heap-buffer-overflow READ 1 in libarchive_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42473117"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

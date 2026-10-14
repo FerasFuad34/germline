@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42477424-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "curl_fuzzer_pop3"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42477424-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42477424-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "8c0da3f1a8ece9b292fc9d32ade2aeb61cd198cd1c533423a79f1dda19c3a3fc"
+    },
+    "crash_excerpt": "INFO: Seed: 2947230896\nINFO: Loaded 1 modules (66323 inline 8-bit counters): 66323 [0x13a8e57, 0x13b916a),\nINFO: Loaded 1 PC tables (66323 PCs): 66323 [0x13b9170,0x14bc2a0),\n/out/curl_fuzzer_pop3: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x6d0713 in Curl_rand_hex /src/curl/lib/rand.c:178:14\n#1 0x58f2c0 in curl_mime_init /src/curl/lib/mime.c:1224:8\n#2 0x52acc3 in fuzz_parse_tlv(fuzz_data*, tlv*) /src/curl_fuzzer/curl_fuzzer_tlv.cc:146:22\n",
+    "fix_commit": "65fda739ee35c090b2e6d91229287de734f0fbae",
+    "patch": "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae",
+    "report": "https://issues.oss-fuzz.com/issues/42477424"
+  },
+  "id": "AB-000054",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "e079b036580d94b522eaea8585ad12a4facf7cc8625e73accc8b5d72e2e09c00"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42477424",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "65fda739ee35",
+    "generation": "g0",
+    "language": "c++",
+    "project": "curl",
+    "upstream": "https://github.com/curl/curl.git"
+  },
+  "title": "curl: Use-of-uninitialized-value in curl_fuzzer_pop3",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42477424"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

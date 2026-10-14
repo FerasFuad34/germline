@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://chromium.googlesource.com/webm/libwebp",
   "fix_commit": "e542fc7a8a264562ec678970f64d6ad12a7b554a",
+  "fix_commits": [
+    "e542fc7a8a264562ec678970f64d6ad12a7b554a"
+  ],
   "patch_url": "https://chromium.googlesource.com/webm/libwebp/+/e542fc7a8a264562ec678970f64d6ad12a7b554a%5E%21/",
   "report_url": "https://issues.oss-fuzz.com/issues/42500241",
   "docker": {

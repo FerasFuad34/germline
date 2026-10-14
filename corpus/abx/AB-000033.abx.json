@@ -1,0 +1,73 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42472871-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "encoder_label_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42472871-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42472871-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "3dc097a43539670daf5ba4d4882f967b0b715ed0ad5b6bc6cbf30e51ac8e8308"
+    },
+    "crash_excerpt": "INFO: Seed: 82196377\nINFO: Loaded 1 modules (166749 inline 8-bit counters): 166749 [0x203ef88, 0x2067ae5),\nINFO: Loaded 1 PC tables (166749 PCs): 166749 [0x2067ae8,0x22f30b8),\n/out/encoder_label_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==7==ERROR: AddressSanitizer: SEGV on unknown address 0x7ffff778057c (pc 0x7ffff6ef30b7 bp 0x7fffffffda00 sp 0x7fffffffd9b8 T0)\n==7==The signal is caused by a REA",
+    "fix_commit": "07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36",
+    "patch": "https://github.com/imagemagick/imagemagick/commit/07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36",
+    "report": "https://issues.oss-fuzz.com/issues/42472871"
+  },
+  "id": "AB-000033",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "ea2f99e73badbc99dcc09a0ce6dfd34c8120ffefdd353a5db8284007d45d60e8"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42472871",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "07eebcd72f45",
+    "generation": "g0",
+    "language": "c++",
+    "project": "imagemagick",
+    "upstream": "https://github.com/imagemagick/imagemagick"
+  },
+  "title": "imagemagick: UNKNOWN READ in encoder_label_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "UNKNOWN READ",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [],
+      "oss_fuzz": "42472871"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

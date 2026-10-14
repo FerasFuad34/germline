@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: encoder_mat_fuzzer
+  target_fn: "encoder_mat_fuzzer"
   sanitizer: asan
   crash_type: "Heap-use-after-free WRITE 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42474040"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: f7206618d27c2e69d977abf40e3035a33e5f6be0
+    fix_commit: "f7206618d27c2e69d977abf40e3035a33e5f6be0"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/f7206618d27c2e69d977abf40e3035a33e5f6be0"
     docker:
       vulnerable: "n132/arvo:42474040-vul"

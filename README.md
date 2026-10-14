@@ -9,7 +9,7 @@
 
 ---
 
-## The corpus — 100 antibodies · 17 critical projects (draft)
+## The corpus — 100 antibodies · 17 critical projects · 2 verified
 
 `corpus/` holds **100 antibodies** generated from [ARVO](https://github.com/n132/ARVO-Meta) (OSS-Fuzz, EuroS&P 2026):
 libxml2 ×14 · ffmpeg ×14 · imagemagick ×12 · harfbuzz ×10 · curl ×8 · wireshark ×7 · ghostpdl ×6 · php-src ×5 · libarchive ×5 · gpac ×4 · binutils-gdb ×4 · freetype2 ×3 · openssl ×3 · libwebp ×2 · zlib, libpng, libtiff ×1 each.
@@ -21,9 +21,17 @@ bash tools/run-corpus-checks.sh --sample 5    # double-check: crash on vul / cle
 python3 extractor/arvo.py --help              # regenerate the corpus from arvo.db
 ```
 
-Status: 🟡 **draft — verification operational**: first antibodies validated in CI
-(crash-on-vulnerable / clean-on-fixed — see [corpus/VERIFICATION.md](corpus/VERIFICATION.md)),
-auto-run on every corpus change. See [corpus/README.md](corpus/README.md) and [corpus/INDEX.md](corpus/INDEX.md).
+Status: 🟢 **2/100 verified end-to-end in CI** — AB-000001, AB-000002 (crash on vulnerable /
+clean on fixed; run log in [corpus/VERIFICATION.md](corpus/VERIFICATION.md)) · 🟡 98 draft awaiting the double-check.
+
+Every antibody is also published in **ABX v0.1** — the open exchange format of
+[RFC-0](docs/rfc/0001-abx-antibody-exchange-format.md) ([schema](schema/abx-0.1.schema.json),
+[validator](tools/abx.py), [100 documents](corpus/abx/)):
+
+```bash
+python3 tools/abx.py convert --corpus corpus --out corpus/abx --all   # render the wire format
+python3 tools/abx.py validate corpus/abx/*.abx.json                   # schema + invariants (L2)
+```
 
 ## Try it now (live)
 
@@ -84,7 +92,8 @@ Meanwhile, regulation has arrived: since **11 September 2026**, the EU Cyber Res
 | `corpus/` | The antibody corpus (the heart of the project) |
 | `extractor/` | Tooling that mines reproducible vulnerabilities into antibodies |
 | `gate/` | The CI/CD Immune Gate + Immune Passport issuer |
-| `spec/` | ABX specification RFCs |
+| `docs/rfc/` | ABX specification RFCs — [RFC-0](docs/rfc/0001-abx-antibody-exchange-format.md) published |
+| `tools/` | Format & verification tooling (`abx.py`, double-check runners) |
 | `docs/` | Threat model, sprint plans, and the project's strategic briefs (Arabic) |
 | `prototype/` | Early working prototype of the immune gate (demo/simulation) |
 
@@ -102,6 +111,7 @@ Pre-alpha: tooling is landing now. To follow or contribute:
 - ⚙️ نظام التشغيل (عربي): `docs/operating-system-ar.md`
 - 🎓 دليل عناوين مشروع التخرج: `docs/graduation-title-guide-ar.md`
 - 🗺️ Public roadmap: [ROADMAP.md](ROADMAP.md)
+- 📐 RFC-0 — ABX v0.1 (exchange format): `docs/rfc/0001-abx-antibody-exchange-format.md`
 - 🛡️ Threat model: `docs/threat-model.md`
 
 ## License

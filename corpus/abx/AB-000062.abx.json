@@ -1,0 +1,94 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "runtime error:",
+      "type": "stdout-regex"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470900-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzzshark_ip_proto-udp"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470900-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470900-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "ecdbcb667cea7fbc679b3b5c48993f0eb14ddc1ac6bf918332e7e92f5813e3ef"
+    },
+    "crash_excerpt": "oss-fuzzshark: disabling: ip\noss-fuzzshark: disabling: udplite\noss-fuzzshark: disabling: ospf\noss-fuzzshark: disabling: bgp\noss-fuzzshark: disabling: dhcp\noss-fuzzshark: disabling: json\noss-fuzzshark: disabling: snort\noss-fuzzshark: configured for dissector: udp in table: ip.proto\nINFO: Seed: 475720872\nINFO: Loaded 1 modules (395863 inline 8-bit counters): 395863 [0x47e70c0, 0x4847b17),\nINFO: Loaded 1 PC tables (395863 PCs): 395863 [0x4847b18,0x4e52088),\n/out/fuzzshark_ip_proto-udp: Running 1 inputs 1 time(",
+    "fix_commit": "895ad30b5a188a37822356357f3a06d16637c617",
+    "patch": "https://github.com/wireshark/wireshark/commit/9f472ea1501f8deb0109ea61feda6b8a5eec4f6a",
+    "report": "https://issues.oss-fuzz.com/issues/42470900"
+  },
+  "ext": {
+    "sh.germline.fix_commits": [
+      "895ad30b5a188a37822356357f3a06d16637c617",
+      "74903893d8be058bb51268d2b5e748e3ea2d9053",
+      "ff73c307fae57fdb12e2fbbca87b9810d8b9cd27",
+      "98675916337e655caf054da22e0d945777102ec1",
+      "b6fe64017a967ee95eaafe3751ebb0738d1c5737",
+      "6177f0eb42a1da2d8241733d1d0eb699c8785d3c",
+      "57c1eb3a6a8e3887204a40422a09ed213aa99aed",
+      "2c09e87c713628362e4fdc33309a0cc205a20de3",
+      "312bb1068257e93981957cdd51323ab565984ba3",
+      "506e5a7667d3f31e83286d9cca79cb3b3d330bff",
+      "8f496ad4ded0ef9d0e4daaf1f6840f473c6e388a",
+      "1a2aa0e901e38d8abcd0368c500f8990f866783b",
+      "41f4c7d071b02750d17d14fb8e0985288cab8153",
+      "81c4f74a1921e8c89fcf200beb6892b78a7297d9",
+      "9f472ea1501f8deb0109ea61feda6b8a5eec4f6a"
+    ]
+  },
+  "id": "AB-000062",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "d227c272255f04994f991f978e76bd5d0baf3363bef3d5b11bf21ccc4b820535"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470900",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "895ad30b5a18",
+    "generation": "g0",
+    "language": "c++",
+    "project": "wireshark",
+    "upstream": "https://github.com/wireshark/wireshark.git"
+  },
+  "title": "wireshark: Index-out-of-bounds in fuzzshark_ip_proto-udp",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Index-out-of-bounds",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-129"
+      ],
+      "oss_fuzz": "42470900"
+    },
+    "sanitizer": "ubsan",
+    "severity": "Medium"
+  }
+}

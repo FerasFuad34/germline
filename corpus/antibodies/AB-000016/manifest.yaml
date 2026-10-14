@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer
+  target_fn: "ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer"
   sanitizer: asan
   crash_type: "Global-buffer-overflow READ 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470362"
     repo: "https://git.ffmpeg.org/ffmpeg.git"
-    fix_commit: 85a921f46184dace4b4f3d968830991eff218e3f
+    fix_commit: "85a921f46184dace4b4f3d968830991eff218e3f"
     patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/85a921f46184dace4b4f3d968830991eff218e3f"
     docker:
       vulnerable: "n132/arvo:42470362-vul"

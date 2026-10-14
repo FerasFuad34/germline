@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ffmpeg_AV_CODEC_ID_HYMT_fuzzer
+  target_fn: "ffmpeg_AV_CODEC_ID_HYMT_fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42472718"
     repo: "https://git.ffmpeg.org/ffmpeg.git"
-    fix_commit: fcbda8af175a1f305c46d6d46a4f90be4aa630ae
+    fix_commit: "fcbda8af175a1f305c46d6d46a4f90be4aa630ae"
     patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/fcbda8af175a1f305c46d6d46a4f90be4aa630ae"
     docker:
       vulnerable: "n132/arvo:42472718-vul"

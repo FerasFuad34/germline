@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42475667-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "client"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42475667-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42475667-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "cc3747b11f296ee75473b00ae57842607d4770a18c8824e6faaae124c4cfcaea"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/client < INPUT_FILE\nor\n/out/client INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/client [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 536 bytes from /tmp/poc\n================================================",
+    "fix_commit": "83b4a24384e62ed8cf91f51bf9a303f98017e13e",
+    "patch": "https://github.com/openssl/openssl/commit/83b4a24384e62ed8cf91f51bf9a303f98017e13e",
+    "report": "https://issues.oss-fuzz.com/issues/42475667"
+  },
+  "id": "AB-000093",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "13d1506a48ed3e8b572f174d047b7aeee17e24511ae8a46aedc3e4eff42eeadc"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42475667",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "83b4a24384e6",
+    "generation": "g0",
+    "language": "c++",
+    "project": "openssl",
+    "upstream": "https://github.com/openssl/openssl.git"
+  },
+  "title": "openssl: Stack-use-after-return READ 4 in client",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Stack-use-after-return READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-562"
+      ],
+      "oss_fuzz": "42475667"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

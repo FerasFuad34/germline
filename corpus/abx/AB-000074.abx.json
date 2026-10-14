@@ -1,0 +1,82 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42480756-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "php-fuzz-mbstring"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42480756-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42480756-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "7bfff5d6469e731d5f4f8f74014c8162578f8fccca4749b03ee35a77b0781d60"
+    },
+    "crash_excerpt": "INFO: Seed: 644022181\nINFO: Loaded 1 modules (116976 inline 8-bit counters): 116976 [0x1e4ba10, 0x1e68300),\nINFO: Loaded 1 PC tables (116976 PCs): 116976 [0x1e68300,0x2031200),\n/out/php-fuzz-mbstring: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x16deb7d in tune_look_behind /src/php-src/oniguruma/src/regcomp.c:3998:9\n#1 0x16d813a in tune_anchor /src/php-src/oniguruma/src/regcomp.c\n#2 0x16c720e in tune_tree /src/php-src/oniguruma/src/regcomp",
+    "fix_commit": "b5e004379647bd1ebb75eb2eac8826fb6abdd3d8",
+    "patch": "https://github.com/php/php-src/commit/24ccbb00573445b0df5e940a77e7363ace3c31f3",
+    "report": "https://issues.oss-fuzz.com/issues/42480756"
+  },
+  "ext": {
+    "sh.germline.fix_commits": [
+      "b5e004379647bd1ebb75eb2eac8826fb6abdd3d8",
+      "d8ad2f4695ebd6dc2d4e668d9baeac1c071791a6",
+      "24ccbb00573445b0df5e940a77e7363ace3c31f3"
+    ]
+  },
+  "id": "AB-000074",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "f7d1276a41de141fe9a79f2283466cba3635019588ceaa8c4988c0365c6ab9d4"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42480756",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "b5e004379647",
+    "generation": "g0",
+    "language": "c++",
+    "project": "php-src",
+    "upstream": "https://github.com/php/php-src.git"
+  },
+  "title": "php-src: Use-of-uninitialized-value in php-fuzz-mbstring",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42480756"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

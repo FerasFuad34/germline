@@ -1,0 +1,73 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42494317-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzz_parse"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42494317-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42494317-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "9efb52aad1ceb7f4a59bbfdb7952e093ca19fec8e3c9e44174d67d869b18fd74"
+    },
+    "crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2686222140\nINFO: Loaded 1 modules (186414 inline 8-bit counters): 186414 [0x1cba350, 0x1ce7b7e),\nINFO: Loaded 1 PC tables (186414 PCs): 186414 [0x1ce7b80,0x1fbfe60),\n/out/fuzz_parse: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n[isom] not enough bytes in box iloc: 0 left, reading 2 (file isomedia/box_code_meta.c, line 299)\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==7==ERROR: Addre",
+    "fix_commit": "b03c9f252526bb42fbd1b87b9f5e339c3cf2390a",
+    "patch": "https://github.com/gpac/gpac/commit/b03c9f252526bb42fbd1b87b9f5e339c3cf2390a",
+    "report": "https://issues.oss-fuzz.com/issues/42494317"
+  },
+  "id": "AB-000082",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "51c8af7f8b072b9cd96a7ee99166b7ae7ea9e6566532b0d77e68b67d91102694"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42494317",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "b03c9f252526",
+    "generation": "g0",
+    "language": "c",
+    "project": "gpac",
+    "upstream": "https://github.com/gpac/gpac"
+  },
+  "title": "gpac: Segv on unknown address in fuzz_parse",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Segv on unknown address",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [],
+      "oss_fuzz": "42494317"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

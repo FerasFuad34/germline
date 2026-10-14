@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42480628-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "php-fuzz-exif"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42480628-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42480628-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "ac72dbade1929bd1f8fb1361f7deceae1f44e4729ec989fc09962147b148a694"
+    },
+    "crash_excerpt": "INFO: Seed: 881391078\nINFO: Loaded 1 modules (116898 inline 8-bit counters): 116898 [0x1e4bc00, 0x1e684a2),\nINFO: Loaded 1 PC tables (116898 PCs): 116898 [0x1e684a8,0x2030ec8),\n/out/php-fuzz-exif: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nUninitialized bytes in MemcmpInterceptorCommon at offset 1 inside [0x7010000006e8, 2)\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x5001ec in bcmp /src/llvm-project/compiler-rt/lib/msan/../sanitizer_common/sanitizer_common_interceptors.inc:885:10\n",
+    "fix_commit": "9ed82b1f7b17bf505fa22944185631e3e8156cf0",
+    "patch": "https://github.com/php/php-src/commit/9ed82b1f7b17bf505fa22944185631e3e8156cf0",
+    "report": "https://issues.oss-fuzz.com/issues/42480628"
+  },
+  "id": "AB-000073",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "b8451963e53e1fd944f45a02a787ed4ffae1d0bb7b5b317034d359458b9c1783"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42480628",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "9ed82b1f7b17",
+    "generation": "g0",
+    "language": "c++",
+    "project": "php-src",
+    "upstream": "https://github.com/php/php-src.git"
+  },
+  "title": "php-src: Use-of-uninitialized-value in php-fuzz-exif",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42480628"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

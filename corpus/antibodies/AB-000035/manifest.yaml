@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ping_dng_fuzzer
+  target_fn: "ping_dng_fuzzer"
   sanitizer: ubsan
   crash_type: "Index-out-of-bounds"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42472890"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: df835cab05765a630227dc04fa2245a78fd2f204
+    fix_commit: "df835cab05765a630227dc04fa2245a78fd2f204"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/df835cab05765a630227dc04fa2245a78fd2f204"
     docker:
       vulnerable: "n132/arvo:42472890-vul"

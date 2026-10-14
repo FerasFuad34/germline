@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: fuzz_disassemble
+  target_fn: "fuzz_disassemble"
   sanitizer: asan
   crash_type: "Global-buffer-overflow READ 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42479126"
     repo: "git://sourceware.org/git/binutils-gdb.git"
-    fix_commit: dee334510fe3940456bd282fc9da9ff9257d8483
+    fix_commit: "dee334510fe3940456bd282fc9da9ff9257d8483"
     patch_url: "https://github.com/bminor/binutils-gdb/commit/dee334510fe3940456bd282fc9da9ff9257d8483"
     docker:
       vulnerable: "n132/arvo:42479126-vul"

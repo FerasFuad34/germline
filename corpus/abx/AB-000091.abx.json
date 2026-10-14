@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42490980-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ftfuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42490980-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42490980-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "010bf50ec17dcb9c6ffaf0454297225e4050c4c2eb3ae30e0be7515433823046"
+    },
+    "crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 703987980\nINFO: Loaded 1 modules (21753 inline 8-bit counters): 21753 [0x555555a3e6f0, 0x555555a43be9),\nINFO: Loaded 1 PC tables (21753 PCs): 21753 [0x555555a43bf0,0x555555a98b80),\n/out/ftfuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x517000003b80 at pc 0x5555557734c4 bp 0x7fffffffd270 sp 0x7fffffffd2",
+    "fix_commit": "edf40148545038d07a394082caa1b9155941f88f",
+    "patch": "https://github.com/freetype/freetype2/commit/edf40148545038d07a394082caa1b9155941f88f",
+    "report": "https://issues.oss-fuzz.com/issues/42490980"
+  },
+  "id": "AB-000091",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "43a112cca3c5f85567ed6df3a90901f6478401540b3d3f761a2de9cf24c80f61"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42490980",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "edf401485450",
+    "generation": "g0",
+    "language": "c++",
+    "project": "freetype2",
+    "upstream": "https://github.com/freetype/freetype2"
+  },
+  "title": "freetype2: Heap-buffer-overflow WRITE 8 in ftfuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow WRITE 8",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42490980"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

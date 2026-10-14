@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/madler/zlib.git",
   "fix_commit": "981ee7570ad98a3cf1ae74d737e2ee619ed79171",
+  "fix_commits": [
+    "981ee7570ad98a3cf1ae74d737e2ee619ed79171"
+  ],
   "patch_url": "https://github.com/madler/zlib/commit/981ee7570ad98a3cf1ae74d737e2ee619ed79171",
   "report_url": "https://issues.oss-fuzz.com/issues/42514310",
   "docker": {

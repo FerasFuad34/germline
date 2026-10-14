@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: fuzz_parse
+  target_fn: "fuzz_parse"
   sanitizer: asan
   crash_type: "Segv on unknown address"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42494317"
     repo: "https://github.com/gpac/gpac"
-    fix_commit: b03c9f252526bb42fbd1b87b9f5e339c3cf2390a
+    fix_commit: "b03c9f252526bb42fbd1b87b9f5e339c3cf2390a"
     patch_url: "https://github.com/gpac/gpac/commit/b03c9f252526bb42fbd1b87b9f5e339c3cf2390a"
     docker:
       vulnerable: "n132/arvo:42494317-vul"

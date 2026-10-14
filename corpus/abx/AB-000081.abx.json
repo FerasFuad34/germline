@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473801-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "libarchive_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473801-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473801-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "ebd5458959bb7f412b8361e1bc736ec90b05429d9ef6485062b4d4346599a6c9"
+    },
+    "crash_excerpt": "INFO: Seed: 4115077577\nINFO: Loaded 1 modules (11532 inline 8-bit counters): 11532 [0x26351e8, 0x2637ef4),\nINFO: Loaded 1 PC tables (11532 PCs): 11532 [0x2313460,0x2340520),\n/out/libarchive_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000000d1 at pc 0x0000004ecbfd bp 0x7fffffffdab0 sp 0x7fffffffd260\nREAD of size 52 at 0x6020000000d1 thread T0\nSCARINESS: 26 (mult",
+    "fix_commit": "39736c43bd7374beedb372aa300ecf36c9fc4733",
+    "patch": "https://github.com/libarchive/libarchive/commit/39736c43bd7374beedb372aa300ecf36c9fc4733",
+    "report": "https://issues.oss-fuzz.com/issues/42473801"
+  },
+  "id": "AB-000081",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "b2a82632c890584cba0ce8c49ce04f56f8d279b7e9713c1bd1174fc0a8b6036e"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473801",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "39736c43bd73",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libarchive",
+    "upstream": "https://github.com/libarchive/libarchive.git"
+  },
+  "title": "libarchive: Heap-buffer-overflow READ {*} in libarchive_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ {*}",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42473801"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

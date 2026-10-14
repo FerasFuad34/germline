@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: fuzz_parse
+  target_fn: "fuzz_parse"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 9"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42494318"
     repo: "https://github.com/gpac/gpac"
-    fix_commit: 758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5
+    fix_commit: "758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5"
     patch_url: "https://github.com/gpac/gpac/commit/758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5"
     docker:
       vulnerable: "n132/arvo:42494318-vul"

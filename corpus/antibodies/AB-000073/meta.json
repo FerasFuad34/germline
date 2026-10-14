@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/php/php-src.git",
   "fix_commit": "9ed82b1f7b17bf505fa22944185631e3e8156cf0",
+  "fix_commits": [
+    "9ed82b1f7b17bf505fa22944185631e3e8156cf0"
+  ],
   "patch_url": "https://github.com/php/php-src/commit/9ed82b1f7b17bf505fa22944185631e3e8156cf0",
   "report_url": "https://issues.oss-fuzz.com/issues/42480628",
   "docker": {

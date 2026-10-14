@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/curl/curl.git",
   "fix_commit": "02c6b984cb7a2e01f290544a53a24d30fc7ab32e",
+  "fix_commits": [
+    "02c6b984cb7a2e01f290544a53a24d30fc7ab32e"
+  ],
   "patch_url": "https://github.com/curl/curl/commit/02c6b984cb7a2e01f290544a53a24d30fc7ab32e",
   "report_url": "https://issues.oss-fuzz.com/issues/42478820",
   "docker": {

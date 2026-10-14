@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: encoder_ept3_fuzzer
+  target_fn: "encoder_ept3_fuzzer"
   sanitizer: msan
   crash_type: "UNKNOWN READ"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42472880"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: 07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36
+    fix_commit: "07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/07eebcd72f45c8fd7563d3f9ec5d2bed48f65f36"
     docker:
       vulnerable: "n132/arvo:42472880-vul"

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42471662-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "libxml2_xml_reader_for_file_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42471662-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42471662-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "38209228d985afee205b12de2b589ba7d28f4f9abd7886e830acb73072df5a75"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/libxml2_xml_reader_for_file_fuzzer < INPUT_FILE\nor\n/out/libxml2_xml_reader_for_file_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/libxml2_xml_reader_for_file_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n===================================================",
+    "fix_commit": "1567b55b72b8366ce120ed042e03ed5b50d191d7",
+    "patch": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/1567b55b72b8366ce120ed042e03ed5b50d191d7",
+    "report": "https://issues.oss-fuzz.com/issues/42471662"
+  },
+  "id": "AB-000005",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "fd41117362910e1870b2efb59718905b7e1f29ab079f3633662df9b5ca522f40"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42471662",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "1567b55b72b8",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libxml2",
+    "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
+  },
+  "title": "libxml2: Bad-free in libxml2_xml_reader_for_file_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Bad-free",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-590"
+      ],
+      "oss_fuzz": "42471662"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470067-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "encoder_label_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470067-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470067-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "aedcb67ef0ba63e95090491a9ace73d28e1c969fd949b836b8a523f0f4f33450"
+    },
+    "crash_excerpt": "INFO: Seed: 1872230613\nINFO: Loaded 1 modules (167790 inline 8-bit counters): 167790 [0x2bc4f68, 0x2beded6),\nINFO: Loaded 1 PC tables (167790 PCs): 167790 [0x2beded8,0x2e7d5b8),\n/out/encoder_label_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0xc60fb8 in GetNextUTFCode /src/imagemagick/./MagickCore/token-private.h:117:9\n#1 0xc5ed36 in GetUTFCode /src/imagemagick/./MagickCore/token-private.h:141:10\n#2 0xc5e803 in GlobExpression /src/im",
+    "fix_commit": "cfd2824f02b6cee4ed6e105d50035c74142d9bf0",
+    "patch": "https://github.com/imagemagick/imagemagick/commit/cfd2824f02b6cee4ed6e105d50035c74142d9bf0",
+    "report": "https://issues.oss-fuzz.com/issues/42470067"
+  },
+  "id": "AB-000029",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "272ae5d02012e5d2210175ab94c27dbe37fcb1233c2d88fc4e79c6e895ea5523"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470067",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "cfd2824f02b6",
+    "generation": "g0",
+    "language": "c++",
+    "project": "imagemagick",
+    "upstream": "https://github.com/imagemagick/imagemagick"
+  },
+  "title": "imagemagick: Use-of-uninitialized-value in encoder_label_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42470067"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

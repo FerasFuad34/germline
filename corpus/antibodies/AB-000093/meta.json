@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/openssl/openssl.git",
   "fix_commit": "83b4a24384e62ed8cf91f51bf9a303f98017e13e",
+  "fix_commits": [
+    "83b4a24384e62ed8cf91f51bf9a303f98017e13e"
+  ],
   "patch_url": "https://github.com/openssl/openssl/commit/83b4a24384e62ed8cf91f51bf9a303f98017e13e",
   "report_url": "https://issues.oss-fuzz.com/issues/42475667",
   "docker": {

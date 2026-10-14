@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473874-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ffmpeg_AV_CODEC_ID_MPEG4_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473874-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473874-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "2d02fb45d6a0d346a7dfb467679951f93804e3005c83c212be34f1c398dcd872"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/ffmpeg_AV_CODEC_ID_MPEG4_fuzzer < INPUT_FILE\nor\n/out/ffmpeg_AV_CODEC_ID_MPEG4_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_MPEG4_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReadi",
+    "fix_commit": "d227ed5d598340e719eff7156b1aa0a4469e9a6a",
+    "patch": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/d227ed5d598340e719eff7156b1aa0a4469e9a6a",
+    "report": "https://issues.oss-fuzz.com/issues/42473874"
+  },
+  "id": "AB-000028",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "9c771da8266a23de4095bcee4c7cbb98bdedff92d2404f5a41140f3fb9ba4c7a"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473874",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "d227ed5d5983",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ffmpeg",
+    "upstream": "https://git.ffmpeg.org/ffmpeg.git"
+  },
+  "title": "ffmpeg: Heap-buffer-overflow READ 1 in ffmpeg_AV_CODEC_ID_MPEG4_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42473874"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

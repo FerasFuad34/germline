@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/libarchive/libarchive.git",
   "fix_commit": "4bc5892128a042780f167ac35aa72f63c426f3b7",
+  "fix_commits": [
+    "4bc5892128a042780f167ac35aa72f63c426f3b7"
+  ],
   "patch_url": "https://github.com/libarchive/libarchive/commit/4bc5892128a042780f167ac35aa72f63c426f3b7",
   "report_url": "https://issues.oss-fuzz.com/issues/42471319",
   "docker": {

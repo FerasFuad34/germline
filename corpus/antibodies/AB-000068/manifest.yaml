@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: gstoraster_fuzzer
+  target_fn: "gstoraster_fuzzer"
   sanitizer: asan
   crash_type: "Segv on unknown address"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42482668"
     repo: "https://cgit.ghostscript.com/ghostpdl.git"
-    fix_commit: d703f355af5292e61dcd641332e249873ab5fb8a
+    fix_commit: "d703f355af5292e61dcd641332e249873ab5fb8a"
     patch_url: "https://cgit.ghostscript.com/ghostpdl.gitd703f355af5292e61dcd641332e249873ab5fb8a"
     docker:
       vulnerable: "n132/arvo:42482668-vul"

@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ffmpeg_AV_CODEC_ID_TIERTEXSEQVIDEO_fuzzer
+  target_fn: "ffmpeg_AV_CODEC_ID_TIERTEXSEQVIDEO_fuzzer"
   sanitizer: ubsan
   crash_type: "Heap-buffer-overflow WRITE 8"
 
@@ -22,7 +22,7 @@ test:
   expectation:
     on_vulnerable: crash
     on_fixed: clean
-  detection_marker: "[1m[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffff"
+  detection_marker: "==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffffc710 sp 0"
 
 severity:
   level: High
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42473850"
     repo: "https://git.ffmpeg.org/ffmpeg.git"
-    fix_commit: ce551a3925a1cf9c7824e26a246b99b6773bda4b
+    fix_commit: "ce551a3925a1cf9c7824e26a246b99b6773bda4b"
     patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ce551a3925a1cf9c7824e26a246b99b6773bda4b"
     docker:
       vulnerable: "n132/arvo:42473850-vul"

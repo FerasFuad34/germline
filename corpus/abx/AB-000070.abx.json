@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42492999-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "gstoraster_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42492999-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42492999-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "ef6eb2a6fc155b8beceba1538cee5aadb6eba5bd4049f3f524f0f163b54ffb7d"
+    },
+    "crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 3437178859\nINFO: Loaded 3 modules (142998 inline 8-bit counters): 11938 [0x7ffff7b7a3c0, 0x7ffff7b7d262), 890 [0x7ffff7dd2980, 0x7ffff7dd2cfa), 130170 [0x28146a0, 0x283431a),\nINFO: Loaded 3 PC tables (142998 PCs): 11938 [0x7ffff7b7d268,0x7ffff7babc88), 890 [0x7ffff7dd2d00,0x7ffff7dd64a0), 130170 [0x1e4ba50,0x20481f0),\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nINFO: Start rendering...\nINFO: Processing page 1.",
+    "fix_commit": "7861fcad13c497728189feafb41cd57b5b50ea25",
+    "patch": "https://cgit.ghostscript.com/ghostpdl.git7861fcad13c497728189feafb41cd57b5b50ea25",
+    "report": "https://issues.oss-fuzz.com/issues/42492999"
+  },
+  "id": "AB-000070",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "b4e1e110a9cf93ef8dadc3fc4b19a2713cad2f9340e220e5be23824567d0a846"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42492999",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "7861fcad13c4",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ghostpdl",
+    "upstream": "https://cgit.ghostscript.com/ghostpdl.git"
+  },
+  "title": "ghostpdl: Heap-use-after-free WRITE 4 in gstoraster_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-use-after-free WRITE 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-416"
+      ],
+      "oss_fuzz": "42492999"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

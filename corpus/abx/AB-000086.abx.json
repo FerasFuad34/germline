@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42479120-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzz_disassemble"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42479120-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42479120-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "27c50bb7e70f561b82f90ca41ab3d87c73738ef2da74f4fea9175731ea6f37f6"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/fuzz_disassemble < INPUT_FILE\nor\n/out/fuzz_disassemble INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/fuzz_disassemble [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 22 bytes from /tmp/poc\n===================",
+    "fix_commit": "66a66a17f489a4ffc614a31855e8d6f516e24640",
+    "patch": "https://github.com/bminor/binutils-gdb/commit/66a66a17f489a4ffc614a31855e8d6f516e24640",
+    "report": "https://issues.oss-fuzz.com/issues/42479120"
+  },
+  "id": "AB-000086",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "096b8f8e312ea19d941fdbd38368186a5df71fc6b9816231b64654b3395a7e99"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42479120",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "66a66a17f489",
+    "generation": "g0",
+    "language": "c++",
+    "project": "binutils-gdb",
+    "upstream": "git://sourceware.org/git/binutils-gdb.git"
+  },
+  "title": "binutils-gdb: Global-buffer-overflow READ 8 in fuzz_disassemble",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Global-buffer-overflow READ 8",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-119"
+      ],
+      "oss_fuzz": "42479120"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

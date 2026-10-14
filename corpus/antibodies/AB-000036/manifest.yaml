@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: bping_ptif_fuzzer
+  target_fn: "bping_ptif_fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 8"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42473518"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: 7921e3f13b72e9e49a1dff434c256466a08205d4
+    fix_commit: "7921e3f13b72e9e49a1dff434c256466a08205d4"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/7921e3f13b72e9e49a1dff434c256466a08205d4"
     docker:
       vulnerable: "n132/arvo:42473518-vul"

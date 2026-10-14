@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://gitlab.gnome.org/GNOME/libxml2.git",
   "fix_commit": "bfd2f4300fb348a0fb8265a17546a0eb8bdec719",
+  "fix_commits": [
+    "bfd2f4300fb348a0fb8265a17546a0eb8bdec719"
+  ],
   "patch_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bfd2f4300fb348a0fb8265a17546a0eb8bdec719",
   "report_url": "https://issues.oss-fuzz.com/issues/42496802",
   "docker": {

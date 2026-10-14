@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42494318-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzz_parse"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42494318-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42494318-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "9a576064b9977acd3a4de9959ce3dd24ff45c570a40722559f897fa833df7265"
+    },
+    "crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 2749677726\nINFO: Loaded 1 modules (186414 inline 8-bit counters): 186414 [0x1cba350, 0x1ce7b7e),\nINFO: Loaded 1 PC tables (186414 PCs): 186414 [0x1ce7b80,0x1fbfe60),\n/out/fuzz_parse: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000000138 at pc 0x0000005101c7 bp 0x7fffffffd440 sp 0x7fffffffcc00\nREAD of si",
+    "fix_commit": "758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5",
+    "patch": "https://github.com/gpac/gpac/commit/758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5",
+    "report": "https://issues.oss-fuzz.com/issues/42494318"
+  },
+  "id": "AB-000083",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "8e9be19645bda5ad6ca9041082b4d7c4abec6b2880b22bf10cab8c2e9cd485f0"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42494318",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "758135e91e62",
+    "generation": "g0",
+    "language": "c",
+    "project": "gpac",
+    "upstream": "https://github.com/gpac/gpac"
+  },
+  "title": "gpac: Heap-buffer-overflow READ 9 in fuzz_parse",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 9",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42494318"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

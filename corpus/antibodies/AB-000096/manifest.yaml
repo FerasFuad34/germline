@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: advanced_api_fuzzer
+  target_fn: "advanced_api_fuzzer"
   sanitizer: asan
   crash_type: "Negative-size-param"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42498407"
     repo: "https://chromium.googlesource.com/webm/libwebp"
-    fix_commit: 277d30749f15d3fd99649c9347867ddc2fe4f32e
+    fix_commit: "277d30749f15d3fd99649c9347867ddc2fe4f32e"
     patch_url: "https://chromium.googlesource.com/webm/libwebp/+/277d30749f15d3fd99649c9347867ddc2fe4f32e%5E%21/"
     docker:
       vulnerable: "n132/arvo:42498407-vul"

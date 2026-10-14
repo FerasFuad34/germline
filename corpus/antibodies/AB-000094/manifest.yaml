@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: conf
+  target_fn: "conf"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow WRITE 1"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42476770"
     repo: "https://github.com/openssl/openssl.git"
-    fix_commit: ed57f7f93508776b898e4c23b65d67f3479edaf1
+    fix_commit: "ed57f7f93508776b898e4c23b65d67f3479edaf1"
     patch_url: "https://github.com/openssl/openssl/commit/ed57f7f93508776b898e4c23b65d67f3479edaf1"
     docker:
       vulnerable: "n132/arvo:42476770-vul"

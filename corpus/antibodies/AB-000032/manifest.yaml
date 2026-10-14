@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ping_jps_fuzzer
+  target_fn: "ping_jps_fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 1"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42472424"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: 9177b7b3c2789c6196e7272e97893d9f7d3991f2
+    fix_commit: "9177b7b3c2789c6196e7272e97893d9f7d3991f2"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/9177b7b3c2789c6196e7272e97893d9f7d3991f2"
     docker:
       vulnerable: "n132/arvo:42472424-vul"

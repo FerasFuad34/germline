@@ -25,3 +25,12 @@ jobs:
 
       - name: Smoke-test the web service
         run: python3 tests/smoke_test.py
+
+      - name: Install corpus/format tooling
+        run: pip install pyyaml jsonschema
+
+      - name: ABX conformance (RFC-0 Level 2 — schema + invariants)
+        run: python3 tools/abx.py validate corpus/abx/*.abx.json
+
+      - name: ABX drift check (documents must match their sources)
+        run: python3 tools/abx.py convert --corpus corpus --out corpus/abx --check

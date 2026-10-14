@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: php-fuzz-exif
+  target_fn: "php-fuzz-exif"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42480628"
     repo: "https://github.com/php/php-src.git"
-    fix_commit: 9ed82b1f7b17bf505fa22944185631e3e8156cf0
+    fix_commit: "9ed82b1f7b17bf505fa22944185631e3e8156cf0"
     patch_url: "https://github.com/php/php-src/commit/9ed82b1f7b17bf505fa22944185631e3e8156cf0"
     docker:
       vulnerable: "n132/arvo:42480628-vul"

@@ -80,3 +80,21 @@ python3 extractor/arvo.py --db /path/to/arvo.db --out corpus --selection extract
 ```
 
 IDs are **stable**: re-running never reshuffles existing antibodies.
+
+---
+
+## ABX export (RFC-0)
+
+The corpus is published twice: as human-friendly authoring manifests (above) and
+as **ABX v0.1 wire documents** in [`abx/`](abx/) — the strict, canonicalizable
+exchange format specified in [RFC-0](../docs/rfc/0001-abx-antibody-exchange-format.md).
+
+```bash
+python3 tools/abx.py convert --corpus corpus --out corpus/abx --all   # manifests -> ABX
+python3 tools/abx.py validate corpus/abx/*.abx.json                   # L2: schema + invariants
+python3 tools/abx.py digest corpus/abx/AB-000001.abx.json             # integrity check
+```
+
+One source of truth, two renderings: `--check` fails if the ABX documents ever
+drift from their manifests (enforced in CI). Verified antibodies appear as
+`status: validated` with an append-only `verification.runs` history.

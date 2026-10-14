@@ -1,0 +1,73 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470841-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "hb-shape-fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470841-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470841-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "0fa87d5de85651c84febf45e42758d001f5e8a8f3335f53ad77790c3f6d16dc1"
+    },
+    "crash_excerpt": "INFO: Seed: 2810860276\nINFO: Loaded 1 modules (13335 inline 8-bit counters): 13335 [0xa2e428, 0xa3183f),\nINFO: Loaded 1 PC tables (13335 PCs): 13335 [0xa31840,0xa659b0),\n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==7==ERROR: AddressSanitizer: SEGV on unknown address 0x617400000c70 (pc 0x0000006450a2 bp 0x7fffffffdd60 sp 0x7fffffffdc80 T0)\n==7==The signal is caused by a READ memory ac",
+    "fix_commit": "5c65ed800de4caef5ee9ad2111225fa5d8235737",
+    "patch": "https://github.com/harfbuzz/harfbuzz/commit/5c65ed800de4caef5ee9ad2111225fa5d8235737",
+    "report": "https://issues.oss-fuzz.com/issues/42470841"
+  },
+  "id": "AB-000049",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "a9fee84f912cfb693f290f03fae98f287c3b475fa13d7a388d7bd5cb1a54a9a6"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470841",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "5c65ed800de4",
+    "generation": "g0",
+    "language": "c++",
+    "project": "harfbuzz",
+    "upstream": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "title": "harfbuzz: UNKNOWN READ in hb-shape-fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "UNKNOWN READ",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [],
+      "oss_fuzz": "42470841"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://cgit.ghostscript.com/ghostpdl.git",
   "fix_commit": "d703f355af5292e61dcd641332e249873ab5fb8a",
+  "fix_commits": [
+    "d703f355af5292e61dcd641332e249873ab5fb8a"
+  ],
   "patch_url": "https://cgit.ghostscript.com/ghostpdl.gitd703f355af5292e61dcd641332e249873ab5fb8a",
   "report_url": "https://issues.oss-fuzz.com/issues/42482668",
   "docker": {

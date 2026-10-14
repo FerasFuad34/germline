@@ -10,6 +10,9 @@
   "language": "c",
   "repo": "https://github.com/gpac/gpac",
   "fix_commit": "758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5",
+  "fix_commits": [
+    "758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5"
+  ],
   "patch_url": "https://github.com/gpac/gpac/commit/758135e91e623d7dfe7f6aaad7aeb3f791b7a4e5",
   "report_url": "https://issues.oss-fuzz.com/issues/42494318",
   "docker": {

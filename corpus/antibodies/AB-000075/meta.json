@@ -9,7 +9,12 @@
   "fuzz_engine": "honggfuzz",
   "language": "c++",
   "repo": "https://github.com/php/php-src.git",
-  "fix_commit": "fd08f062ae5a3c92bfc0345da7e83ab320046864\nea1b8788773fe9d5fd517704da332f0725714b8b\n8dd91f52a52f0804970fe65738fade9be4bafd54",
+  "fix_commit": "fd08f062ae5a3c92bfc0345da7e83ab320046864",
+  "fix_commits": [
+    "fd08f062ae5a3c92bfc0345da7e83ab320046864",
+    "ea1b8788773fe9d5fd517704da332f0725714b8b",
+    "8dd91f52a52f0804970fe65738fade9be4bafd54"
+  ],
   "patch_url": "https://github.com/php/php-src/commit/8dd91f52a52f0804970fe65738fade9be4bafd54",
   "report_url": "https://issues.oss-fuzz.com/issues/42481412",
   "docker": {

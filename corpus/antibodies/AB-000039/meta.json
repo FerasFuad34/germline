@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/imagemagick/imagemagick",
   "fix_commit": "58b1d87bef2b8d7dbd7391091069a3c279ec5e85",
+  "fix_commits": [
+    "58b1d87bef2b8d7dbd7391091069a3c279ec5e85"
+  ],
   "patch_url": "https://github.com/imagemagick/imagemagick/commit/58b1d87bef2b8d7dbd7391091069a3c279ec5e85",
   "report_url": "https://issues.oss-fuzz.com/issues/42474313",
   "docker": {

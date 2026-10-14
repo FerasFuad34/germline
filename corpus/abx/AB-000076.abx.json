@@ -1,0 +1,83 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42481430-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "php-fuzz-mbstring"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42481430-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42481430-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "ee065dbe226af5e686c6eb3116cc429103e29515dfe15104103d4984cf8f99b8"
+    },
+    "crash_excerpt": "INFO: Seed: 3144556648\nINFO: Loaded 1 modules (117002 inline 8-bit counters): 117002 [0x96a77e0, 0x96c40ea),\nINFO: Loaded 1 PC tables (117002 PCs): 117002 [0x96c40ec,0x97a893c),\n/out/php-fuzz-mbstring: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-use-after-free on address 0xf3c37640 at pc 0x08da674d bp 0xff892c88 sp 0xff892c80\nREAD of size 4 at 0xf3c37640 thread T0\nSCARINESS: 45 (4-byte-read-heap-use-a",
+    "fix_commit": "7e2bd95fa5fb903bc0e125f4bbb21b93f3de2398",
+    "patch": "https://github.com/php/php-src/commit/fe8af59b6ae5490a850923137af86c3348ef5204",
+    "report": "https://issues.oss-fuzz.com/issues/42481430"
+  },
+  "ext": {
+    "sh.germline.fix_commits": [
+      "7e2bd95fa5fb903bc0e125f4bbb21b93f3de2398",
+      "5a9475f4b933aa5bfd16cd2a452ee57aec803dc4",
+      "d904be08808ba0b7164907e01392d0dabbf3077e",
+      "fe8af59b6ae5490a850923137af86c3348ef5204"
+    ]
+  },
+  "id": "AB-000076",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "88f7e167bee988b17a5059116c970f0df4700380d1811bc3b134a98b1d0c7d6a"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42481430",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "7e2bd95fa5fb",
+    "generation": "g0",
+    "language": "c++",
+    "project": "php-src",
+    "upstream": "https://github.com/php/php-src.git"
+  },
+  "title": "php-src: Heap-use-after-free READ 4 in php-fuzz-mbstring",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-use-after-free READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-416"
+      ],
+      "oss_fuzz": "42481430"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

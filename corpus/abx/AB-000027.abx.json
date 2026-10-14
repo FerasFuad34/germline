@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "runtime error:",
+      "type": "stdout-regex"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473861-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ffmpeg_AV_CODEC_ID_AAC_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473861-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473861-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "37575f28cdbd734cefe6beb37a42aee6e27f509af0ea668049445f112b81e6e8"
+    },
+    "crash_excerpt": "INFO: Seed: 3759497160\nINFO: Loaded 1 modules (16683 guards): [0xd0e270, 0xd1e71c),\n/out/ffmpeg_AV_CODEC_ID_AAC_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nlibavcodec/aacsbr_template.c:628:31: runtime error: index 8 out of bounds for type 'uint8_t [7]'\n#0 0x567c71 in read_sbr_grid /src/ffmpeg/libavcodec/aacsbr_template.c:628:31\n#1 0x564644 in read_sbr_single_channel_element /src/ffmpeg/libavcodec/aacsbr_template.c:967:9\n#2 0x54e150 in read_sbr_data /src/ffmpeg/libavcodec/aacsbr_template.c:104",
+    "fix_commit": "1002932a3b16d35c46a08455f76462909eebb5aa",
+    "patch": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/1002932a3b16d35c46a08455f76462909eebb5aa",
+    "report": "https://issues.oss-fuzz.com/issues/42473861"
+  },
+  "id": "AB-000027",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "e63d6bd53edde97cf789458632858588f61d239497ff1b554c474259d37612e3"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473861",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "1002932a3b16",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ffmpeg",
+    "upstream": "https://git.ffmpeg.org/ffmpeg.git"
+  },
+  "title": "ffmpeg: Index-out-of-bounds in ffmpeg_AV_CODEC_ID_AAC_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Index-out-of-bounds",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-129"
+      ],
+      "oss_fuzz": "42473861"
+    },
+    "sanitizer": "ubsan",
+    "severity": "Medium"
+  }
+}

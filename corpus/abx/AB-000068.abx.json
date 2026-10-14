@@ -1,0 +1,73 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42482668-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "gstoraster_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42482668-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42482668-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "539bcd39fb7baf6b3220c2db22bacf3e46faa2630eff70567ea8a4cbd1166f56"
+    },
+    "crash_excerpt": "INFO: Seed: 2257293313\nINFO: Loaded 3 modules (131157 inline 8-bit counters): 11439 [0x7f8e366a8160, 0x7f8e366aae0f), 846 [0x7f8e368fd920, 0x7f8e368fdc6e), 118872 [0x2753150, 0x27701a8),\nINFO: Loaded 3 PC tables (131157 PCs): 11439 [0x7f8e366aae10,0x7f8e366d7900), 846 [0x7f8e368fdc70,0x7f8e36901150), 118872 [0x1dbf390,0x1f8f910),\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nINFO: Start rendering...\nINFO: Processing page 1...\n**** Error: An error occurred while reading an XREF t",
+    "fix_commit": "d703f355af5292e61dcd641332e249873ab5fb8a",
+    "patch": "https://cgit.ghostscript.com/ghostpdl.gitd703f355af5292e61dcd641332e249873ab5fb8a",
+    "report": "https://issues.oss-fuzz.com/issues/42482668"
+  },
+  "id": "AB-000068",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "19aca73aa1613e82938137c7e34c3153c4da81a9d61786818ab96b197db250f0"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42482668",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "d703f355af52",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ghostpdl",
+    "upstream": "https://cgit.ghostscript.com/ghostpdl.git"
+  },
+  "title": "ghostpdl: Segv on unknown address in gstoraster_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Segv on unknown address",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [],
+      "oss_fuzz": "42482668"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

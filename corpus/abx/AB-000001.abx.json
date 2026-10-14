@@ -1,0 +1,91 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470114-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "libxml2_xml_read_memory_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470114-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470114-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "25f02061c96b3888255fb8e9160fa132724b3b771aba978eba911bb2f1ba69c9"
+    },
+    "crash_excerpt": "INFO: Seed: 3509742890\nINFO: Loaded 1 modules (44005 guards): [0x101cc70, 0x1047c04),\n/out/libxml2_xml_read_memory_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x54a372 in xmlParserPrintFileContextInternal /src/libxml2/error.c:201:24\n#1 0x55312c in xmlReportError /src/libxml2/error.c:406:9\n#2 0x54cc89 in __xmlRaiseError /src/libxml2/error.c:633:2\n#3 0x56b2f4 in xmlFatalErrMsg /src/libxml2/parser.c:574:5\n#4 0x5eaf2e in xmlParseDocumen",
+    "fix_commit": "074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e",
+    "patch": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e",
+    "report": "https://issues.oss-fuzz.com/issues/42470114"
+  },
+  "id": "AB-000001",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "914d5f83513530c9efb2091ecf69ce6ece4d5fc2cb52fdb9c2dca2f5262a76ff"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470114",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "validated",
+  "subject": {
+    "fixed_in": "074180119fc9",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libxml2",
+    "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
+  },
+  "title": "libxml2: Use-of-uninitialized-value in libxml2_xml_read_memory_fuzzer",
+  "verification": {
+    "last_verdict": "verified",
+    "runs": [
+      {
+        "date": "2026-10-14",
+        "observed": {
+          "fixed": "clean",
+          "vulnerable": "crash"
+        },
+        "run_id": "38630272283",
+        "run_url": "https://github.com/FerasFuad34/germline/actions/runs/38630272283",
+        "runner": "github-actions/ubuntu-latest",
+        "verdict": "verified"
+      }
+    ]
+  },
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42470114"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

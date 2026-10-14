@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: curl_fuzzer_http
+  target_fn: "curl_fuzzer_http"
   sanitizer: asan
   crash_type: "Heap-use-after-free READ 6"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42478820"
     repo: "https://github.com/curl/curl.git"
-    fix_commit: 02c6b984cb7a2e01f290544a53a24d30fc7ab32e
+    fix_commit: "02c6b984cb7a2e01f290544a53a24d30fc7ab32e"
     patch_url: "https://github.com/curl/curl/commit/02c6b984cb7a2e01f290544a53a24d30fc7ab32e"
     docker:
       vulnerable: "n132/arvo:42478820-vul"

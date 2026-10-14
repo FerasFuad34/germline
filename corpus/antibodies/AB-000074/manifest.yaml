@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: php-fuzz-mbstring
+  target_fn: "php-fuzz-mbstring"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,9 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42480756"
     repo: "https://github.com/php/php-src.git"
-    fix_commit: b5e004379647bd1ebb75eb2eac8826fb6abdd3d8
-d8ad2f4695ebd6dc2d4e668d9baeac1c071791a6
-24ccbb00573445b0df5e940a77e7363ace3c31f3
+    fix_commit: "b5e004379647bd1ebb75eb2eac8826fb6abdd3d8"
     patch_url: "https://github.com/php/php-src/commit/24ccbb00573445b0df5e940a77e7363ace3c31f3"
     docker:
       vulnerable: "n132/arvo:42480756-vul"

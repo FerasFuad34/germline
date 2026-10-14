@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://git.ffmpeg.org/ffmpeg.git",
   "fix_commit": "85a921f46184dace4b4f3d968830991eff218e3f",
+  "fix_commits": [
+    "85a921f46184dace4b4f3d968830991eff218e3f"
+  ],
   "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/85a921f46184dace4b4f3d968830991eff218e3f",
   "report_url": "https://issues.oss-fuzz.com/issues/42470362",
   "docker": {

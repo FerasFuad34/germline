@@ -1,0 +1,82 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42481412-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "php-fuzz-mbstring"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42481412-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42481412-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "890760f3a50ab3c9a10dceac1ae58557a0d3e696fae3eeeba6d176632a44b6ff"
+    },
+    "crash_excerpt": "Accepting input from '/tmp/poc'\nUsage for fuzzing: honggfuzz -P [flags] -- /out/php-fuzz-mbstring\n=================================================================\n==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x60700000baf0 at pc 0x000000f1e6d2 bp 0x7fffffffd590 sp 0x7fffffffd588\nREAD of size 4 at 0x60700000baf0 thread T0\nSCARINESS: 45 (4-byte-read-heap-use-after-free)\n#0 0xf1e6d1 in node_char_len1 /src/php-src/oniguruma/src/regcomp.c:715:11\n#1 0xf1d99a in node_char_len1 /src/php-src/oniguru",
+    "fix_commit": "fd08f062ae5a3c92bfc0345da7e83ab320046864",
+    "patch": "https://github.com/php/php-src/commit/8dd91f52a52f0804970fe65738fade9be4bafd54",
+    "report": "https://issues.oss-fuzz.com/issues/42481412"
+  },
+  "ext": {
+    "sh.germline.fix_commits": [
+      "fd08f062ae5a3c92bfc0345da7e83ab320046864",
+      "ea1b8788773fe9d5fd517704da332f0725714b8b",
+      "8dd91f52a52f0804970fe65738fade9be4bafd54"
+    ]
+  },
+  "id": "AB-000075",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "6569120a00a70497d01ba1e037fb7448ec591780d65b27c8cb510b771adbfd41"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42481412",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "fd08f062ae5a",
+    "generation": "g0",
+    "language": "c++",
+    "project": "php-src",
+    "upstream": "https://github.com/php/php-src.git"
+  },
+  "title": "php-src: Heap-use-after-free READ 4 in php-fuzz-mbstring",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-use-after-free READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-416"
+      ],
+      "oss_fuzz": "42481412"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: pdf_fuzzer
+  target_fn: "pdf_fuzzer"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42475209"
     repo: "https://github.com/freetype/freetype2"
-    fix_commit: 94ebc248653ede802b2bfbf6219e17f487fab3ff
+    fix_commit: "94ebc248653ede802b2bfbf6219e17f487fab3ff"
     patch_url: "https://github.com/freetype/freetype2/commit/94ebc248653ede802b2bfbf6219e17f487fab3ff"
     docker:
       vulnerable: "n132/arvo:42475209-vul"

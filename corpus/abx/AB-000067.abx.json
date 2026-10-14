@@ -1,0 +1,90 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "Heap-use-after-free READ 8",
+      "type": "stdout-regex"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42481819-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "gstoraster_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42481819-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42481819-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "84cb32a2d28552758b9ce2708b974158e4b07c5e86717f5e2d2adeccc3eb3643"
+    },
+    "crash_excerpt": "INFO: Seed: 3330491533\nINFO: Loaded 3 modules (131456 inline 8-bit counters): 11439 [0x7fa524420160, 0x7fa524422e0f), 846 [0x7fa524675920, 0x7fa524675c6e), 119171 [0x2759290, 0x2776413),\nINFO: Loaded 3 PC tables (131456 PCs): 11439 [0x7fa524422e10,0x7fa52444f900), 846 [0x7fa524675c70,0x7fa524679150), 119171 [0x1dc4470,0x1f95ca0),\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nINFO: Start rendering...\nINFO: Processing page 1...\nError: /undefined in",
+    "fix_commit": "6fc5cbc5bc57ae2c47d1276f1ea0c0f16017b4bb",
+    "patch": "https://cgit.ghostscript.com/ghostpdl.gitf5b7acb59c4f2e88591aab9f355813e0b7b68db5",
+    "report": "https://issues.oss-fuzz.com/issues/42481819"
+  },
+  "ext": {
+    "sh.germline.fix_commits": [
+      "6fc5cbc5bc57ae2c47d1276f1ea0c0f16017b4bb",
+      "06a08fca00194531df25652b46eca8f8e4dfd7cc",
+      "c5883877d1dc7abbd7600eb688f7cf4ad34db0cc",
+      "1f6b351a5048b5a14d52431c833da6ed3386a7bf",
+      "cd5f21df6c710664ff0ba3f100ca5283d9367ed8",
+      "5fc8e7c0b656d4e2be8f5e316121f06039c35273",
+      "b58e9010ce17bce450e4c042b93bafc460b9d94a",
+      "d7d68f45bfc227f7c7a6fdd5f8ef078bbf7ca77f",
+      "d86e9d8251e142ab9aae9f50923414c0c18bf1d3",
+      "9fd069e5c91126e78b51625c72d884615370098c",
+      "f5b7acb59c4f2e88591aab9f355813e0b7b68db5"
+    ]
+  },
+  "id": "AB-000067",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "f9b20d8a39214d4a49220de2fff181ed7750c234aa8cfc23de53fe25923eae79"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42481819",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "6fc5cbc5bc57",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ghostpdl",
+    "upstream": "https://cgit.ghostscript.com/ghostpdl.git"
+  },
+  "title": "ghostpdl: Heap-use-after-free READ 8 in gstoraster_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-use-after-free READ 8",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-416"
+      ],
+      "oss_fuzz": "42481819"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

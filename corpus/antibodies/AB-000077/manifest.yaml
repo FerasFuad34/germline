@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: libarchive_fuzzer
+  target_fn: "libarchive_fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow WRITE 1"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42471116"
     repo: "https://github.com/libarchive/libarchive.git"
-    fix_commit: b52dd6c9e4ef7cf95c2a6ae5ab7ccac7f6d462a1
+    fix_commit: "b52dd6c9e4ef7cf95c2a6ae5ab7ccac7f6d462a1"
     patch_url: "https://github.com/libarchive/libarchive/commit/b52dd6c9e4ef7cf95c2a6ae5ab7ccac7f6d462a1"
     docker:
       vulnerable: "n132/arvo:42471116-vul"

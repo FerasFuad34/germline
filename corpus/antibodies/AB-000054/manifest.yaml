@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: curl_fuzzer_pop3
+  target_fn: "curl_fuzzer_pop3"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42477424"
     repo: "https://github.com/curl/curl.git"
-    fix_commit: 65fda739ee35c090b2e6d91229287de734f0fbae
+    fix_commit: "65fda739ee35c090b2e6d91229287de734f0fbae"
     patch_url: "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae"
     docker:
       vulnerable: "n132/arvo:42477424-vul"

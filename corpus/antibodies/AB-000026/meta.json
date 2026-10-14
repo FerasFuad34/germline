@@ -10,13 +10,16 @@
   "language": "c++",
   "repo": "https://git.ffmpeg.org/ffmpeg.git",
   "fix_commit": "ce551a3925a1cf9c7824e26a246b99b6773bda4b",
+  "fix_commits": [
+    "ce551a3925a1cf9c7824e26a246b99b6773bda4b"
+  ],
   "patch_url": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/ce551a3925a1cf9c7824e26a246b99b6773bda4b",
   "report_url": "https://issues.oss-fuzz.com/issues/42473850",
   "docker": {
     "vulnerable": "n132/arvo:42473850-vul",
     "fixed": "n132/arvo:42473850-fix"
   },
-  "detection_marker": "\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffff",
+  "detection_marker": "==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffffc710 sp 0",
   "expected_crash_sha256": "c92dde4c00046fb8169dc71a6761eb5bff543c8e6a676fa71701b5b2f54eacc6",
   "expected_crash_excerpt": "INFO: Seed: 3668289085\r\nINFO: Loaded 1 modules (13987 guards): [0xc27df0, 0xc3587c), \r\n/out/ffmpeg_AV_CODEC_ID_TIERTEXSEQVIDEO_fuzzer: Running 1 inputs 1 time(s) each.\r\nRunning: /tmp/poc\r\n=================================================================\r\n\u001b[1m\u001b[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffffc710 sp 0x7fffffffc708\r\n\u001b[1m\u001b[0m\u001b[1m\u001b[34mWRITE of size 8 at 0x7ffff7e62838 thread T0\u001b[1m\u001b[0m\r\nSCARINESS: 52 (8-byte-write-heap-buffer-overflow-far-from-bounds)\r\n    #0 0x550394 in seq_decode_op2 /src/ffmpeg/libavcodec/tiertexseqv.c:138:9\r\n    #1 0x54ec8c in seqvideo_decode /src/ffmpeg/libavcodec/tiertexseqv.c:200:28\r\n    #2 0x54e17e in seqvideo_decode_frame /src/ffmpeg/libavcodec/tiertexseqv.c:240:9\r\n    #3 0x53571c in decode_simple_internal /src/ffmpeg/libavcodec/decode.c:414:15\r\n    #4 0x534f51 in decode_simple_receive_frame /src/ffmpeg/libavcodec/decode.c:617:15\r\n    #5 0x525f72 in decode_receive_frame_internal /src/ffmpeg/libavcodec/decode.c:635:15\r\n    #6 0x524a2d in avcodec_send_packet /src/ffmpeg/libavcodec/decode.c:675:15\r\n    #7 0x5268d3 in compat_decode /src/ffmpeg/libavcodec/decode.c:730:15\r\n    #8 0x5185e7 in LLVMFuzzerTestOneInput /src/ffmpeg/tools/target_dec_fuzzer.c:213:23\r\n    #9 0x799d34 in fuzzer::Fuzzer::ExecuteCallback(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:440:13\r\n    #10 0x79a04e in fuzzer::Fuzzer::RunOne(unsigned char const*, unsigned long) /src/libfuzzer/FuzzerLoop.cpp:397:3\r\n    #11 0x78c870 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, unsigned long) /src/libfuzzer/FuzzerDriver.cpp:268:6\r\n    #12 0x790790 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsigned char const*, unsigned long)) /src/libfuzzer/FuzzerDriver.cpp:682:9\r\n    #13 0x78c56c in main /src/libfuzzer/FuzzerMain.cpp:20:10\r\n    #14 0x7ffff6ee682f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)\r\n    #15 0x41c908 in _start (/out/ffmpeg_AV_CODEC_ID_TIERTEXSEQVIDEO",
   "expected_crash_excerpt_truncated": true,

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470383-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "hb-subset-get-codepoints-fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470383-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470383-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "587c7b6c05eee5df2b82b4d0234cd8b7f3403d56733621c75b5cd65bd8f8a961"
+    },
+    "crash_excerpt": "INFO: Seed: 3164634873\nINFO: Loaded 1 modules (12282 inline 8-bit counters): 12282 [0xa13fe8, 0xa16fe2),\nINFO: Loaded 1 PC tables (12282 PCs): 12282 [0xa16fe8,0xa46f88),\n/out/hb-subset-get-codepoints-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nAddressSanitizer:DEADLYSIGNAL\n=================================================================\n==7==ERROR: AddressSanitizer: SEGV on unknown address 0x616000011180 (pc 0x0000005cb8c5 bp 0x7fffffffdbb0 sp 0x7fffffffdb40 T0)\n==7==The signal is caused by ",
+    "fix_commit": "f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+    "patch": "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+    "report": "https://issues.oss-fuzz.com/issues/42470383"
+  },
+  "id": "AB-000046",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "c1f4579e93012afdf98083c5d4fdb90263b1762b44653d8a95f363963a3de4f6"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470383",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "f8ccb545c47a",
+    "generation": "g0",
+    "language": "c++",
+    "project": "harfbuzz",
+    "upstream": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "title": "harfbuzz: Heap-buffer-overflow READ 4 in hb-subset-get-codepoints-fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42470383"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

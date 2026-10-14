@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470395-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "hb-shape-fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470395-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470395-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "43e145a6f2a9231bae51cc84f71f451936d63e41890ae31bfafb766ac920e60d"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/hb-shape-fuzzer < INPUT_FILE\nor\n/out/hb-shape-fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/hb-shape-fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 256 bytes from /tmp/poc\n=====================",
+    "fix_commit": "f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+    "patch": "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+    "report": "https://issues.oss-fuzz.com/issues/42470395"
+  },
+  "id": "AB-000047",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "e960cd5732cc961139640398e4ac6137cfdf01d57905131cfd224de271dfd84a"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470395",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "f8ccb545c47a",
+    "generation": "g0",
+    "language": "c++",
+    "project": "harfbuzz",
+    "upstream": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "title": "harfbuzz: Heap-buffer-overflow READ 1 in hb-shape-fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42470395"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

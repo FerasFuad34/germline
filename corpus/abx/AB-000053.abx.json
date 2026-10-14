@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42477423-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "curl_fuzzer_rtmp"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42477423-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42477423-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "c74747ce454122839fe8961cad21c2bef4eae44ad9879867ef02f04aa73d0aec"
+    },
+    "crash_excerpt": "INFO: Seed: 2017979848\nINFO: Loaded 1 modules (63295 inline 8-bit counters): 63295 [0x89ce2f0, 0x89dda2f),\nINFO: Loaded 1 PC tables (63295 PCs): 63295 [0x89dda30,0x8a59428),\n/out/curl_fuzzer_rtmp: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: negative-size-param: (size=-1)\nSCARINESS: 10 (negative-size-param)\n#0 0x819bf65 in __asan_memcpy /src/llvm/projects/compiler-rt/lib/asan/asan_interceptors_memintrinsics",
+    "fix_commit": "65fda739ee35c090b2e6d91229287de734f0fbae",
+    "patch": "https://github.com/curl/curl/commit/65fda739ee35c090b2e6d91229287de734f0fbae",
+    "report": "https://issues.oss-fuzz.com/issues/42477423"
+  },
+  "id": "AB-000053",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "7581358f35a07ba1c92aeba462795b6253d88c33dc08866b3f1e282802b2dcc0"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42477423",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "65fda739ee35",
+    "generation": "g0",
+    "language": "c++",
+    "project": "curl",
+    "upstream": "https://github.com/curl/curl.git"
+  },
+  "title": "curl: Negative-size-param in curl_fuzzer_rtmp",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Negative-size-param",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-119"
+      ],
+      "oss_fuzz": "42477423"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

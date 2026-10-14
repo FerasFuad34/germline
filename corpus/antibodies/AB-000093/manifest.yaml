@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: client
+  target_fn: "client"
   sanitizer: asan
   crash_type: "Stack-use-after-return READ 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42475667"
     repo: "https://github.com/openssl/openssl.git"
-    fix_commit: 83b4a24384e62ed8cf91f51bf9a303f98017e13e
+    fix_commit: "83b4a24384e62ed8cf91f51bf9a303f98017e13e"
     patch_url: "https://github.com/openssl/openssl/commit/83b4a24384e62ed8cf91f51bf9a303f98017e13e"
     docker:
       vulnerable: "n132/arvo:42475667-vul"

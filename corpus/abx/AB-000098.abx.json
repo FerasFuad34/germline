@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42514310-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "example_dict_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42514310-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42514310-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "407e88b65e6ab4cc4767572fba03b6eab20a31bca68f4673c2c52d00d342a2c9"
+    },
+    "crash_excerpt": "INFO: Seed: 1651127869\nINFO: Loaded 1 modules (1431 inline 8-bit counters): 1431 [0x9d1a40, 0x9d1fd7),\nINFO: Loaded 1 PC tables (1431 PCs): 1431 [0x770640,0x775fb0),\n/out/example_dict_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x5930dd in slide_hash /src/zlib/deflate.c:222:20\n#1 0x589461 in fill_window /src/zlib/deflate.c:1558:13\n#2 0x59b105 in deflate_fast /src/zlib/deflate.c:1886:13\n#3 0x5906ba in deflate /src/zlib/deflate.c:1046",
+    "fix_commit": "981ee7570ad98a3cf1ae74d737e2ee619ed79171",
+    "patch": "https://github.com/madler/zlib/commit/981ee7570ad98a3cf1ae74d737e2ee619ed79171",
+    "report": "https://issues.oss-fuzz.com/issues/42514310"
+  },
+  "id": "AB-000098",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "002a0581afa3af94c104bf1ac26076ba74173b9c554017b738111d23005d98ed"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42514310",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "981ee7570ad9",
+    "generation": "g0",
+    "language": "c++",
+    "project": "zlib",
+    "upstream": "https://github.com/madler/zlib.git"
+  },
+  "title": "zlib: Use-of-uninitialized-value in example_dict_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42514310"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: libpng_read_fuzzer
+  target_fn: "libpng_read_fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow WRITE {*}"
 
@@ -34,9 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42498959"
     repo: "https://github.com/glennrp/libpng.git"
-    fix_commit: 357af1f095320c76f7c9d2bcf7de48dd809358e4
-12384eae6fa138b528647cdf350b005509e95b6b
-a3d1057a735d923626f1f6bdc0f662a13d0cba6f
+    fix_commit: "357af1f095320c76f7c9d2bcf7de48dd809358e4"
     patch_url: "https://github.com/glennrp/libpng/commit/a3d1057a735d923626f1f6bdc0f662a13d0cba6f"
     docker:
       vulnerable: "n132/arvo:42498959-vul"

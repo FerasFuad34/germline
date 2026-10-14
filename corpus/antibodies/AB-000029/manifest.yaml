@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: encoder_label_fuzzer
+  target_fn: "encoder_label_fuzzer"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470067"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: cfd2824f02b6cee4ed6e105d50035c74142d9bf0
+    fix_commit: "cfd2824f02b6cee4ed6e105d50035c74142d9bf0"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/cfd2824f02b6cee4ed6e105d50035c74142d9bf0"
     docker:
       vulnerable: "n132/arvo:42470067-vul"

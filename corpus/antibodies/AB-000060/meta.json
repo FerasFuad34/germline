@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/wireshark/wireshark.git",
   "fix_commit": "38657fad58034ff5557caef10ef679b4ac404dbd",
+  "fix_commits": [
+    "38657fad58034ff5557caef10ef679b4ac404dbd"
+  ],
   "patch_url": "https://github.com/wireshark/wireshark/commit/38657fad58034ff5557caef10ef679b4ac404dbd",
   "report_url": "https://issues.oss-fuzz.com/issues/42470194",
   "docker": {

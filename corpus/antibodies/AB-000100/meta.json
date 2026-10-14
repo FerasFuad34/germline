@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://gitlab.com/libtiff/libtiff",
   "fix_commit": "0f013e5b5a550606298fb50c3bb90920a7da76fc",
+  "fix_commits": [
+    "0f013e5b5a550606298fb50c3bb90920a7da76fc"
+  ],
   "patch_url": "https://gitlab.com/libtiff/libtiff/-/commit/0f013e5b5a550606298fb50c3bb90920a7da76fc",
   "report_url": "https://issues.oss-fuzz.com/issues/42489909",
   "docker": {

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "runtime error:",
+      "type": "stdout-regex"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42472890-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ping_dng_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42472890-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42472890-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "dccca940fa326117d29235d0b6a60187626a35ccb8a0ffd6a58fd11d075f63be"
+    },
+    "crash_excerpt": "INFO: Seed: 2046716133\nINFO: Loaded 1 modules (237882 inline 8-bit counters): 237882 [0x1994648, 0x19ce782),\nINFO: Loaded 1 PC tables (237882 PCs): 237882 [0x19ce788,0x1d6fb28),\n/out/ping_dng_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\ninternal/dcraw_common.cpp:14576:9: runtime error: index -1 out of bounds for type 'tiff_ifd_t [10]'\n#0 0xf84cb0 in LibRaw::apply_tiff() /src/libraw/internal/dcraw_common.cpp:14576:23\n#1 0xfaa7f5 in LibRaw::identify() /src/libraw/internal/dcraw_common.cpp\n#2 0xd",
+    "fix_commit": "df835cab05765a630227dc04fa2245a78fd2f204",
+    "patch": "https://github.com/imagemagick/imagemagick/commit/df835cab05765a630227dc04fa2245a78fd2f204",
+    "report": "https://issues.oss-fuzz.com/issues/42472890"
+  },
+  "id": "AB-000035",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "b3496db02deee37938dc4e34b2e3f040eb09bca91ba4031ea14306405e07ba3b"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42472890",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "df835cab0576",
+    "generation": "g0",
+    "language": "c++",
+    "project": "imagemagick",
+    "upstream": "https://github.com/imagemagick/imagemagick"
+  },
+  "title": "imagemagick: Index-out-of-bounds in ping_dng_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Index-out-of-bounds",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-129"
+      ],
+      "oss_fuzz": "42472890"
+    },
+    "sanitizer": "ubsan",
+    "severity": "Medium"
+  }
+}

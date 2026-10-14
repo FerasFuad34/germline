@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: gstoraster_fuzzer
+  target_fn: "gstoraster_fuzzer"
   sanitizer: asan
   crash_type: "Heap-use-after-free WRITE 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42492999"
     repo: "https://cgit.ghostscript.com/ghostpdl.git"
-    fix_commit: 7861fcad13c497728189feafb41cd57b5b50ea25
+    fix_commit: "7861fcad13c497728189feafb41cd57b5b50ea25"
     patch_url: "https://cgit.ghostscript.com/ghostpdl.git7861fcad13c497728189feafb41cd57b5b50ea25"
     docker:
       vulnerable: "n132/arvo:42492999-vul"

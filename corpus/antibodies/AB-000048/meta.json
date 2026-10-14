@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/harfbuzz/harfbuzz.git",
   "fix_commit": "f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+  "fix_commits": [
+    "f8ccb545c47abe8f0f4ed318ff7b5bf176913893"
+  ],
   "patch_url": "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
   "report_url": "https://issues.oss-fuzz.com/issues/42470405",
   "docker": {

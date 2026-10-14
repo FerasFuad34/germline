@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "https://github.com/freetype/freetype2",
   "fix_commit": "94ebc248653ede802b2bfbf6219e17f487fab3ff",
+  "fix_commits": [
+    "94ebc248653ede802b2bfbf6219e17f487fab3ff"
+  ],
   "patch_url": "https://github.com/freetype/freetype2/commit/94ebc248653ede802b2bfbf6219e17f487fab3ff",
   "report_url": "https://issues.oss-fuzz.com/issues/42475209",
   "docker": {

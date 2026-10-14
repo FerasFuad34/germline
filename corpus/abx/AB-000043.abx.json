@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470096-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "hb-subset-fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470096-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470096-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "4f2a591c35075dc63f5126df3df4572b0337156c593d787881d0f2ca47daad9c"
+    },
+    "crash_excerpt": "INFO: Seed: 483224197\nINFO: Loaded 1 modules (13009 inline 8-bit counters): 13009 [0xa27830, 0xa2ab01),\nINFO: Loaded 1 PC tables (13009 PCs): 13009 [0xa2ab08,0xa5d818),\n/out/hb-subset-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==8==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000000180 at pc 0x00000062c544 bp 0x7fffffffd830 sp 0x7fffffffd828\nREAD of size 8 at 0x606000000180 thread T0\nSCARINESS: 23 (8-byte-read",
+    "fix_commit": "2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+    "patch": "https://github.com/harfbuzz/harfbuzz/commit/2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+    "report": "https://issues.oss-fuzz.com/issues/42470096"
+  },
+  "id": "AB-000043",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "f1f0994ad29bc3cabe7a9dd8603fb84b3ec7fb1a4947baeb2eab488b80235a61"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470096",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "2dde6c803a9e",
+    "generation": "g0",
+    "language": "c++",
+    "project": "harfbuzz",
+    "upstream": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "title": "harfbuzz: Heap-buffer-overflow READ 8 in hb-subset-fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 8",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42470096"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

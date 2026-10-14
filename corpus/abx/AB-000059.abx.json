@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470183-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzzshark_ip"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470183-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470183-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "2fc127d67da7cdf09fdd330e96a9d544856a444e9d9da48556a8ac29f117c1fa"
+    },
+    "crash_excerpt": "oss-fuzzshark: disabling: udp\noss-fuzzshark: disabling: udplite\noss-fuzzshark: disabling: ospf\noss-fuzzshark: disabling: bgp\noss-fuzzshark: disabling: dhcp\noss-fuzzshark: disabling: json\noss-fuzzshark: disabling: snort\noss-fuzzshark: configured for dissector: ip\nINFO: Seed: 1599897610\nINFO: Loaded 1 modules (321751 inline 8-bit counters): 321751 [0xcec3348, 0xcf11c1f),\nINFO: Loaded 1 PC tables (321751 PCs): 321751 [0xcf11c20,0xd3fa990),\n/out/fuzzshark_ip: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=",
+    "fix_commit": "38657fad58034ff5557caef10ef679b4ac404dbd",
+    "patch": "https://github.com/wireshark/wireshark/commit/38657fad58034ff5557caef10ef679b4ac404dbd",
+    "report": "https://issues.oss-fuzz.com/issues/42470183"
+  },
+  "id": "AB-000059",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "bcf2030b0e375c8fdf82791562fcac0d27f99573ca05c9ad9a97e8c900c4cfc9"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470183",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "38657fad5803",
+    "generation": "g0",
+    "language": "c++",
+    "project": "wireshark",
+    "upstream": "https://github.com/wireshark/wireshark.git"
+  },
+  "title": "wireshark: Heap-buffer-overflow READ 1 in fuzzshark_ip",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42470183"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

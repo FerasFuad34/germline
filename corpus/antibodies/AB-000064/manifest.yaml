@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: fuzzshark_ip
+  target_fn: "fuzzshark_ip"
   sanitizer: asan
   crash_type: "UNKNOWN READ"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470929"
     repo: "https://github.com/wireshark/wireshark.git"
-    fix_commit: d9231144b652362eaf62f8595df7d4886dbaf44d
+    fix_commit: "d9231144b652362eaf62f8595df7d4886dbaf44d"
     patch_url: "https://github.com/wireshark/wireshark/commit/d9231144b652362eaf62f8595df7d4886dbaf44d"
     docker:
       vulnerable: "n132/arvo:42470929-vul"

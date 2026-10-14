@@ -9,7 +9,12 @@
   "fuzz_engine": "libfuzzer",
   "language": "c++",
   "repo": "https://github.com/glennrp/libpng.git",
-  "fix_commit": "357af1f095320c76f7c9d2bcf7de48dd809358e4\n12384eae6fa138b528647cdf350b005509e95b6b\na3d1057a735d923626f1f6bdc0f662a13d0cba6f",
+  "fix_commit": "357af1f095320c76f7c9d2bcf7de48dd809358e4",
+  "fix_commits": [
+    "357af1f095320c76f7c9d2bcf7de48dd809358e4",
+    "12384eae6fa138b528647cdf350b005509e95b6b",
+    "a3d1057a735d923626f1f6bdc0f662a13d0cba6f"
+  ],
   "patch_url": "https://github.com/glennrp/libpng/commit/a3d1057a735d923626f1f6bdc0f662a13d0cba6f",
   "report_url": "https://issues.oss-fuzz.com/issues/42498959",
   "docker": {

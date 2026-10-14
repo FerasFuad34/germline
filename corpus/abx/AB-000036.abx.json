@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473518-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "bping_ptif_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473518-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473518-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "291de1e811b827ab1d0afe1a01876d5e138afd3afe1d00a0ea0cb47a0e7ebcbb"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/ping_ptif_fuzzer < INPUT_FILE\nor\n/out/ping_ptif_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/ping_ptif_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 94 bytes from /tmp/poc\n===================",
+    "fix_commit": "7921e3f13b72e9e49a1dff434c256466a08205d4",
+    "patch": "https://github.com/imagemagick/imagemagick/commit/7921e3f13b72e9e49a1dff434c256466a08205d4",
+    "report": "https://issues.oss-fuzz.com/issues/42473518"
+  },
+  "id": "AB-000036",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "96f6cfe1418ce1a0aeb587699cb3bbfe6918c62f11d5c7781a10655932e8b3a2"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473518",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "7921e3f13b72",
+    "generation": "g0",
+    "language": "c++",
+    "project": "imagemagick",
+    "upstream": "https://github.com/imagemagick/imagemagick"
+  },
+  "title": "imagemagick: Heap-buffer-overflow READ 8 in bping_ptif_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 8",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42473518"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

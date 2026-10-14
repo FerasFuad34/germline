@@ -23,7 +23,7 @@ this class of bug will be caught by replaying this antibody.
 
 ```bash
 # Vulnerable build — expected to CRASH with:
-#   [1m[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffff
+#   ==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffffc710 sp 0
 docker run --rm n132/arvo:42473850-vul arvo
 
 # Fixed build — expected to run clean:
@@ -38,7 +38,7 @@ docker run --rm n132/arvo:42473850-fix arvo
 ```
 
 The antibody is only **validated** when vulnerable crashes with marker
-`[1m[31m==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffff` and the fixed build stays clean.
+`==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7ffff7e62838 at pc 0x000000550395 bp 0x7fffffffc710 sp 0` and the fixed build stays clean.
 
 ---
 *Corpus policy: fixed & publicly disclosed vulnerabilities only. Upstream data: OSS-Fuzz, curated by ARVO (CC-BY-4.0).*

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42476770-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "conf"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42476770-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42476770-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "7f41770f375df024e289e770813ffd04acb046c01890a2e0c398422d39f87f76"
+    },
+    "crash_excerpt": "INFO: Seed: 3250903671\nINFO: Loaded 1 modules (40125 inline 8-bit counters): 40125 [0xddb920, 0xde55dd),\nINFO: Loaded 1 PC tables (40125 PCs): 40125 [0xde55e0,0xe821b0),\n/out/conf: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x608000000171 at pc 0x0000005836b4 bp 0x7fffffffda70 sp 0x7fffffffda68\nWRITE of size 1 at 0x608000000171 thread T0\nSCARINESS: 31 (1-byte-write-heap-buf",
+    "fix_commit": "ed57f7f93508776b898e4c23b65d67f3479edaf1",
+    "patch": "https://github.com/openssl/openssl/commit/ed57f7f93508776b898e4c23b65d67f3479edaf1",
+    "report": "https://issues.oss-fuzz.com/issues/42476770"
+  },
+  "id": "AB-000094",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "e05a65a100306bc146809f4df3386667105b0530034dc861e84066b6fb486d84"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42476770",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "ed57f7f93508",
+    "generation": "g0",
+    "language": "c++",
+    "project": "openssl",
+    "upstream": "https://github.com/openssl/openssl.git"
+  },
+  "title": "openssl: Heap-buffer-overflow WRITE 1 in conf",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow WRITE 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42476770"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

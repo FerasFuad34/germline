@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42478556-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "x509"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42478556-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42478556-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "dca215d315d18c5e98abb0ddc3dbbdfb90e0f7131c2e3067b98fb82becfcbf07"
+    },
+    "crash_excerpt": "INFO: Seed: 1557858949\nINFO: Loaded 1 modules (41982 inline 8-bit counters): 41982 [0xe4bb50, 0xe55f4e),\nINFO: Loaded 1 PC tables (41982 PCs): 41982 [0xe55f50,0xef9f30),\n/out/x509: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000007bd at pc 0x000000432b99 bp 0x7fffffffdb50 sp 0x7fffffffd310\nREAD of size 14 at 0x6020000007bd thread T0\nSCARINESS: 26 (multi-byte-read-heap-",
+    "fix_commit": "aec9667bd19a8ca9bdd519db3a231a95b9e92674",
+    "patch": "https://github.com/openssl/openssl/commit/aec9667bd19a8ca9bdd519db3a231a95b9e92674",
+    "report": "https://issues.oss-fuzz.com/issues/42478556"
+  },
+  "id": "AB-000095",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "d7e2b2ef7a7cc2b7e69fdf33fa5612c6a2d22f42d44fbcbb5c191b40a31cb45a"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42478556",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "aec9667bd19a",
+    "generation": "g0",
+    "language": "c++",
+    "project": "openssl",
+    "upstream": "https://github.com/openssl/openssl.git"
+  },
+  "title": "openssl: Heap-buffer-overflow READ 14 in x509",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 14",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42478556"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

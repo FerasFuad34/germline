@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: tiff_read_rgba_fuzzer
+  target_fn: "tiff_read_rgba_fuzzer"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42489909"
     repo: "https://gitlab.com/libtiff/libtiff"
-    fix_commit: 0f013e5b5a550606298fb50c3bb90920a7da76fc
+    fix_commit: "0f013e5b5a550606298fb50c3bb90920a7da76fc"
     patch_url: "https://gitlab.com/libtiff/libtiff/-/commit/0f013e5b5a550606298fb50c3bb90920a7da76fc"
     docker:
       vulnerable: "n132/arvo:42489909-vul"

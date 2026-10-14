@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42486883-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "xml"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42486883-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42486883-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "45e6e34145da61f7f180ced21e2dd6badffbf625c634a36bed0cfead582c2602"
+    },
+    "crash_excerpt": "INFO: Seed: 2804842250\nINFO: Loaded 1 modules (47165 inline 8-bit counters): 47165 [0xc401c0, 0xc4b9fd),\nINFO: Loaded 1 PC tables (47165 PCs): 47165 [0x8d4070,0x98c440),\n/out/xml: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-use-after-free on address 0x60c000000708 at pc 0x0000006fcdf2 bp 0x7fffffffdb30 sp 0x7fffffffdb28\nREAD of size 4 at 0x60c000000708 thread T0\nSCARINESS: 45 (4-byte-read-heap-use-aft",
+    "fix_commit": "ba589adc2f86c6be9ad7e0d771d4c9b09d059b89",
+    "patch": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/ba589adc2f86c6be9ad7e0d771d4c9b09d059b89",
+    "report": "https://issues.oss-fuzz.com/issues/42486883"
+  },
+  "id": "AB-000013",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "1cf57e2e90ee8abe9485a34ec38d5418eb9c365055d97a69c5fd8129c12b716c"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42486883",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "ba589adc2f86",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libxml2",
+    "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
+  },
+  "title": "libxml2: Heap-use-after-free READ 4 in xml",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-use-after-free READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-416"
+      ],
+      "oss_fuzz": "42486883"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470405-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "hb-shape-fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470405-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470405-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "24a473bb5f6668089ef00a063fc53f118ed559fd34e81bec355369867270a002"
+    },
+    "crash_excerpt": "INFO: Seed: 2456616907\nINFO: Loaded 1 modules (13342 inline 8-bit counters): 13342 [0xc0a8f8, 0xc0dd16),\nINFO: Loaded 1 PC tables (13342 PCs): 13342 [0xc0dd18,0xc41ef8),\n/out/hb-shape-fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x5bd322 in int OT::IntType<unsigned int, 4u>::cmp<OT::Tag>(OT::Tag) const /src/harfbuzz/src/./hb-open-type.hh:71:14\n#1 0x5bd080 in OT::TableRecord::cmp(OT::Tag) const /src/harfbuzz/src/./hb-open-file.hh:58:1",
+    "fix_commit": "f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+    "patch": "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893",
+    "report": "https://issues.oss-fuzz.com/issues/42470405"
+  },
+  "id": "AB-000048",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "00dbd9923b98be744b78b044cdaebb2cf4a298c5947f00bedefa1019d3dd3ebe"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470405",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "f8ccb545c47a",
+    "generation": "g0",
+    "language": "c++",
+    "project": "harfbuzz",
+    "upstream": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "title": "harfbuzz: Use-of-uninitialized-value in hb-shape-fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42470405"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

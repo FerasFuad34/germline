@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42478820-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "curl_fuzzer_http"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42478820-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42478820-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "eabdbf3d5b93571bc49b8d870b98309e699ffd6a34e9358f69e5f15bdbd87476"
+    },
+    "crash_excerpt": "INFO: Seed: 522086701\nINFO: Loaded 1 modules (62236 inline 8-bit counters): 62236 [0x89cf4f0, 0x89de80c),\nINFO: Loaded 1 PC tables (62236 PCs): 62236 [0x89de80c,0x8a580ec),\n/out/curl_fuzzer_http: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-use-after-free on address 0xe6303821 at pc 0x081389ce bp 0xffdbec38 sp 0xffdbe810\nREAD of size 4 at 0xe6303821 thread T0\nSCARINESS: 45 (4-byte-read-heap-use-after-f",
+    "fix_commit": "02c6b984cb7a2e01f290544a53a24d30fc7ab32e",
+    "patch": "https://github.com/curl/curl/commit/02c6b984cb7a2e01f290544a53a24d30fc7ab32e",
+    "report": "https://issues.oss-fuzz.com/issues/42478820"
+  },
+  "id": "AB-000058",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "b7c0876f18ad81f9afd5b4ee7a3f7a52fc0e5cb72b2bc8ffb38c45d512505db0"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42478820",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "02c6b984cb7a",
+    "generation": "g0",
+    "language": "c++",
+    "project": "curl",
+    "upstream": "https://github.com/curl/curl.git"
+  },
+  "title": "curl: Heap-use-after-free READ 6 in curl_fuzzer_http",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-use-after-free READ 6",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-416"
+      ],
+      "oss_fuzz": "42478820"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

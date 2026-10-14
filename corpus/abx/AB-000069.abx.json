@@ -1,0 +1,73 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42483325-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "gstoraster_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42483325-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42483325-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "8157381b8a3f9b582f71a91c8f5826deef20192006ba7155f50e22cec5df5d76"
+    },
+    "crash_excerpt": "INFO: Seed: 4065233335\nINFO: Loaded 3 modules (113850 inline 8-bit counters): 11477 [0x7f22c7478160, 0x7f22c747ae35), 973 [0x7f22c76cc560, 0x7f22c76cc92d), 101400 [0x2510bc0, 0x25297d8),\nINFO: Loaded 3 PC tables (113850 PCs): 11477 [0x7f22c747ae38,0x7f22c74a7b88), 973 [0x7f22c76cc930,0x7f22c76d0600), 101400 [0x1be5720,0x1d718a0),\n/out/gstoraster_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nINFO: Start rendering...\nINFO: Processing page 1...\n\nTransparency operations ignored - probably due to us",
+    "fix_commit": "748edd2fd75c684d63486eded71ad20254de6f4c",
+    "patch": "https://cgit.ghostscript.com/ghostpdl.git748edd2fd75c684d63486eded71ad20254de6f4c",
+    "report": "https://issues.oss-fuzz.com/issues/42483325"
+  },
+  "id": "AB-000069",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "48daada64216b5a83a02d03d2a24b5fc9b9c09cdc52385e20b4e5f040c559b04"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42483325",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "748edd2fd75c",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ghostpdl",
+    "upstream": "https://cgit.ghostscript.com/ghostpdl.git"
+  },
+  "title": "ghostpdl: UNKNOWN READ in gstoraster_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "UNKNOWN READ",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [],
+      "oss_fuzz": "42483325"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

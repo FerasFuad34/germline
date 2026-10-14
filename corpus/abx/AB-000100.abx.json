@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42489909-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "tiff_read_rgba_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42489909-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42489909-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "b5ebcb7d7aa381272d5d0d42c09a388f9d91c0220777614290a45ff53c2ca010"
+    },
+    "crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 273433889\nINFO: Loaded 1 modules (19298 inline 8-bit counters): 19298 [0xdb5448, 0xdb9faa),\nINFO: Loaded 1 PC tables (19298 PCs): 19298 [0xdb9fb0,0xe055d0),\n/out/tiff_read_rgba_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x8a6f92 in decompress_smooth_data /src/libjpeg-turbo/jdcoefct.c:519:26\n#1 0x8e20e6 in process_data_simple_main /src/libjpeg-turbo/jdmainct.c:300:1",
+    "fix_commit": "0f013e5b5a550606298fb50c3bb90920a7da76fc",
+    "patch": "https://gitlab.com/libtiff/libtiff/-/commit/0f013e5b5a550606298fb50c3bb90920a7da76fc",
+    "report": "https://issues.oss-fuzz.com/issues/42489909"
+  },
+  "id": "AB-000100",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "61b75c99fc33ea83f23cd78ac9dcf11c29ffaa0931317d6d1d3a9c23283b0429"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42489909",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "0f013e5b5a55",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libtiff",
+    "upstream": "https://gitlab.com/libtiff/libtiff"
+  },
+  "title": "libtiff: Use-of-uninitialized-value in tiff_read_rgba_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42489909"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

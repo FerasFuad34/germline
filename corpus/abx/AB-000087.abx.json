@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42479123-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "fuzz_disassemble"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42479123-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42479123-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "cff95b7e1200aee27cd8edfd06f474d3e0dada17919c2edffee3b553c4451a92"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/fuzz_disassemble < INPUT_FILE\nor\n/out/fuzz_disassemble INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/fuzz_disassemble [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 12 bytes from /tmp/poc\n===================",
+    "fix_commit": "bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83",
+    "patch": "https://github.com/bminor/binutils-gdb/commit/bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83",
+    "report": "https://issues.oss-fuzz.com/issues/42479123"
+  },
+  "id": "AB-000087",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "1cb8ec236ecf45eb0cc6fd2c9461dac4a3bdf35995d952274c4d8540ea0f4c36"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42479123",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "bbf9a0b5eef3",
+    "generation": "g0",
+    "language": "c++",
+    "project": "binutils-gdb",
+    "upstream": "git://sourceware.org/git/binutils-gdb.git"
+  },
+  "title": "binutils-gdb: Stack-buffer-overflow WRITE 1 in fuzz_disassemble",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Stack-buffer-overflow WRITE 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-121"
+      ],
+      "oss_fuzz": "42479123"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

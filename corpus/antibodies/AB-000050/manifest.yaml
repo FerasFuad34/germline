@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: hb-shape-fuzzer
+  target_fn: "hb-shape-fuzzer"
   sanitizer: ubsan
   crash_type: "UNKNOWN READ"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470990"
     repo: "https://github.com/harfbuzz/harfbuzz.git"
-    fix_commit: ca54eba4846d0afda4601929556617a7ebe51714
+    fix_commit: "ca54eba4846d0afda4601929556617a7ebe51714"
     patch_url: "https://github.com/harfbuzz/harfbuzz/commit/ca54eba4846d0afda4601929556617a7ebe51714"
     docker:
       vulnerable: "n132/arvo:42470990-vul"

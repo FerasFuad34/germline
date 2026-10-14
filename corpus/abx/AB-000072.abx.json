@@ -1,0 +1,81 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42478840-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "php-fuzz-mbstring"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42478840-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42478840-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "986fed2ccf94c1fee45a69011de932e0268cf9b52b93b647b9225b227144fc2d"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/php-fuzz-mbstring < INPUT_FILE\nor\n/out/php-fuzz-mbstring INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/php-fuzz-mbstring [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 8 bytes from /tmp/poc\n=================",
+    "fix_commit": "1806ce9cb019ee74ddb540cbc07daf121dcb5537",
+    "patch": "https://github.com/php/php-src/commit/1cde9e852879afe123945fe42e831a6715abb866",
+    "report": "https://issues.oss-fuzz.com/issues/42478840"
+  },
+  "ext": {
+    "sh.germline.fix_commits": [
+      "1806ce9cb019ee74ddb540cbc07daf121dcb5537",
+      "1cde9e852879afe123945fe42e831a6715abb866"
+    ]
+  },
+  "id": "AB-000072",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "493afa21b5fba48925160a4e598a1627624ab5cc91b5f7c442ed4b5660cd8048"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42478840",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "1806ce9cb019",
+    "generation": "g0",
+    "language": "c++",
+    "project": "php-src",
+    "upstream": "https://github.com/php/php-src.git"
+  },
+  "title": "php-src: Heap-buffer-overflow READ 1 in php-fuzz-mbstring",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42478840"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "runtime error:",
+      "type": "stdout-regex"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42496802-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "xml"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42496802-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42496802-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "419e133e7eeb4309d8842bc0ae2fdd9fa967a225f09c6a4187cacfc64a6ed4a6"
+    },
+    "crash_excerpt": "INFO: Running with entropic power schedule (0xFF, 100).\nINFO: Seed: 1134090127\nINFO: Loaded 1 modules (55443 inline 8-bit counters): 55443 [0xb3c9a0, 0xb4a233),\nINFO: Loaded 1 PC tables (55443 PCs): 55443 [0x6f8e00,0x7d1730),\n/out/xml: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nparser.c:9963:20: runtime error: member access within address 0x000000000018 with insufficient space for an object of type 'xmlStartTag' (aka 'struct _xmlStartTag')\n0x000000000018: note: pointer points here\n<memory cannot be ",
+    "fix_commit": "bfd2f4300fb348a0fb8265a17546a0eb8bdec719",
+    "patch": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bfd2f4300fb348a0fb8265a17546a0eb8bdec719",
+    "report": "https://issues.oss-fuzz.com/issues/42496802"
+  },
+  "id": "AB-000014",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "90d852fcb70768172ae34c0408dc4e0c3e52f388684b9c5d432654e64ee80c60"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42496802",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "bfd2f4300fb3",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libxml2",
+    "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
+  },
+  "title": "libxml2: Bad-cast in xml",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Bad-cast",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-704"
+      ],
+      "oss_fuzz": "42496802"
+    },
+    "sanitizer": "ubsan",
+    "severity": "High"
+  }
+}

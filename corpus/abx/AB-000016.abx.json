@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470362-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470362-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470362-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "ece585be87af8f5363fd313f41d58cdc432ba522dd5a7e18831360a5808ea0bb"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer < INPUT_FILE\nor\n/out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n=============================================",
+    "fix_commit": "85a921f46184dace4b4f3d968830991eff218e3f",
+    "patch": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/85a921f46184dace4b4f3d968830991eff218e3f",
+    "report": "https://issues.oss-fuzz.com/issues/42470362"
+  },
+  "id": "AB-000016",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "0a43fc7760e6ec04d49cc226119f4b73ac086b38962291a0eb0e34ffc6eaca1f"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470362",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "85a921f46184",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ffmpeg",
+    "upstream": "https://git.ffmpeg.org/ffmpeg.git"
+  },
+  "title": "ffmpeg: Global-buffer-overflow READ 4 in ffmpeg_AV_CODEC_ID_LIBFDK_AAC_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Global-buffer-overflow READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-119"
+      ],
+      "oss_fuzz": "42470362"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

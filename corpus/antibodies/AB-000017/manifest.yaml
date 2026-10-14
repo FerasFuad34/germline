@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ffmpeg_AV_CODEC_ID_ILBC_fuzzer
+  target_fn: "ffmpeg_AV_CODEC_ID_ILBC_fuzzer"
   sanitizer: asan
   crash_type: "Stack-buffer-underflow WRITE 2"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470719"
     repo: "https://git.ffmpeg.org/ffmpeg.git"
-    fix_commit: 25eb10d941f35c3223300583588b1e13debc9288
+    fix_commit: "25eb10d941f35c3223300583588b1e13debc9288"
     patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/25eb10d941f35c3223300583588b1e13debc9288"
     docker:
       vulnerable: "n132/arvo:42470719-vul"

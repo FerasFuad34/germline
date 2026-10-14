@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42477726-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "gstoraster_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42477726-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42477726-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "7f639285e89804a3ba386aff48365d814532dfe0f73bb0681f2d2dfa50d7f3d5"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/gstoraster_fuzzer < INPUT_FILE\nor\n/out/gstoraster_fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/gstoraster_fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 120 bytes from /tmp/poc\nINFO: Start ren",
+    "fix_commit": "77f79475fd0419d16f1efe7812a44a9720fef10b",
+    "patch": "https://cgit.ghostscript.com/ghostpdl.git77f79475fd0419d16f1efe7812a44a9720fef10b",
+    "report": "https://issues.oss-fuzz.com/issues/42477726"
+  },
+  "id": "AB-000066",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "60273951ec69f85fd2ce6f396bfc5dbbb994f07a2ccc9cffe4217c8743eec6e6"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42477726",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "77f79475fd04",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ghostpdl",
+    "upstream": "https://cgit.ghostscript.com/ghostpdl.git"
+  },
+  "title": "ghostpdl: Null-dereference READ in gstoraster_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Null-dereference READ",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-476"
+      ],
+      "oss_fuzz": "42477726"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

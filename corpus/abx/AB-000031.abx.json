@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "WARNING: MemorySanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470554-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "encoder_mng_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470554-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470554-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "2aed9cc422ee3c8a50a7cf7dd993c8a3aa509f1c0ef9b53626828d23c9366e19"
+    },
+    "crash_excerpt": "INFO: Seed: 2121953677\nINFO: Loaded 1 modules (159179 inline 8-bit counters): 159179 [0x2a7a048, 0x2aa0e13),\nINFO: Loaded 1 PC tables (159179 PCs): 159179 [0x2aa0e18,0x2d0eac8),\n/out/encoder_mng_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n==7==WARNING: MemorySanitizer: use-of-uninitialized-value\n#0 0x11d6e7e in deflate_slow /src/zlib/deflate.c:1953:13\n#1 0x11c7ffd in deflate /src/zlib/deflate.c:1003:18\n#2 0x135389e in png_compress_IDAT /src/libpng/pngwutil.c:981:13\n#3 0x1364ef1 in png_write_f",
+    "fix_commit": "33c60b6e5111b19f362a7f4bf0b96e0e75b2ef8e",
+    "patch": "https://github.com/imagemagick/imagemagick/commit/33c60b6e5111b19f362a7f4bf0b96e0e75b2ef8e",
+    "report": "https://issues.oss-fuzz.com/issues/42470554"
+  },
+  "id": "AB-000031",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "24dbf64ad66564e4540841630172c81b5846339891185a964bf633d1cabc5e04"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470554",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "33c60b6e5111",
+    "generation": "g0",
+    "language": "c++",
+    "project": "imagemagick",
+    "upstream": "https://github.com/imagemagick/imagemagick"
+  },
+  "title": "imagemagick: Use-of-uninitialized-value in encoder_mng_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Use-of-uninitialized-value",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-457"
+      ],
+      "oss_fuzz": "42470554"
+    },
+    "sanitizer": "msan",
+    "severity": "Medium"
+  }
+}

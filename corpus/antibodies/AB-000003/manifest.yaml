@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: libxml2_xml_read_memory_fuzzer
+  target_fn: "libxml2_xml_read_memory_fuzzer"
   sanitizer: asan
   crash_type: "Heap-use-after-free READ 1"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470339"
     repo: "https://gitlab.gnome.org/GNOME/libxml2.git"
-    fix_commit: 8c9daf790abfc06e8ca3a44652542c577bb67d49
+    fix_commit: "8c9daf790abfc06e8ca3a44652542c577bb67d49"
     patch_url: "https://gitlab.gnome.org/GNOME/libxml2/-/commit/8c9daf790abfc06e8ca3a44652542c577bb67d49"
     docker:
       vulnerable: "n132/arvo:42470339-vul"

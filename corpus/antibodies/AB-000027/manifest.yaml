@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ffmpeg_AV_CODEC_ID_AAC_fuzzer
+  target_fn: "ffmpeg_AV_CODEC_ID_AAC_fuzzer"
   sanitizer: ubsan
   crash_type: "Index-out-of-bounds"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42473861"
     repo: "https://git.ffmpeg.org/ffmpeg.git"
-    fix_commit: 1002932a3b16d35c46a08455f76462909eebb5aa
+    fix_commit: "1002932a3b16d35c46a08455f76462909eebb5aa"
     patch_url: "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/1002932a3b16d35c46a08455f76462909eebb5aa"
     docker:
       vulnerable: "n132/arvo:42473861-vul"

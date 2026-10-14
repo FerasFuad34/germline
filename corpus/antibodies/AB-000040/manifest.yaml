@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: encoder_heic_fuzzer
+  target_fn: "encoder_heic_fuzzer"
   sanitizer: asan
   crash_type: "Stack-buffer-overflow READ 8"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42475836"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: cdddf99e151c9c2750af70e172d4b6dcb481e1b0
+    fix_commit: "cdddf99e151c9c2750af70e172d4b6dcb481e1b0"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/cdddf99e151c9c2750af70e172d4b6dcb481e1b0"
     docker:
       vulnerable: "n132/arvo:42475836-vul"

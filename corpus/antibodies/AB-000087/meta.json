@@ -10,6 +10,9 @@
   "language": "c++",
   "repo": "git://sourceware.org/git/binutils-gdb.git",
   "fix_commit": "bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83",
+  "fix_commits": [
+    "bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83"
+  ],
   "patch_url": "https://github.com/bminor/binutils-gdb/commit/bbf9a0b5eef3599a1c6a7a3bea40da9f2c37df83",
   "report_url": "https://issues.oss-fuzz.com/issues/42479123",
   "docker": {

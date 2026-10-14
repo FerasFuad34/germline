@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470094-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "hb-subset-fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470094-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470094-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "da6b44cf38eaed3e763a11aa7b7f488de0dc4045f729849e6b1ea4d0d8f8cedf"
+    },
+    "crash_excerpt": "======================= INFO =========================\nThis binary is built for AFL-fuzz.\nTo run the target function on individual input(s) execute this:\n/out/hb-subset-fuzzer < INPUT_FILE\nor\n/out/hb-subset-fuzzer INPUT_FILE1 [INPUT_FILE2 ... ]\nTo fuzz with afl-fuzz execute this:\nafl-fuzz [afl-flags] /out/hb-subset-fuzzer [-N]\nafl-fuzz will run N iterations before re-spawning the process (default: 1000)\n======================================================\nReading 284427 bytes from /tmp/poc\n===============",
+    "fix_commit": "2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+    "patch": "https://github.com/harfbuzz/harfbuzz/commit/2dde6c803a9e50c5bff74095187b0cb2e12eebdd",
+    "report": "https://issues.oss-fuzz.com/issues/42470094"
+  },
+  "id": "AB-000042",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "8fef3dbd91ffa52a3507c0236a876f9dfb50bbfde97ebdf2d2df9486310c7157"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470094",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "2dde6c803a9e",
+    "generation": "g0",
+    "language": "c++",
+    "project": "harfbuzz",
+    "upstream": "https://github.com/harfbuzz/harfbuzz.git"
+  },
+  "title": "harfbuzz: Stack-use-after-return READ 1 in hb-subset-fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Stack-use-after-return READ 1",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-562"
+      ],
+      "oss_fuzz": "42470094"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

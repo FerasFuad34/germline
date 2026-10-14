@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42480782-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "libxml2_xml_read_memory_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42480782-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42480782-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "23d5aeea1d38f9ae29c74940352b10fa10c2e70601b424de0f23493f49d2b361"
+    },
+    "crash_excerpt": "INFO: Seed: 1960697360\nINFO: Loaded 1 modules (44113 guards): [0xc7b030, 0xca6174),\n/out/libxml2_xml_read_memory_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffff6e95c08 at pc 0x00000049cb20 bp 0x7fffffffbef0 sp 0x7fffffffb6a0\nWRITE of size 37 at 0x7ffff6e95c08 thread T0\nSCARINESS: 60 (multi-byte-write-stack-buffer-overflow)\n#0 0x49cb1f in __interceptor_strcat /sr",
+    "fix_commit": "932cc9896ab41475d4aa429c27d9afd175959d74",
+    "patch": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/932cc9896ab41475d4aa429c27d9afd175959d74",
+    "report": "https://issues.oss-fuzz.com/issues/42480782"
+  },
+  "id": "AB-000009",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "d34150eac141d2234285f9a932654910e0100c56205729b8abcba504e0aa4f28"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42480782",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "932cc9896ab4",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libxml2",
+    "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
+  },
+  "title": "libxml2: Stack-buffer-overflow WRITE {*} in libxml2_xml_read_memory_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Stack-buffer-overflow WRITE {*}",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-121"
+      ],
+      "oss_fuzz": "42480782"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

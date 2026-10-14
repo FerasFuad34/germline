@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: hb-subset-get-codepoints-fuzzer
+  target_fn: "hb-subset-get-codepoints-fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 4"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470383"
     repo: "https://github.com/harfbuzz/harfbuzz.git"
-    fix_commit: f8ccb545c47abe8f0f4ed318ff7b5bf176913893
+    fix_commit: "f8ccb545c47abe8f0f4ed318ff7b5bf176913893"
     patch_url: "https://github.com/harfbuzz/harfbuzz/commit/f8ccb545c47abe8f0f4ed318ff7b5bf176913893"
     docker:
       vulnerable: "n132/arvo:42470383-vul"

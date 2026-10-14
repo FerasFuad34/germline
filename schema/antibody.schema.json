@@ -1,7 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://genome.dev/schema/antibody.schema.json",
-  "title": "Antibody",
+  "$id": "https://germline.example/schema/antibody-legacy.schema.json",
+  "title": "Antibody (LEGACY v0 authoring schema)",
+  "$comment": "LEGACY: superseded by schema/abx-0.1.schema.json (RFC-0, docs/rfc/0001-abx-antibody-exchange-format.md). Kept for reference; use ABX for interchange.",
   "description": "جسم مضاد: اختبار تنفيذي دائم مشتق من ثغرة تاريخية، قابل للتوقيع والنقل عبر الأجيال",
   "type": "object",
   "required": ["id", "title", "origin", "attack", "test", "provenance", "status"],

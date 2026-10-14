@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: example_dict_fuzzer
+  target_fn: "example_dict_fuzzer"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42514310"
     repo: "https://github.com/madler/zlib.git"
-    fix_commit: 981ee7570ad98a3cf1ae74d737e2ee619ed79171
+    fix_commit: "981ee7570ad98a3cf1ae74d737e2ee619ed79171"
     patch_url: "https://github.com/madler/zlib/commit/981ee7570ad98a3cf1ae74d737e2ee619ed79171"
     docker:
       vulnerable: "n132/arvo:42514310-vul"

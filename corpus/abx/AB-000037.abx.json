@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473556-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "encoder_j2k_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473556-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473556-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "14c539aff6b68daade2ec91af40764e9c965a4194817793bfc5584c9044de500"
+    },
+    "crash_excerpt": "INFO: Seed: 3329655624\nINFO: Loaded 1 modules (104405 inline 8-bit counters): 104405 [0x184cf30, 0x1866705),\nINFO: Loaded 1 PC tables (104405 PCs): 104405 [0x1866708,0x19fe458),\n/out/encoder_j2k_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x619000001d70 at pc 0x000000adc87c bp 0x7ffc59895b30 sp 0x7ffc59895b28\nREAD of size 4 at 0x619000001d70 thread T0\nSCARINESS: 17 (",
+    "fix_commit": "75477483fbf99382b4310233b1521cbcc5e7affd",
+    "patch": "https://github.com/imagemagick/imagemagick/commit/75477483fbf99382b4310233b1521cbcc5e7affd",
+    "report": "https://issues.oss-fuzz.com/issues/42473556"
+  },
+  "id": "AB-000037",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "89890391cc78da821b0027ef739152e380110fc66d6610da82f6b979f90abc5e"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473556",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "75477483fbf9",
+    "generation": "g0",
+    "language": "c++",
+    "project": "imagemagick",
+    "upstream": "https://github.com/imagemagick/imagemagick"
+  },
+  "title": "imagemagick: Heap-buffer-overflow READ 4 in encoder_j2k_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow READ 4",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42473556"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

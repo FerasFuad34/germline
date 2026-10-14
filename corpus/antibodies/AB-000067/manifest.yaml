@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: gstoraster_fuzzer
+  target_fn: "gstoraster_fuzzer"
   sanitizer: asan
   crash_type: "Heap-use-after-free READ 8"
 
@@ -34,17 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42481819"
     repo: "https://cgit.ghostscript.com/ghostpdl.git"
-    fix_commit: 6fc5cbc5bc57ae2c47d1276f1ea0c0f16017b4bb
-06a08fca00194531df25652b46eca8f8e4dfd7cc
-c5883877d1dc7abbd7600eb688f7cf4ad34db0cc
-1f6b351a5048b5a14d52431c833da6ed3386a7bf
-cd5f21df6c710664ff0ba3f100ca5283d9367ed8
-5fc8e7c0b656d4e2be8f5e316121f06039c35273
-b58e9010ce17bce450e4c042b93bafc460b9d94a
-d7d68f45bfc227f7c7a6fdd5f8ef078bbf7ca77f
-d86e9d8251e142ab9aae9f50923414c0c18bf1d3
-9fd069e5c91126e78b51625c72d884615370098c
-f5b7acb59c4f2e88591aab9f355813e0b7b68db5
+    fix_commit: "6fc5cbc5bc57ae2c47d1276f1ea0c0f16017b4bb"
     patch_url: "https://cgit.ghostscript.com/ghostpdl.gitf5b7acb59c4f2e88591aab9f355813e0b7b68db5"
     docker:
       vulnerable: "n132/arvo:42481819-vul"

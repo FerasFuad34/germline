@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ftfuzzer
+  target_fn: "ftfuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow WRITE 8"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42490980"
     repo: "https://github.com/freetype/freetype2"
-    fix_commit: edf40148545038d07a394082caa1b9155941f88f
+    fix_commit: "edf40148545038d07a394082caa1b9155941f88f"
     patch_url: "https://github.com/freetype/freetype2/commit/edf40148545038d07a394082caa1b9155941f88f"
     docker:
       vulnerable: "n132/arvo:42490980-vul"

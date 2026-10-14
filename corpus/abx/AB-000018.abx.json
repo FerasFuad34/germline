@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42470722-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ffmpeg_AV_CODEC_ID_ILBC_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42470722-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42470722-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "bf8af0eb6e7cd6b0c2306e7e755a3bc66b9c3860a07dc051f14b93f30b507393"
+    },
+    "crash_excerpt": "INFO: Seed: 971160723\nINFO: Loaded 1 modules (35519 inline 8-bit counters): 35519 [0xf4efe8, 0xf57aa7),\nINFO: Loaded 1 PC tables (35519 PCs): 35519 [0xbb6b00,0xc416f0),\n/out/ffmpeg_AV_CODEC_ID_ILBC_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f52524d6e7a at pc 0x0000004eb20d bp 0x7ffde1c17eb0 sp 0x7ffde1c17660\nREAD of size 72 at 0x7f52524d6e7a thread T0\nSCARINESS:",
+    "fix_commit": "25eb10d941f35c3223300583588b1e13debc9288",
+    "patch": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/25eb10d941f35c3223300583588b1e13debc9288",
+    "report": "https://issues.oss-fuzz.com/issues/42470722"
+  },
+  "id": "AB-000018",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "43592c54d54a75531a87f26d6da865a82ea56039fb2f502e3e0ec0cf55bc0ed0"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42470722",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "25eb10d941f3",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ffmpeg",
+    "upstream": "https://git.ffmpeg.org/ffmpeg.git"
+  },
+  "title": "ffmpeg: Stack-buffer-overflow READ {*} in ffmpeg_AV_CODEC_ID_ILBC_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Stack-buffer-overflow READ {*}",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-121"
+      ],
+      "oss_fuzz": "42470722"
+    },
+    "sanitizer": "asan",
+    "severity": "Medium"
+  }
+}

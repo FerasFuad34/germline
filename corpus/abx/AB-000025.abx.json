@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "ERROR: AddressSanitizer",
+      "type": "sanitizer-report"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42473419-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "ffmpeg_AV_CODEC_ID_MPEG4_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42473419-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42473419-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "fce7e6f12e1a49502fd378c05aa05d1a2084f477cf9246ea68d7c51a51de5929"
+    },
+    "crash_excerpt": "INFO: Seed: 1732885181\nINFO: Loaded 1 modules (34883 inline 8-bit counters): 34883 [0xf32ff0, 0xf3b833),\nINFO: Loaded 1 PC tables (34883 PCs): 34883 [0xba09f0,0xc28e20),\n/out/ffmpeg_AV_CODEC_ID_MPEG4_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\n=================================================================\n==7==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7f2dbfd0f84e at pc 0x000000581733 bp 0x7ffc57afcb30 sp 0x7ffc57afcb28\nWRITE of size 2 at 0x7f2dbfd0f84e thread T0\nSCARINESS",
+    "fix_commit": "1f686d023b95219db933394a7704ad9aa5f01cbb",
+    "patch": "https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/1f686d023b95219db933394a7704ad9aa5f01cbb",
+    "report": "https://issues.oss-fuzz.com/issues/42473419"
+  },
+  "id": "AB-000025",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "fd9a0c5b5c2837bece4851ee72b88ceedfb155c9daab36d8a425a4a431f1f029"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42473419",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "1f686d023b95",
+    "generation": "g0",
+    "language": "c++",
+    "project": "ffmpeg",
+    "upstream": "https://git.ffmpeg.org/ffmpeg.git"
+  },
+  "title": "ffmpeg: Heap-buffer-overflow WRITE 2 in ffmpeg_AV_CODEC_ID_MPEG4_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Heap-buffer-overflow WRITE 2",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-122"
+      ],
+      "oss_fuzz": "42473419"
+    },
+    "sanitizer": "asan",
+    "severity": "High"
+  }
+}

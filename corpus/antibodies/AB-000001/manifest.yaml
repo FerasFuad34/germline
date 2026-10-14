@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: libxml2_xml_read_memory_fuzzer
+  target_fn: "libxml2_xml_read_memory_fuzzer"
   sanitizer: msan
   crash_type: "Use-of-uninitialized-value"
 
@@ -29,12 +29,12 @@ severity:
 
 provenance:
   generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
-  verified_by: []
+  verified_by: ["github-actions/ubuntu-latest:run-38630272283@2026-10-14"]
   source:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470114"
     repo: "https://gitlab.gnome.org/GNOME/libxml2.git"
-    fix_commit: 074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e
+    fix_commit: "074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e"
     patch_url: "https://gitlab.gnome.org/GNOME/libxml2/-/commit/074180119fc90d5fd04ef9e8a5ee1910d6f9ad8e"
     docker:
       vulnerable: "n132/arvo:42470114-vul"
@@ -43,4 +43,4 @@ provenance:
     expected_crash_sha256: "25f02061c96b3888255fb8e9160fa132724b3b771aba978eba911bb2f1ba69c9"
     expected_crash_excerpt_bytes: 2000
 
-status: draft
+status: validated

@@ -1,0 +1,75 @@
+{
+  "abx_version": "0.1",
+  "challenge": {
+    "detector": {
+      "match": "runtime error:",
+      "type": "stdout-regex"
+    },
+    "expect": {
+      "fixed": "clean",
+      "vulnerable": "crash"
+    },
+    "harness": "docker run --rm n132/arvo:42475106-vul arvo",
+    "kind": "proof-of-vulnerability",
+    "target": "libxml2_xml_read_memory_fuzzer"
+  },
+  "environments": {
+    "fixed": {
+      "ref": "n132/arvo:42475106-fix",
+      "type": "oci-image"
+    },
+    "vulnerable": {
+      "ref": "n132/arvo:42475106-vul",
+      "type": "oci-image"
+    }
+  },
+  "evidence": {
+    "crash_digest": {
+      "alg": "sha256",
+      "value": "bfd4a0223c27af3a3205afa6f483578d4fea73e9130425c45bc68f3cb9d56ab4"
+    },
+    "crash_excerpt": "INFO: Seed: 145191291\nINFO: Loaded 0 modules (0 guards):\n/out/libxml2_xml_read_memory_fuzzer: Running 1 inputs 1 time(s) each.\nRunning: /tmp/poc\nparser.c:1282:5: runtime error: index 5 out of bounds for type 'const xmlChar *[5]'\n#0 0x4671f3 in xmlAddDefAttrs /src/libxml2/parser.c:1282:45\n#1 0x466c11 in xmlParseAttributeListDecl /src/libxml2/parser.c:6181:3\n#2 0x468de2 in xmlParseMarkupDecl /src/libxml2/parser.c:7002:7\n#3 0x473424 in xmlParseInternalSubset /src/libxml2/parser.c:8482:6\n#4 0x472f79 in xmlParse",
+    "fix_commit": "474967241cdcce6d3a2fd356079571eee794ec12",
+    "patch": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/474967241cdcce6d3a2fd356079571eee794ec12",
+    "report": "https://issues.oss-fuzz.com/issues/42475106"
+  },
+  "id": "AB-000007",
+  "integrity": {
+    "algorithm": "sha256",
+    "value": "82fea65e3db23ba0512403ef1915de1cd9cd70b283eb42c66fa17adfd67f4106"
+  },
+  "kind": "antibody",
+  "provenance": {
+    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_by": "germline-extractor/0.1",
+    "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
+    "source": {
+      "dataset": "ARVO",
+      "record": "42475106",
+      "version": "v3.0.0"
+    }
+  },
+  "status": "draft",
+  "subject": {
+    "fixed_in": "474967241cdc",
+    "generation": "g0",
+    "language": "c++",
+    "project": "libxml2",
+    "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
+  },
+  "title": "libxml2: Index-out-of-bounds in libxml2_xml_read_memory_fuzzer",
+  "vulnerability": {
+    "class": "memory-safety",
+    "crash_type": "Index-out-of-bounds",
+    "cvss": null,
+    "identifiers": {
+      "cve": [],
+      "cwe": [
+        "CWE-129"
+      ],
+      "oss_fuzz": "42475106"
+    },
+    "sanitizer": "ubsan",
+    "severity": "Medium"
+  }
+}

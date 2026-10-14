@@ -12,7 +12,7 @@ origin:
 
 attack:
   class: memory-safety
-  target_fn: ^[[Bencoder_mvg_fuzzer
+  target_fn: "^[[Bencoder_mvg_fuzzer"
   sanitizer: asan
   crash_type: "Heap-buffer-overflow READ 8"
 
@@ -34,7 +34,7 @@ provenance:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470131"
     repo: "https://github.com/imagemagick/imagemagick"
-    fix_commit: 9bd3e4c89ccb78974d3b7ec63ba7680ac78882af
+    fix_commit: "9bd3e4c89ccb78974d3b7ec63ba7680ac78882af"
     patch_url: "https://github.com/imagemagick/imagemagick/commit/9bd3e4c89ccb78974d3b7ec63ba7680ac78882af"
     docker:
       vulnerable: "n132/arvo:42470131-vul"
