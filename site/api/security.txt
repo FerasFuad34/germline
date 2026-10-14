@@ -1,0 +1,4 @@
+Contact: https://github.com/FerasFuad34/germline/security/advisories/new
+Preferred-Languages: en, ar
+Policy: https://github.com/FerasFuad34/germline/blob/main/SECURITY.md
+Canonical: /.well-known/security.txt

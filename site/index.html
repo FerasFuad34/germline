@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GERMLINE — live demo (static mirror)</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+<style>
+  :root{
+    --bg:#0b1220; --card:#111b2e; --line:#1e293b; --fg:#f8fafc; --mut:#94a3b8;
+    --cyan:#22d3ee; --amber:#f59e0b; --green:#34d399; --red:#f87171;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  .top{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line);padding-bottom:18px}
+  h1{font-size:34px;margin:0;letter-spacing:.5px;color:var(--cyan)}
+  .tag{color:var(--mut);font-size:15px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:26px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .num{font-size:40px;font-weight:800;color:var(--cyan);line-height:1}
+  .lbl{color:var(--mut);font-size:14px;margin-top:6px}
+  h2{font-size:18px;margin:34px 0 10px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+  pre{background:#0d1526;border:1px solid var(--line);border-radius:12px;padding:16px;overflow:auto;font-size:13.5px}
+  code{color:var(--cyan)}
+  .ok{color:var(--green)} .warn{color:var(--amber)} .bad{color:var(--red)}
+  a{color:var(--cyan)}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:3px 12px;color:var(--mut);font-size:13px;margin-right:6px}
+  footer{margin-top:60px;color:var(--mut);font-size:13px;border-top:1px solid var(--line);padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div style="font-size:40px">🧬</div>
+    <div>
+      <h1>GERMLINE</h1>
+      <div class="tag">Immune inheritance for software — <b>static mirror</b> (updates on every push)</div>
+    </div>
+  </div>
+
+  <p style="color:var(--mut);margin-top:22px">
+    SBOM tells you what's in your code. GERMLINE tells you what your code survived —
+    and proves the next generation still survives it.
+  </p>
+
+  <h2>Corpus (live from the repo)</h2>
+  <div class="grid" id="corpusGrid">
+    <div class="card"><div class="num" id="nAB">—</div><div class="lbl">antibodies</div></div>
+    <div class="card"><div class="num" id="nProj">—</div><div class="lbl">projects</div></div>
+    <div class="card"><div class="num" id="nVer" style="color:var(--green)">—</div><div class="lbl">verified end-to-end</div></div>
+    <div class="card"><div class="num" id="nHigh" style="color:var(--amber)">—</div><div class="lbl">high severity</div></div>
+  </div>
+  <div id="corpusStatus" class="tag"></div>
+
+  <h2>Immune gate — demo lineage</h2>
+  <div class="grid" id="gates"></div>
+
+  <h2>Raw endpoints</h2>
+  <div>
+    <span class="pill"><a href="api/summary.json">summary.json</a></span>
+    <span class="pill"><a href="api/corpus.json">corpus.json</a></span>
+    <span class="pill"><a href="api/gate-g2.json">gate-g2.json</a></span>
+    <span class="pill"><a href="api/passport.json">passport.json</a></span>
+    <span class="pill"><a href="api/security.txt">security.txt</a></span>
+    <span class="pill"><a href="api/healthz.json">healthz.json</a></span>
+  </div>
+
+  <h2>Quick start (your machine)</h2>
+  <pre><code>git clone https://github.com/FerasFuad34/germline
+cd germline
+python3 tools/abx.py validate corpus/abx/*.abx.json   # 100 ABX documents
+bash tools/run-corpus-checks.sh --sample 3            # real Docker double-check</code></pre>
+
+  <footer>
+    <div>Apache-2.0 (code) · CC-BY-4.0 (data) · spec open · <a href="https://github.com/FerasFuad34/germline">repository</a></div>
+    <div id="stamp" style="margin-top:8px"></div>
+  </footer>
+</div>
+
+<script>
+async function j(p){ try { const r = await fetch(p, {cache:"no-store"}); return r.ok ? await r.json() : null; } catch(e){ return null; } }
+
+(async () => {
+  const s = await j("api/summary.json");
+  const c = await j("api/corpus.json");
+  if (s?.corpus) {
+    document.getElementById("nAB").textContent   = s.corpus.antibodies ?? "—";
+    document.getElementById("nProj").textContent = s.corpus.projects ?? "—";
+    document.getElementById("nHigh").textContent = s.corpus.high_severity ?? "—";
+    document.getElementById("nVer").textContent  = (s.corpus.status||"").match(/^\d+/)?.[0] ?? "—";
+  }
+  if (s?.generated_at) document.getElementById("stamp").textContent =
+    "snapshot generated at " + s.generated_at + " · version " + (s.version||"?");
+
+  if (c?.status) {
+    document.getElementById("corpusStatus").innerHTML =
+      '<span class="ok">●</span> ' + c.status + ' — full log in corpus/VERIFICATION.md';
+  }
+
+  const gates = [["g0","C reference"],["g1","patched"],["g2","Rust rewrite"]];
+  const box = document.getElementById("gates");
+  for (const [g,label] of gates) {
+    const d = await j("api/gate-" + g + ".json");
+    const imm = d?.immunity || {};
+    const parity = imm.immune_parity ?? null;
+    const card = document.createElement("div");
+    card.className = "card";
+    const badge = parity === true
+      ? '<span class="ok">● immune parity VERIFIED</span>'
+      : parity === false
+        ? '<span class="bad">● amnesia detected</span>'
+        : '<span class="warn">● no data</span>';
+    const cov = (imm.inherited_coverage_pct !== undefined) ? ('coverage ' + imm.inherited_coverage_pct + '%') : '';
+    const counts = (imm.passed !== undefined) ? (imm.passed + ' passed · ' + imm.failed + ' failed · ' + imm.antibodies_inherited + ' inherited') : '';
+    const sig = d?.artifact?.hash ? d.artifact.hash.slice(0,30) + '…' : '';
+    card.innerHTML = '<div style="font-weight:700;font-size:18px">' + g + ' — ' + label + '</div>' +
+                     '<div class="lbl">' + badge + '</div>' +
+                     '<div class="lbl">' + counts + ' ' + cov + '</div>' +
+                     (sig ? '<div class="lbl" style="font-family:monospace;font-size:12px">' + sig + '</div>' : '');
+    box.appendChild(card);
+  }
+})();
+</script>
+</body>
+</html>

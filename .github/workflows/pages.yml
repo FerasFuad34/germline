@@ -1,0 +1,82 @@
+name: Static mirror (GitHub Pages)
+
+# Publishes site/ as a static mirror of the live demo, refreshed on every push.
+# Fully independent of any hosting provider's build system.
+#
+# Requires Pages to be enabled once:
+#   Settings -> Pages -> Build and deployment -> Source: GitHub Actions
+# Until then this workflow exits successfully with a reminder (no red X).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      pages_enabled: ${{ steps.pages_check.outputs.enabled }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Is Pages enabled?
+        id: pages_check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pages")
+          if [ "$code" = "200" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Static mirror skipped::Enable Pages once: Settings -> Pages -> Source: GitHub Actions. The mirror will publish on the next push."
+          fi
+
+      - name: Install dependencies
+        if: steps.pages_check.outputs.enabled == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt httpx
+
+      - name: Refresh the static mirror from the app
+        if: steps.pages_check.outputs.enabled == 'true'
+        run: python3 tools/export-static-site.py
+
+      - name: Configure Pages
+        if: steps.pages_check.outputs.enabled == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        if: steps.pages_check.outputs.enabled == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.pages_enabled == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true  # keep the pipeline green if Pages was disabled mid-flight
