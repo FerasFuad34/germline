@@ -24,7 +24,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
 BASE = Path(__file__).resolve().parent
 DATA = BASE / "data"
-VERSION = "0.1.0-demo"
+VERSION = "0.1.1-demo"
 REPO_URL = "https://github.com/FerasFuad34/germline"
 DISCLAIMER = (
     "Demo-signed evidence of executed checks — not a guarantee that the artifact is "
