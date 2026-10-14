@@ -1,0 +1,73 @@
+name: Render watchdog (auto-heal stale deploy)
+
+# The live site should always serve the version in app/main.py.
+# While a hosting provider is degraded, deploys cannot start — so this watchdog:
+#   1. compares the live version with the repo version,
+#   2. waits until the provider reports operational,
+#   3. pushes a marker commit (rate-limited to once / 2h) to retrigger auto-deploy,
+# then verifies on the next cycle. No secrets required.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: render-watchdog
+  cancel-in-progress: true
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compare live version with repo version
+        id: cmp
+        run: |
+          WANT=$(grep -oP 'VERSION\s*=\s*"\K[^"]+' app/main.py | head -1)
+          LIVE=$(curl -s --max-time 30 https://germline.onrender.com/healthz | python3 -c "import sys,json;print(json.load(sys.stdin).get('version','?'))" 2>/dev/null || echo "unreachable")
+          echo "want=$WANT live=$LIVE"
+          echo "want=$WANT" >> "$GITHUB_OUTPUT"
+          echo "live=$LIVE" >> "$GITHUB_OUTPUT"
+          if [ "$WANT" = "$LIVE" ]; then echo "stale=false" >> "$GITHUB_OUTPUT"; else echo "stale=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Is the provider operational again?
+        id: provider
+        if: steps.cmp.outputs.stale == 'true'
+        run: |
+          IND=$(curl -s --max-time 20 https://status.render.com/api/v2/status.json | python3 -c "import sys,json;print(json.load(sys.stdin)['status']['indicator'])" 2>/dev/null || echo "unknown")
+          echo "indicator=$IND"
+          if [ "$IND" = "none" ]; then echo "up=true" >> "$GITHUB_OUTPUT"; else echo "up=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Rate limit (once per 2 hours)
+        id: rate
+        if: steps.cmp.outputs.stale == 'true' && steps.provider.outputs.up == 'true'
+        run: |
+          LAST=$(cat .watchdog-last 2>/dev/null || echo 0)
+          NOW=$(date +%s)
+          DIFF=$(( NOW - LAST ))
+          echo "last=$LAST now=$NOW diff=${DIFF}s"
+          if [ "$DIFF" -gt 7200 ]; then echo "go=true" >> "$GITHUB_OUTPUT"; else echo "go=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Retrigger deploy (marker commit)
+        if: steps.rate.outputs.go == 'true'
+        run: |
+          date +%s > .watchdog-last
+          git config user.name "GERMLINE watchdog"
+          git config user.email "germline@users.noreply.github.com"
+          git add .watchdog-last
+          git commit -m "watchdog: provider recovered — retrigger deploy (want ${{ steps.cmp.outputs.want }}, live ${{ steps.cmp.outputs.live }})"
+          git push
+          echo "::notice title=Deploy retriggered::Hosting provider is back; pushed a marker commit to start a fresh deploy of the latest code."
+
+      - name: Summary
+        run: |
+          echo "repo version : ${{ steps.cmp.outputs.want }}"
+          echo "live version : ${{ steps.cmp.outputs.live }}"
+          echo "stale        : ${{ steps.cmp.outputs.stale }}"
+          echo "provider up  : ${{ steps.provider.outputs.up || 'n/a' }}"
+          echo "retriggered  : ${{ steps.rate.outputs.go || 'no' }}"
