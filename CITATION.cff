@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use the GERMLINE antibody corpus or tooling, please cite it as below."
+title: "GERMLINE Antibody Corpus"
+abstract: >-
+  A corpus of reproducible security antibodies derived from fixed, publicly
+  disclosed memory-safety vulnerabilities (ARVO / OSS-Fuzz). Each antibody
+  discriminates a vulnerable build (must fail) from a fixed build (must stay
+  clean); 100 antibodies across 17 critical C/C++ projects, published both as
+  authoring manifests and in the ABX v0.1 exchange format (RFC-0).
+authors:
+  - name: "GERMLINE Project"
+    website: "https://github.com/FerasFuad34/germline"
+version: "0.1.0"
+date-released: "2026-10-14"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/FerasFuad34/germline"
+url: "https://github.com/FerasFuad34/germline/releases/tag/v0.1.0"
+keywords:
+  - vulnerability
+  - regression testing
+  - supply chain security
+  - fuzzing
+  - memory safety
+  - ABX
+  - antibody
+  - OSS-Fuzz
+  - ARVO

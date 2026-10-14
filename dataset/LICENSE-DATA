@@ -1,0 +1,20 @@
+GERMLINE Antibody Corpus — data license notice
+==============================================
+
+The data in this package (the antibody corpus: manifests, metadata, ABX
+documents, indexes, statistics and the datasheet) is licensed under the
+
+    Creative Commons Attribution 4.0 International License (CC-BY-4.0)
+    https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt the data for any purpose, provided you give
+appropriate credit, link to the license, and indicate if changes were made.
+
+Required attribution (this satisfies it):
+
+  "Data derived from the GERMLINE Antibody Corpus v0.1 (CC-BY-4.0), which is
+   derived from ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026),
+   which curates OSS-Fuzz reports."
+
+Code in this package (tools/abx.py and the JSON Schema) is licensed under the
+Apache License 2.0 — see the LICENSE file.

@@ -22,3 +22,6 @@ arvo-workspace/
 # Local env
 .env
 .env.*
+
+# dataset build artifacts (attached to releases, not committed)
+dist/

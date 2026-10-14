@@ -33,6 +33,21 @@ python3 tools/abx.py convert --corpus corpus --out corpus/abx --all   # render t
 python3 tools/abx.py validate corpus/abx/*.abx.json                   # schema + invariants (L2)
 ```
 
+## Dataset v0.1 (citable)
+
+A self-contained, citable package of the corpus — 100 antibody records, the 100
+ABX documents, the RFC-0 spec, schema and validator, plus a full datasheet and a
+SHA-256 manifest of every file. Deterministic build: the same sources always
+produce the same archive bytes.
+
+```bash
+python3 tools/build-dataset.py       # -> dist/germline-corpus-v0.1.0.zip (+ .sha256)
+```
+
+Download: [**Release v0.1.0**](https://github.com/FerasFuad34/germline/releases) ·
+Citation: [CITATION.cff](CITATION.cff) · DOI: Zenodo deposit in preparation
+(metadata ready in `dataset/metadata/zenodo-deposit.json`).
+
 ## Try it now (live)
 
 ```bash

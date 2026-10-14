@@ -1,0 +1,36 @@
+{
+  "_README": "Zenodo deposit metadata for GERMLINE Antibody Corpus v0.1.0. Option A: link the GitHub repo to Zenodo and publish the v0.1.0 release (auto-archive). Option B: use the Zenodo web upload with these fields, or the REST API: POST https://zenodo.org/api/deposit/depositions with this body. Replace the TODO before publishing.",
+  "metadata": {
+    "title": "GERMLINE Antibody Corpus v0.1 — reproducible security antibodies from fixed, publicly disclosed vulnerabilities",
+    "upload_type": "dataset",
+    "description": "<p>The <strong>GERMLINE Antibody Corpus v0.1</strong> contains 100 <em>antibodies</em>: executable, permanently reproducible security checks derived from fixed, publicly disclosed memory-safety vulnerabilities in 17 critical C/C++ projects (libxml2, ffmpeg, ImageMagick, harfbuzz, curl, wireshark, ghostpdl, php-src, libarchive, gpac, binutils-gdb, freetype2, openssl, libwebp, zlib, libpng, libtiff).</p><p>Each antibody encodes a discriminating experiment: one pinned environment that must fail (crash with a specified sanitizer marker) and one that must stay clean, plus the evidence that this discrimination has been measured. Records reference public OSS-Fuzz reports and upstream fix commits; no binaries, crash inputs, or exploit payloads are redistributed.</p><p>The corpus ships in two formats: human-friendly authoring manifests and the <strong>ABX v0.1</strong> wire format (RFC-0), with a strict JSON Schema, a reference validator (convert / validate / digest), and an append-only verification log. At v0.1, 3 of 100 antibodies are verified end-to-end on hosted Docker runners (crash-on-vulnerable / clean-on-fixed, reproduced across independent runs); the remaining records are explicitly marked as draft.</p><p>Derived from ARVO — Atlas of Reproducible Vulnerabilities (EuroS&amp;P 2026), which curates OSS-Fuzz reports. Data: CC-BY-4.0. Code: Apache-2.0.</p>",
+    "creators": [
+      {
+        "name": "TODO: Family name, Given name",
+        "affiliation": "GERMLINE project"
+      }
+    ],
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "version": "0.1.0",
+    "language": "eng",
+    "keywords": [
+      "vulnerability", "regression testing", "supply chain security",
+      "fuzzing", "memory safety", "OSS-Fuzz", "ARVO", "SBOM", "CRA",
+      "immune amnesia", "AI-assisted code translation", "ABX"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/FerasFuad34/germline",
+        "relation": "isSupplementTo",
+        "scheme": "url"
+      },
+      {
+        "identifier": "https://github.com/n132/ARVO-Meta",
+        "relation": "isDerivedFrom",
+        "scheme": "url"
+      }
+    ],
+    "notes": "Pre-alpha research artifact. Verification policy and per-record status are documented in corpus/VERIFICATION.md and the datasheet. Contact via GitHub issues."
+  }
+}

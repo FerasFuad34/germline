@@ -27,7 +27,7 @@ Only **fixed, publicly disclosed** vulnerabilities are ever included. We do not 
 
 ### M1 — Proof `Nov – Dec 2026`
 - [x] Extractor v0.1 (public, Apache-2.0)
-- [ ] Dataset v0.1 with DOI (Zenodo) + datasheet
+- [~] Dataset v0.1: packaged + released (`germline-corpus-v0.1.0.zip`, deterministic build, datasheet, CITATION.cff) — **DOI minting pending** (Zenodo deposit, owner action)
 - [ ] Immune Gate GitHub Action — beta with 3 OSS pilot repos
 - [ ] First public monthly Immune Digest
 
