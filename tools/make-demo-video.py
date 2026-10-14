@@ -213,7 +213,7 @@ def ffmpeg() -> str:
 
 def cmd_assemble(args) -> int:
     frames = OUT / "frames"
-    audio = Path(args.audio) if args.audio else None
+    audio = Path(args.audio).resolve() if args.audio else None
     total = args.total
     durations = [d for _, d in SCENES]
     if total:  # scale scene durations so the video matches the narration length
