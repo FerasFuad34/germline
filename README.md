@@ -21,7 +21,9 @@ bash tools/run-corpus-checks.sh --sample 5    # double-check: crash on vul / cle
 python3 extractor/arvo.py --help              # regenerate the corpus from arvo.db
 ```
 
-Status: 🟡 **draft** — validation (double-check on a Docker host) is the next milestone. See [corpus/README.md](corpus/README.md) and [corpus/INDEX.md](corpus/INDEX.md).
+Status: 🟡 **draft — verification operational**: first antibodies validated in CI
+(crash-on-vulnerable / clean-on-fixed — see [corpus/VERIFICATION.md](corpus/VERIFICATION.md)),
+auto-run on every corpus change. See [corpus/README.md](corpus/README.md) and [corpus/INDEX.md](corpus/INDEX.md).
 
 ## Try it now (live)
 

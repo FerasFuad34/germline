@@ -20,7 +20,7 @@ Only **fixed, publicly disclosed** vulnerabilities are ever included. We do not 
 
 ### M0 — Foundation `target: Oct 2026`
 - [x] Antibody extractor + **100 draft antibodies** from ARVO across 17 critical projects (stable IDs, provenance, evidence hashes)
-- [ ] Double-check the corpus (crash-on-vulnerable / clean-on-fixed) on a Docker host — runner ready (`tools/run-corpus-checks.sh`), CI job ready (`Corpus double-check`)
+- [~] Double-check the corpus (crash-on-vulnerable / clean-on-fixed): **mechanism operational — first 2/100 verified in CI** (run #001, see `corpus/VERIFICATION.md`); full-corpus pass being scheduled
 - [ ] RFC-0: `ABX` antibody format specification published for public comment
 - [ ] Public repo: LICENSE (Apache-2.0), Security Policy, Threat Model, Code of Conduct
 - [ ] Own SBOM + self-immune-passport on every release (we use what we sell)
