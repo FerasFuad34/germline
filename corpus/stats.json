@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-14T20:47:10+00:00",
+  "generated_at": "2026-10-14T20:51:42+00:00",
   "source": {
     "dataset": "ARVO",
     "db_version": "v3.0.0",
     "table": "arvo"
   },
-  "status": "2 verified / 98 draft — double-check operational (latest run 38630272283)",
+  "status": "3 verified / 97 draft — double-check operational (latest run 38635106574)",
   "totals": {
     "antibodies": 100,
     "projects": 17,
     "high_severity": 26,
-    "verified": 2
+    "verified": 3
   },
   "by_project": {
     "libxml2": 14,

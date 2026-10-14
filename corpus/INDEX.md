@@ -1,8 +1,8 @@
 # GERMLINE Antibody Corpus — INDEX
 
-**100 antibodies** across **17 projects** — generated 2026-10-14T20:47:10+00:00 from ARVO v3.0.0.
+**100 antibodies** across **17 projects** — generated 2026-10-14T20:51:42+00:00 from ARVO v3.0.0.
 
-> Status: 🟢 2 validated (double-checked on a real runner) · 🟡 98 draft — full run log in `VERIFICATION.md`.
+> Status: 🟢 3 validated (double-checked on a real runner) · 🟡 97 draft — full run log in `VERIFICATION.md`.
 
 ## ffmpeg (14)
 
@@ -29,7 +29,7 @@
 |---|---|---|---|---|---|
 | 🟢 `AB-000001` | msan | Use-of-uninitialized-value | Medium | `074180119fc9` | [link](https://issues.oss-fuzz.com/issues/42470114) |
 | 🟢 `AB-000002` | msan | Use-of-uninitialized-value | Medium | `074180119fc9` | [link](https://issues.oss-fuzz.com/issues/42470125) |
-| 🟡 `AB-000003` | asan | Heap-use-after-free READ 1 | High | `8c9daf790abf` | [link](https://issues.oss-fuzz.com/issues/42470339) |
+| 🟢 `AB-000003` | asan | Heap-use-after-free READ 1 | High | `8c9daf790abf` | [link](https://issues.oss-fuzz.com/issues/42470339) |
 | 🟡 `AB-000004` | asan | Heap-use-after-free READ 1 | High | `8c9daf790abf` | [link](https://issues.oss-fuzz.com/issues/42470348) |
 | 🟡 `AB-000005` | asan | Bad-free | Medium | `1567b55b72b8` | [link](https://issues.oss-fuzz.com/issues/42471662) |
 | 🟡 `AB-000006` | asan | Heap-double-free | High | `26828cb3a129` | [link](https://issues.oss-fuzz.com/issues/42472675) |

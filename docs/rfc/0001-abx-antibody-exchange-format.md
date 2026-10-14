@@ -216,7 +216,10 @@ passes the JSON Schema (which can only express a subset).
    v0.1 documents contain no floating-point values other than `null`/integers,
    so the profile is trivially conformant.
 3. `integrity.value = sha256_hex(canonical(body))`.
-4. `signatures[]` (optional in v0.1) sign the *canonical body*. v0.1 defines the
+4. `provenance.generated_at` records the **first generation** of the antibody and
+   never changes on re-rendering; only `verification` (append-only) and `status`
+   evolve over time. This keeps re-rendered documents byte-identical.
+5. `signatures[]` (optional in v0.1) sign the *canonical body*. v0.1 defines the
    container, not the algorithms; interoperable signature methods (Ed25519 key
    files, sigstore bundles) are the v0.2 deliverable.
 

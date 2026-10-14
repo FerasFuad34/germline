@@ -36,11 +36,11 @@
   "id": "AB-000003",
   "integrity": {
     "algorithm": "sha256",
-    "value": "4839d0376afe50ee47545e03abdd6cbf65754884d6dbcfc68a4eef8ddb2e9b6f"
+    "value": "421a52a46bdb7a47812fa88e00082827784db605eda352dd25ee36c11104fe20"
   },
   "kind": "antibody",
   "provenance": {
-    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_at": "2026-10-14T20:51:39+00:00",
     "generated_by": "germline-extractor/0.1",
     "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
     "source": {
@@ -49,7 +49,7 @@
       "version": "v3.0.0"
     }
   },
-  "status": "draft",
+  "status": "validated",
   "subject": {
     "fixed_in": "8c9daf790abf",
     "generation": "g0",
@@ -58,6 +58,22 @@
     "upstream": "https://gitlab.gnome.org/GNOME/libxml2.git"
   },
   "title": "libxml2: Heap-use-after-free READ 1 in libxml2_xml_read_memory_fuzzer",
+  "verification": {
+    "last_verdict": "verified",
+    "runs": [
+      {
+        "date": "2026-10-14",
+        "observed": {
+          "fixed": "clean",
+          "vulnerable": "crash"
+        },
+        "run_id": "38635106574",
+        "run_url": "https://github.com/FerasFuad34/germline/actions/runs/38635106574",
+        "runner": "github-actions/ubuntu-latest",
+        "verdict": "verified"
+      }
+    ]
+  },
   "vulnerability": {
     "class": "memory-safety",
     "crash_type": "Heap-use-after-free READ 1",

@@ -33,3 +33,16 @@ Mismatches are handled as incidents: fixed, re-verified, or **revoked** (never s
 
 ---
 *Policy reminder: antibodies derive from **fixed, publicly disclosed** vulnerabilities only.*
+
+## Run #002 — 2026-10-14 · GitHub Actions (`Corpus double-check`, run 38635106574)
+
+Triggered automatically by the RFC-0 commit (`bcc5078`), scope = first 3 changed antibodies.
+
+| Antibody | Project | Sanitizer | Vulnerable | Fixed | Verdict |
+|---|---|---|---|---|---|
+| `AB-000001` | libxml2 | msan | crash | clean | ✅ verified |
+| `AB-000002` | libxml2 | msan | crash | clean | ✅ verified |
+| `AB-000003` | libxml2 | msan | crash | clean | ✅ verified |
+
+- **Result:** 3 verified · 0 mismatch · 0 errors — repeatability across runs (AB-000001/2 verified twice).
+- **Cumulative:** 3 antibodies validated out of 100.

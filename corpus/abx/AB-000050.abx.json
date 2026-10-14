@@ -36,11 +36,11 @@
   "id": "AB-000050",
   "integrity": {
     "algorithm": "sha256",
-    "value": "ddeb1c5d989b5c7cc6397a1a344bf4c2c3ac3e271aecbbd272b9cb932b0c9601"
+    "value": "6dde9c5f95c0f74a4281bca5a2b3cbe01256262e5b2af5a254e1df11233787ed"
   },
   "kind": "antibody",
   "provenance": {
-    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_at": "2026-10-14T20:51:39+00:00",
     "generated_by": "germline-extractor/0.1",
     "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
     "source": {

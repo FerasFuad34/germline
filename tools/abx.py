@@ -131,7 +131,7 @@ def sanitize_enum(value, allowed, fallback="unknown"):
 # convert
 # --------------------------------------------------------------------------- #
 
-def build_document(ab_dir: Path, stats: dict, verified: dict) -> dict:
+def build_document(ab_dir: Path, stats: dict, verified: dict, idmeta: dict | None = None) -> dict:
     manifest = yaml.safe_load((ab_dir / "manifest.yaml").read_text(encoding="utf-8"))
     meta = load_json(ab_dir / "meta.json")
     ab_id = manifest["id"]
@@ -194,7 +194,10 @@ def build_document(ab_dir: Path, stats: dict, verified: dict) -> dict:
                 "record": str(meta["arvo_local_id"]),
             },
             "generated_by": GENERATOR,
-            "generated_at": stats.get("generated_at", datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")),
+            "generated_at": (idmeta or {}).get(ab_id, {}).get(
+                "first_generated",
+                stats.get("generated_at", datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")),
+            ),
             "license": LICENSE,
         },
         "status": status,
@@ -217,6 +220,8 @@ def cmd_convert(args) -> int:
     out = Path(args.out)
     stats = load_json(corpus / "stats.json")
     verified = verified_index(load_verification_state(corpus))
+    idmeta_path = corpus / "id-meta.json"
+    idmeta = load_json(idmeta_path) if idmeta_path.exists() else {}
 
     ab_dirs = sorted((corpus / "antibodies").glob("AB-*"))
     if args.only:
@@ -229,7 +234,7 @@ def cmd_convert(args) -> int:
     out.mkdir(parents=True, exist_ok=True)
     written = drift = 0
     for ab_dir in ab_dirs:
-        doc = build_document(ab_dir, stats, verified)
+        doc = build_document(ab_dir, stats, verified, idmeta)
         target = out / f"{doc['id']}.abx.json"
         payload = render(doc)
         if args.check:

@@ -368,6 +368,10 @@ def main() -> int:
                     f"{run.get('runner', 'unknown')}:run-{run.get('run_id', '?')}@{run.get('date', '?')}"
                 )
 
+    # stable id map + per-antibody creation stamps (kept forever: ABX stability)
+    idmeta_path = out / "id-meta.json"
+    idmeta = json.loads(idmeta_path.read_text(encoding="utf-8")) if idmeta_path.exists() else {}
+
     # stable id map
     idmap_path = out / "id-map.json"
     idmap = json.loads(idmap_path.read_text(encoding="utf-8")) if idmap_path.exists() else {}
@@ -389,6 +393,8 @@ def main() -> int:
             ab_id = f"AB-{next_num:06d}"
             idmap[str(local_id)] = ab_id
             next_num += 1
+
+        idmeta.setdefault(ab_id, {"first_generated": stats["generated_at"], "arvo_local_id": local_id})
 
         project = rec["project"]
         sanitizer = rec["sanitizer"] or "unknown"
@@ -489,6 +495,7 @@ def main() -> int:
     )
 
     idmap_path.write_text(json.dumps(idmap, indent=2, sort_keys=True), encoding="utf-8")
+    idmeta_path.write_text(json.dumps(idmeta, indent=2, sort_keys=True), encoding="utf-8")
     (out / "stats.json").write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # INDEX.md grouped by project

@@ -36,11 +36,11 @@
   "id": "AB-000001",
   "integrity": {
     "algorithm": "sha256",
-    "value": "914d5f83513530c9efb2091ecf69ce6ece4d5fc2cb52fdb9c2dca2f5262a76ff"
+    "value": "78ce5b72f671564c027d4c403610ae16fbb62985b96b42aff0a46461feb31950"
   },
   "kind": "antibody",
   "provenance": {
-    "generated_at": "2026-10-14T20:47:10+00:00",
+    "generated_at": "2026-10-14T20:51:39+00:00",
     "generated_by": "germline-extractor/0.1",
     "license": "Apache-2.0 (document) / CC-BY-4.0 (upstream data)",
     "source": {
@@ -69,6 +69,17 @@
         },
         "run_id": "38630272283",
         "run_url": "https://github.com/FerasFuad34/germline/actions/runs/38630272283",
+        "runner": "github-actions/ubuntu-latest",
+        "verdict": "verified"
+      },
+      {
+        "date": "2026-10-14",
+        "observed": {
+          "fixed": "clean",
+          "vulnerable": "crash"
+        },
+        "run_id": "38635106574",
+        "run_url": "https://github.com/FerasFuad34/germline/actions/runs/38635106574",
         "runner": "github-actions/ubuntu-latest",
         "verdict": "verified"
       }

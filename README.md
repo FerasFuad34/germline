@@ -9,7 +9,7 @@
 
 ---
 
-## The corpus — 100 antibodies · 17 critical projects · 2 verified
+## The corpus — 100 antibodies · 17 critical projects · 3 verified
 
 `corpus/` holds **100 antibodies** generated from [ARVO](https://github.com/n132/ARVO-Meta) (OSS-Fuzz, EuroS&P 2026):
 libxml2 ×14 · ffmpeg ×14 · imagemagick ×12 · harfbuzz ×10 · curl ×8 · wireshark ×7 · ghostpdl ×6 · php-src ×5 · libarchive ×5 · gpac ×4 · binutils-gdb ×4 · freetype2 ×3 · openssl ×3 · libwebp ×2 · zlib, libpng, libtiff ×1 each.
@@ -21,7 +21,7 @@ bash tools/run-corpus-checks.sh --sample 5    # double-check: crash on vul / cle
 python3 extractor/arvo.py --help              # regenerate the corpus from arvo.db
 ```
 
-Status: 🟢 **2/100 verified end-to-end in CI** — AB-000001, AB-000002 (crash on vulnerable /
+Status: 🟢 **3/100 verified end-to-end in CI** — AB-000001 … AB-000003 (crash on vulnerable /
 clean on fixed; run log in [corpus/VERIFICATION.md](corpus/VERIFICATION.md)) · 🟡 98 draft awaiting the double-check.
 
 Every antibody is also published in **ABX v0.1** — the open exchange format of

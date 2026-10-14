@@ -1,6 +1,6 @@
 # AB-000003 — libxml2: Heap-use-after-free READ 1 in libxml2_xml_read_memory_fuzzer
 
-**Status: 🟡 DRAFT** — generated from ARVO metadata; not yet double-checked on a Docker host.
+**Status: 🟢 VALIDATED** — double-checked on a real runner: crashes on the vulnerable build, stays clean on the fixed build (see `../../VERIFICATION.md`).
 
 | | |
 |---|---|
