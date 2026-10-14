@@ -55,6 +55,18 @@ Download: [**Release v0.1.0**](https://github.com/FerasFuad34/germline/releases)
 Citation: [CITATION.cff](CITATION.cff) · DOI: Zenodo deposit in preparation
 (metadata ready in `dataset/metadata/zenodo-deposit.json`).
 
+## Static mirror (hosting-independent)
+
+A self-contained mirror of this demo lives in [`site/`](site/): dark-theme page
+with corpus stats, gate verdicts and raw JSON endpoints — zero external assets,
+no build step, refreshed from the app by `tools/export-static-site.py` on every
+push (`.github/workflows/pages.yml`).
+
+**One-time enable (2 clicks):** repository *Settings → Pages → Build and
+deployment → Source: **GitHub Actions***. Until then the workflow skips
+gracefully with a notice; after that, the mirror publishes automatically on
+every push — even when other hosting providers have outages.
+
 ## Try it now (live)
 
 ```bash
