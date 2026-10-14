@@ -16,11 +16,12 @@ set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CORPUS="$ROOT/corpus/antibodies"
 
-SAMPLE=""; ONLY=""; ALL=0; DRY=0; REPORT=""
+SAMPLE=""; ONLY=""; LIST=""; ALL=0; DRY=0; REPORT=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --sample) SAMPLE="$2"; shift ;;
     --only) ONLY="$2"; shift ;;
+    --list) LIST="$2"; shift ;;   # comma-separated ids, e.g. AB-000001,AB-000042
     --all) ALL=1 ;;
     --dry-run) DRY=1 ;;
     --report) REPORT="$2"; shift ;;
@@ -29,13 +30,14 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-if [ -z "$ONLY" ] && [ -z "$SAMPLE" ] && [ "$ALL" = "0" ] && [ "$DRY" = "0" ]; then
-  echo "choose a scope: --sample N | --only AB-XXXXXX | --all | --dry-run [--sample N]" >&2
+if [ -z "$ONLY" ] && [ -z "$LIST" ] && [ -z "$SAMPLE" ] && [ "$ALL" = "0" ] && [ "$DRY" = "0" ]; then
+  echo "choose a scope: --sample N | --only AB-XXXXXX | --list A,B | --all | --dry-run [--sample N]" >&2
   exit 2
 fi
 
 list_targets() {
   if [ -n "$ONLY" ]; then echo "$ONLY"; return; fi
+  if [ -n "$LIST" ]; then echo "$LIST" | tr ',' '\n'; return; fi
   ls "$CORPUS" | sort
 }
 
@@ -53,6 +55,12 @@ while IFS= read -r AB; do
   [ -z "$AB" ] && continue
   total=$((total+1))
   DIR="$CORPUS/$AB"
+
+  if [ ! -d "$DIR" ]; then
+    err=$((err+1)); printf '  ⚠️  %s missing antibody directory\n' "$AB"
+    results="$(echo "$results" | jq --arg ab "$AB" '. + [{antibody:$ab, verdict:"environment-error", detail:"missing directory"}]')"
+    continue
+  fi
 
   # integrity checks (always)
   integrity="ok"

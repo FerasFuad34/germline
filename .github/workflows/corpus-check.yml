@@ -7,8 +7,11 @@ on:
         description: "How many antibodies to check (1-100)"
         required: false
         default: "5"
+  push:
+    branches: [main]
+    paths: ["corpus/**", "tools/**"]
   schedule:
-    - cron: "17 6 * * 1"   # weekly, Monday 06:17 UTC — sample of 3
+    - cron: "17 6 * * 1"   # weekly, Monday 06:17 UTC — sample of 2
 
 jobs:
   double-check:
@@ -16,14 +19,31 @@ jobs:
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Docker availability
         run: docker version --format 'server {{.Server.Version}}' && df -h / | tail -1
 
-      - name: Run corpus double-check
+      - name: Determine scope
+        id: scope
         run: |
-          SAMPLE="${{ github.event.inputs.sample || '3' }}"
-          bash tools/run-corpus-checks.sh --sample "$SAMPLE" --report out/verification.json
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "args=--sample ${{ github.event.inputs.sample || '5' }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            CHANGED=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- corpus/antibodies 2>/dev/null \
+              | cut -d/ -f3 | sort -u | grep -E '^AB-[0-9]{6}$' | head -3 | paste -sd, - || true)
+            if [ -n "$CHANGED" ]; then
+              echo "args=--list $CHANGED" >> "$GITHUB_OUTPUT"
+            else
+              echo "args=--sample 2" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "args=--sample 2" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run corpus double-check
+        run: bash tools/run-corpus-checks.sh ${{ steps.scope.outputs.args }} --report out/verification.json
 
       - name: Upload verification report
         if: always()

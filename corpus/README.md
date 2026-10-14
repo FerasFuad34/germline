@@ -41,6 +41,13 @@ Semantics: the vulnerable image must produce the recorded sanitizer marker
 (`ERROR: AddressSanitizer` / `WARNING: MemorySanitizer` / `runtime error:`),
 and the fixed image must **not**.
 
+## Automated verification runs
+
+The **Corpus double-check** workflow runs on GitHub's Docker runners:
+on demand (Actions → Run workflow), weekly (sample of 2), and **automatically whenever a
+commit touches `corpus/`** (checking the changed antibodies first, capped at 3 per run).
+Each run uploads `verification.json` as an artifact.
+
 ## Selection (first batch)
 
 Chosen for storytelling + diversity (17 projects, 15 crash types, 3 sanitizers, 26 High-severity):
