@@ -46,3 +46,24 @@ Triggered automatically by the RFC-0 commit (`bcc5078`), scope = first 3 changed
 
 - **Result:** 3 verified · 0 mismatch · 0 errors — repeatability across runs (AB-000001/2 verified twice).
 - **Cumulative:** 3 antibodies validated out of 100.
+
+## Incident #001 — 2026-10-14 · environment-error (run 38638148330)
+
+**Symptom.** The push-triggered double-check (run 38638148330) reported
+`environment-error` for AB-000001…AB-000003 in ~12 ms each; workflow exit 1.
+
+**Root cause.** The per-antibody wrapper (`corpus/antibodies/*/double-check.sh`)
+delegates via `exec` to `tools/double-check-one.sh`. A workspace/snapshot
+round-trip stripped the executable bit from that tool, so `exec` failed with
+"Permission denied" (exit 126) before Docker was ever consulted. The verdict
+class was *correct* (this is not a `mismatch`, i.e. no antibody is wrong), and
+the workflow failed loudly instead of reporting false success — by design.
+
+**Fix (committed at run #003):**
+1. wrappers now delegate with `exec bash …` — robust to a missing exec bit;
+2. executable bits restored on all shipped scripts (`chmod +x`, mode changes tracked in git);
+3. a CI hygiene step now fails any run where a shipped script lacks the executable bit;
+4. a Docker-free `--dry-run` smoke check runs on every push.
+
+**Policy note.** Environment errors are never recorded as verdicts. They are
+investigated, root-caused, and documented here — nothing is silently retried.

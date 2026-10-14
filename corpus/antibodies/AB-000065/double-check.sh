@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 # AB-000065 — double-check: fail on vulnerable / pass on fixed.
-exec "$(cd "$(dirname "$0")/../../.." && pwd)/tools/double-check-one.sh" "AB-000065" "$@"
+exec bash "$(cd "$(dirname "$0")/../../.." && pwd)/tools/double-check-one.sh" "AB-000065" "$@"

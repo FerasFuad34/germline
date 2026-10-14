@@ -320,7 +320,7 @@ The antibody is only **validated** when vulnerable crashes with marker
 DOUBLECHECK_TMPL = """\
 #!/usr/bin/env bash
 # {ab_id} — double-check: fail on vulnerable / pass on fixed.
-exec "$(cd "$(dirname "$0")/../../.." && pwd)/tools/double-check-one.sh" "{ab_id}" "$@"
+exec bash "$(cd "$(dirname "$0")/../../.." && pwd)/tools/double-check-one.sh" "{ab_id}" "$@"
 """
 
 
