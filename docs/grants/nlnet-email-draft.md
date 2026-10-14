@@ -32,10 +32,10 @@ to raise the payment question now rather than after selection.
 Thank you for the work you do for the commons, and for considering this.
 
 Kind regards,
-**[TODO: Full name]**
-Founder, GERMLINE project
+**Feras**
+Founder, GERMLINE project — Taiz University
 https://github.com/FerasFuad34/germline
-[TODO: email address]
+[your email address — write it here when sending]
 
 ---
 

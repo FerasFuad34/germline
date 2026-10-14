@@ -34,20 +34,21 @@ real rewrites.
 
 ## 2. Who we are
 
-**[TODO: Full name]**, based in **Aden, Yemen** — independent security engineer
-and founder of the GERMLINE project.
+**Feras** — Yemen · **Taiz University**. Independent security engineer and
+founder of the GERMLINE project.
 
-- **Background:** [TODO: 2–3 lines — self-taught/degree status, years of
-  programming, security focus, notable prior work or coursework.]
 - **Track record in this project (verifiable, public):** designed and shipped
   the antibody extractor; published a 100-antibody corpus with an automated
   double-check (crash-on-vulnerable / clean-on-fixed) executed on hosted Docker
   runners; authored RFC-0, the ABX v0.1 exchange format, with a strict JSON
-  Schema and a reference validator; built and deployed a live project site.
-- **Academic alignment:** [TODO: university + department; this work also serves
-  as the graduation project under the working title "Immune Amnesia in
-  AI-Assisted Code Rewrites: Measuring the Inheritance of Security Protections
-  and a CI/CD Verification Gate".]
+  Schema and a reference validator; produced the dataset v0.1 release with a
+  deterministic build; built and deployed the live project site.
+- **Academic alignment:** this work also serves as the graduation project at
+  **Taiz University** under the working title *"Immune Amnesia in AI-Assisted
+  Code Rewrites: Measuring the Inheritance of Security Protections and a CI/CD
+  Verification Gate."*
+- **Payment:** I would like to agree on a workable payout route for Yemen with
+  you before applying (see the pre-application email).
 
 ## 3. Prior work we build upon (honest positioning)
 
@@ -127,7 +128,7 @@ verified corpus, a frozen format, and published measurements.
 ---
 
 **Checklist before submission**
-- [ ] Fill the 3 `[TODO]` identity fields (name, background, university) — 10 minutes
+- [x] Identity fields filled (name, university, affiliation)
 - [x] Public repo + 100 antibodies + CI verification — done
 - [x] ABX v0.1 spec + schema + reference implementation — done
 - [x] 90-second demo video — recorded, narrated, published: https://github.com/FerasFuad34/germline/releases/download/v0.1.0/germline-demo-90s.mp4
