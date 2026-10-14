@@ -29,7 +29,7 @@ severity:
 
 provenance:
   generated_by: "germline extractor v0.1 (ARVO v3.0.0)"
-  verified_by: ["github-actions/ubuntu-latest:run-38630272283@2026-10-14", "github-actions/ubuntu-latest:run-38635106574@2026-10-14"]
+  verified_by: ["github-actions/ubuntu-latest:run-38630272283@2026-10-14", "github-actions/ubuntu-latest:run-38635106574@2026-10-14", "github-actions/ubuntu-latest:run-38638413451@2026-10-14"]
   source:
     dataset: "ARVO — Atlas of Reproducible Vulnerabilities (EuroS&P 2026)"
     report: "https://issues.oss-fuzz.com/issues/42470125"

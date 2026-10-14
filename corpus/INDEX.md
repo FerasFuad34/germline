@@ -1,6 +1,6 @@
 # GERMLINE Antibody Corpus — INDEX
 
-**100 antibodies** across **17 projects** — generated 2026-10-14T20:51:42+00:00 from ARVO v3.0.0.
+**100 antibodies** across **17 projects** — generated 2026-10-14T21:26:32+00:00 from ARVO v3.0.0.
 
 > Status: 🟢 3 validated (double-checked on a real runner) · 🟡 97 draft — full run log in `VERIFICATION.md`.
 

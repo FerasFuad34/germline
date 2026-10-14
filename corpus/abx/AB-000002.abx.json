@@ -36,7 +36,7 @@
   "id": "AB-000002",
   "integrity": {
     "algorithm": "sha256",
-    "value": "f1f3d359a83c2b6e5109004e97958b9d348821645e522feaae0139ce659741c6"
+    "value": "edad8c7c633882d81dc0f6612c7f3ac5a6e8d704faf462d0753648497ce89fcc"
   },
   "kind": "antibody",
   "provenance": {
@@ -80,6 +80,17 @@
         },
         "run_id": "38635106574",
         "run_url": "https://github.com/FerasFuad34/germline/actions/runs/38635106574",
+        "runner": "github-actions/ubuntu-latest",
+        "verdict": "verified"
+      },
+      {
+        "date": "2026-10-14",
+        "observed": {
+          "fixed": "clean",
+          "vulnerable": "crash"
+        },
+        "run_id": "38638413451",
+        "run_url": "https://github.com/FerasFuad34/germline/actions/runs/38638413451",
         "runner": "github-actions/ubuntu-latest",
         "verdict": "verified"
       }
