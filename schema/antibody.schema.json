@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genome.dev/schema/antibody.schema.json",
+  "title": "Antibody",
+  "description": "جسم مضاد: اختبار تنفيذي دائم مشتق من ثغرة تاريخية، قابل للتوقيع والنقل عبر الأجيال",
+  "type": "object",
+  "required": ["id", "title", "origin", "attack", "test", "provenance", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^AB-[0-9]{6}$",
+      "description": "معرّف فريد عالمياً، تصاعدي وثابت للأبد"
+    },
+    "title": { "type": "string", "description": "وصف بشري مختصر" },
+    "cve": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^CVE-[0-9]{4}-[0-9]{4,}$" }
+    },
+    "cwe": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^CWE-[0-9]+$" }
+    },
+    "origin": {
+      "type": "object",
+      "required": ["project", "generation"],
+      "properties": {
+        "project": { "type": "string" },
+        "generation": { "type": "string", "description": "الجيل الذي وُلدت فيه الثغرة (مثال: g0)" },
+        "introduced": { "type": "string", "format": "date" },
+        "fixed_in": { "type": "string", "description": "الجيل أو الإصدار الذي أُصلحت فيه" }
+      }
+    },
+    "attack": {
+      "type": "object",
+      "required": ["class", "target_fn"],
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": ["memory-safety", "injection", "auth-bypass", "integer-overflow", "logic", "info-disclosure", "dos", "supply-chain"]
+        },
+        "target_fn": { "type": "string", "description": "الدالة/الوحدة المستهدفة" },
+        "sanitizer": { "type": "string", "description": "ASAN / UBSAN / MSAN / NONE" }
+      }
+    },
+    "test": {
+      "type": "object",
+      "required": ["kind", "expectation"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["proof-of-vulnerability", "invariant-check", "property-test", "differential"]
+        },
+        "input_hash": { "type": "string", "description": "sha256 لملف الإدخال المسبِّب (أو سلسلة توليده)" },
+        "harness": { "type": "string", "description": "أمر التشغيل المعياري" },
+        "expectation": {
+          "type": "object",
+          "required": ["on_vulnerable", "on_fixed"],
+          "properties": {
+            "on_vulnerable": { "type": "string", "enum": ["crash", "error", "timeout", "misbehavior"] },
+            "on_fixed": { "type": "string", "enum": ["clean"] }
+          },
+          "description": "معيار القبول الصارم: يجب أن يميّز بين الحالتين دائماً"
+        }
+      }
+    },
+    "immunity_type": { "type": "string", "enum": ["innate", "adaptive"] },
+    "severity": {
+      "type": "object",
+      "properties": {
+        "cvss": { "type": "number", "minimum": 0, "maximum": 10 },
+        "epss": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["generated_by", "verified_by"],
+      "properties": {
+        "generated_by": { "type": "string", "description": "human | llm+human-review | pipeline" },
+        "verified_by": { "type": "array", "items": { "type": "string" } },
+        "signatures": { "type": "array", "items": { "type": "string" }, "description": "sigstore:..." }
+      }
+    },
+    "supersedes": { "type": "string", "description": "AB-XXXXXX سابق حلّ مكانه" },
+    "superseded_by": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "validated", "deprecated", "revoked"]
+    },
+    "valid_for": {
+      "type": "object",
+      "properties": {
+        "languages": { "type": "array", "items": { "type": "string" } },
+        "generations": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,494 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+GERMLINE — Immune Gate (live web service)
+
+A tiny FastAPI service that:
+  - presents the GERMLINE vision (landing page)
+  - runs the Immune Gate over a demo lineage and issues (demo-signed) Immune Passports
+  - exposes machine-readable JSON endpoints (/api/*, /passport.json)
+
+Pre-alpha demo over simulated scan results. See docs/threat-model.md.
+Corpus policy: fixed & publicly disclosed vulnerabilities only.
+"""
+
+from __future__ import annotations
+
+import datetime
+import hashlib
+import json
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
+
+BASE = Path(__file__).resolve().parent
+DATA = BASE / "data"
+VERSION = "0.1.0-demo"
+REPO_URL = "https://github.com/FerasFuad34/germline"
+DISCLAIMER = (
+    "Demo-signed evidence of executed checks — not a guarantee that the artifact is "
+    "free of vulnerabilities. Corpus: fixed & publicly disclosed vulnerabilities only."
+)
+
+
+def _load(name: str) -> dict:
+    with open(DATA / name, encoding="utf-8") as f:
+        return json.load(f)
+
+
+LINEAGE = _load("lineage.json")
+ANTIBODIES = _load("antibodies.json")["antibodies"]
+GENERATIONS = LINEAGE["generations"]
+GEN_INDEX = {g["id"]: g for g in GENERATIONS}
+
+
+# ───────────────────────── core logic (mirrors prototype/immune_gate.py) ─────
+
+def _ancestors(gen_id: str) -> set[str]:
+    seen, stack = set(), [gen_id]
+    while stack:
+        cur = stack.pop()
+        if cur in seen:
+            continue
+        seen.add(cur)
+        stack.extend(GEN_INDEX[cur].get("parents", []))
+    return seen
+
+
+def _inherited(gen_id: str) -> list[dict]:
+    strict = _ancestors(gen_id) - {gen_id}
+    return [
+        ab for ab in ANTIBODIES
+        if ab["born_in"] in strict and ab["results"].get(gen_id, "na") != "na"
+    ]
+
+
+def _sign(passport: dict) -> str:
+    clean = {k: v for k, v in passport.items() if k != "attestation"}
+    canonical = json.dumps(clean, sort_keys=True, ensure_ascii=False).encode()
+    return "sha256:" + hashlib.sha256(canonical).hexdigest()
+
+
+def _evaluate(gen_id: str) -> dict:
+    target = GEN_INDEX[gen_id]
+    is_root = not target.get("parents")
+    inherited = _inherited(gen_id)
+
+    findings, passed, failed = [], 0, 0
+    for ab in inherited:
+        res = ab["results"][gen_id]
+        findings.append({
+            "antibody_id": ab["id"],
+            "title": ab["title"],
+            "class": ab["class"],
+            "result": res,
+        })
+        if res == "pass":
+            passed += 1
+        else:
+            failed += 1
+
+    total = len(inherited)
+    parity = None if is_root else (failed == 0)
+    coverage = None if (is_root and total == 0) else (
+        round(100.0 * passed / total, 1) if total else 0.0
+    )
+
+    return {
+        "artifact": {
+            "name": "libgif-rs" if target["language"] == "rust" else "libgif",
+            "version": "demo",
+            "hash": "sha256:" + hashlib.sha256(gen_id.encode()).hexdigest(),
+            "generation": gen_id,
+            "language": target["language"],
+        },
+        "lineage": {
+            "parents": target.get("parents", []),
+            "operation": target["operation"],
+            "depth": target["depth"],
+        },
+        "immunity": {
+            "role": "reference" if is_root else "descendant",
+            "antibodies_inherited": total,
+            "passed": passed,
+            "failed": failed,
+            "skipped": 0,
+            "immune_parity": parity,
+            "inherited_coverage_pct": coverage,
+            "new_antibodies": sum(1 for ab in ANTIBODIES if ab["born_in"] == gen_id),
+            "findings": findings,
+        },
+        "meta": {"label": target["label"], "date": target.get("date")},
+    }
+
+
+def _build_passports() -> list[dict]:
+    out = []
+    for g in GENERATIONS:
+        p = _evaluate(g["id"])
+        p["attestation"] = {
+            "signed_by": "germline-demo",
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+            "transparency_log_index": 100000 + len(out),
+            "note": "demo signature (sha256); production: Sigstore keyless + transparency log",
+        }
+        p["attestation"]["signature"] = _sign(p)
+        p["disclaimer"] = DISCLAIMER
+        out.append(p)
+    return out
+
+
+PASSPORTS = _build_passports()
+BUILT_AT = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+
+
+def _summary() -> dict:
+    last = PASSPORTS[-1]
+    return {
+        "project": "GERMLINE",
+        "version": VERSION,
+        "status": "pre-alpha (live demo)",
+        "repo": REPO_URL,
+        "generations_tracked": len(GENERATIONS),
+        "antibodies_total": len(ANTIBODIES),
+        "latest_generation": last["artifact"]["generation"],
+        "latest_immune_parity": last["immunity"]["immune_parity"],
+        "generated_at": BUILT_AT,
+    }
+
+
+# ─────────────────────────────── FastAPI app ─────────────────────────────────
+
+app = FastAPI(
+    title="GERMLINE — Immune Gate",
+    description="Security inheritance for code generations. Live interactive demo.",
+    version=VERSION,
+)
+
+
+@app.get("/healthz")
+def healthz():
+    return {"ok": True, "version": VERSION, "generated_at": BUILT_AT}
+
+
+@app.get("/api/summary")
+def api_summary():
+    return _summary()
+
+
+@app.get("/api/antibodies")
+def api_antibodies():
+    return {"count": len(ANTIBODIES), "antibodies": ANTIBODIES}
+
+
+@app.get("/api/passports")
+def api_passports():
+    return {"count": len(PASSPORTS), "passports": PASSPORTS}
+
+
+@app.get("/api/gate")
+def api_gate(generation: str):
+    for p in PASSPORTS:
+        if p["artifact"]["generation"] == generation:
+            return p
+    raise HTTPException(status_code=404, detail=f"unknown generation: {generation}")
+
+
+@app.get("/passport.json")
+def passport_json():
+    return JSONResponse(PASSPORTS, media_type="application/json")
+
+
+@app.get("/.well-known/security.txt", response_class=PlainTextResponse)
+def security_txt():
+    return (
+        "Contact: "
+        + REPO_URL
+        + "/security/advisories/new\n"
+        "Preferred-Languages: en, ar\n"
+        "Policy: "
+        + REPO_URL
+        + "/blob/main/SECURITY.md\n"
+        "Canonical: /.well-known/security.txt\n"
+    )
+
+
+# ─────────────────────────────────── HTML ────────────────────────────────────
+
+CSS = """
+:root{
+  --bg:#060c0a; --panel:#0b1512; --panel2:#0e1c17; --line:#1b2f27;
+  --txt:#d9f2e8; --dim:#7ba695; --green:#37e0a0; --red:#ff6b6b;
+  --amber:#ffc857; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#0d2a20 0%,var(--bg) 55%);
+  color:var(--txt);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+nav{display:flex;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+nav .brand{font-weight:800;letter-spacing:.5px;font-size:18px}
+nav .brand span{color:var(--green)}
+nav .spacer{flex:1}
+nav a{color:var(--dim);font-size:14px}
+nav a.active,nav a:hover{color:var(--txt);text-decoration:none}
+.pill{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--green);
+  border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 12px}
+.hero{padding:64px 0 40px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.15;margin:16px 0 10px;letter-spacing:-.5px}
+.hero .ar{color:var(--dim);font-size:18px;margin:0 0 6px}
+.hero p.tag{color:var(--dim);max-width:720px;font-size:17px}
+.btns{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:11px 20px;border-radius:10px;font-weight:600;font-size:15px}
+.btn.primary{background:var(--green);color:#04130d}
+.btn.primary:hover{filter:brightness(1.08);text-decoration:none}
+.btn.ghost{border:1px solid var(--line);color:var(--txt);background:var(--panel)}
+.btn.ghost:hover{border-color:var(--green);text-decoration:none}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin:30px 0}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);
+  border-radius:14px;padding:18px}
+.card .k{font-family:var(--mono);font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px}
+.card .v{font-size:26px;font-weight:800;margin-top:6px}
+.card .s{color:var(--dim);font-size:13px;margin-top:4px}
+section{padding:34px 0;border-top:1px solid var(--line)}
+h2{font-size:22px;margin:0 0 14px}
+h3{font-size:16px;margin:0 0 6px}
+ul.clean{padding-left:20px;color:var(--dim)}
+ul.clean b{color:var(--txt)}
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:16px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:14px}
+.step .n{font-family:var(--mono);color:var(--green);font-size:12px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.7px}
+.mono{font-family:var(--mono);font-size:12.5px}
+.ok{color:var(--green);font-weight:700}
+.bad{color:var(--red);font-weight:700}
+.dim{color:var(--dim)}
+.bar{height:8px;background:#0a1712;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#1f9d6b,var(--green))}
+pre{background:#081310;border:1px solid var(--line);border-radius:12px;padding:16px;overflow:auto;
+  font-family:var(--mono);font-size:12.5px;color:#bfe8d8}
+select,button{font:inherit}
+select{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+footer{padding:34px 0 50px;color:var(--dim);font-size:13px;border-top:1px solid var(--line)}
+.chain{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0;font-family:var(--mono);font-size:13px}
+.node{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:7px 12px}
+.node.root{border-color:#2c5c48}
+.arrow{color:var(--dim)}
+.note{background:#12180f;border:1px solid #2c3a22;color:var(--amber);border-radius:10px;padding:10px 14px;font-size:13.5px}
+"""
+
+
+def _badge(parity) -> str:
+    if parity is True:
+        return '<span class="ok">✅ immune parity verified</span>'
+    if parity is False:
+        return '<span class="bad">❌ immune amnesia detected</span>'
+    return '<span class="dim">ℹ️ reference generation (no ancestors)</span>'
+
+
+def _page(active: str, title: str, body: str) -> str:
+    def cls(name):
+        return ' class="active"' if name == active else ""
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="GERMLINE — security inheritance for code generations. SBOM tells you what's inside your code; GERMLINE proves what your code survived.">
+<style>{CSS}</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="brand">GERM<span>LINE</span> 🧬</div>
+  <div class="spacer"></div>
+  <a href="/"{cls("home")}>Home</a>
+  <a href="/demo"{cls("demo")}>Live demo</a>
+  <a href="/passport.json">passport.json</a>
+  <a href="{REPO_URL}">GitHub ↗</a>
+</nav>
+{body}
+<footer>
+  <p><b>GERMLINE</b> — pre-alpha · built in public · {VERSION}</p>
+  <p>{DISCLAIMER}</p>
+  <p>Code Apache-2.0 · Corpus CC-BY-4.0 · Demo data is simulated. <a href="{REPO_URL}">{REPO_URL.replace("https://", "")}</a></p>
+</footer>
+</div>
+</body>
+</html>"""
+
+
+def _landing_body() -> str:
+    s = _summary()
+    rows = ""
+    for p in PASSPORTS:
+        imm = p["immunity"]
+        cov = "—" if imm["inherited_coverage_pct"] is None else f'{imm["inherited_coverage_pct"]}%'
+        rows += (
+            f'<tr><td class="mono">{p["artifact"]["generation"]}</td>'
+            f'<td>{p["meta"]["label"]}</td>'
+            f'<td class="mono">{p["lineage"]["operation"]}</td>'
+            f'<td class="mono">{imm["antibodies_inherited"]}</td>'
+            f'<td class="mono">{imm["passed"]}</td>'
+            f'<td class="mono">{imm["failed"]}</td>'
+            f'<td class="mono">{cov}</td>'
+            f'<td>{_badge(imm["immune_parity"])}</td></tr>'
+        )
+
+    last = PASSPORTS[-1]["immunity"]
+    return f"""
+<div class="hero">
+  <span class="pill">pre-alpha · building in public · pre-alpha</span>
+  <h1>Security inheritance<br>for code generations</h1>
+  <p class="ar">الوراثة الأمنية عبر أجيال الكود — من ثغرة قديمة، إلى مناعة تُورَّث.</p>
+  <p class="tag"><b>SBOM tells you what's <i>inside</i> your code.
+     GERMLINE tells you what your code <i>survived</i></b> — and proves the next
+     generation still survives it. While the world rewrites its software with AI,
+     we make security protections <b>inheritable, verifiable, and portable</b>.</p>
+  <div class="btns">
+    <a class="btn primary" href="/demo">▶ Run the live Immune Gate</a>
+    <a class="btn ghost" href="{REPO_URL}">Source on GitHub</a>
+    <a class="btn ghost" href="/passport.json">Immune Passport (JSON)</a>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card"><div class="k">Antibodies (demo corpus)</div><div class="v">{s["antibodies_total"]}</div>
+    <div class="s">fixed &amp; publicly disclosed only</div></div>
+  <div class="card"><div class="k">Generations tracked</div><div class="v">{s["generations_tracked"]}</div>
+    <div class="s">root → patch → AI rewrite</div></div>
+  <div class="card"><div class="k">Latest immune parity</div>
+    <div class="v">{"VERIFIED" if s["latest_immune_parity"] else "FAILED"}</div>
+    <div class="s">generation {s["latest_generation"]}</div></div>
+  <div class="card"><div class="k">Gate verdict</div>
+    <div class="v">{last["passed"]}/{last["antibodies_inherited"]}</div>
+    <div class="s">inherited antibodies passing</div></div>
+</div>
+
+<section>
+  <h2>The problem: immune amnesia</h2>
+  <ul class="clean">
+    <li><b>Rewrites are everywhere.</b> Whole libraries are being translated to memory-safe languages by AI
+        (Google's AI-assisted giflib→Rust rewrite; DARPA's TRACTOR program at national scale).</li>
+    <li><b>New generations forget.</b> AI assistants reproduce historically vulnerable patterns ~33% of the time —
+        and the <i>older</i> the vulnerability, the likelier the resurrection.</li>
+    <li><b>Nobody measures inheritance.</b> SCA tools ask “is the vulnerable function called <i>now</i>?”
+        Nobody asks: “did this generation keep the protections its ancestor earned?”</li>
+  </ul>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <div class="pipe">
+    <div class="step"><div class="n">01</div><h3>Corpus</h3>Fixed, public vulnerabilities become executable
+      “antibodies” — each must <b>fail on the vulnerable build</b> and <b>pass on the fixed build</b>.</div>
+    <div class="step"><div class="n">02</div><h3>Lineage</h3>A graph tracks generations: root → patches → forks →
+      AI rewrites, with evidence binding them.</div>
+    <div class="step"><div class="n">03</div><h3>Immune Gate</h3>Before merging any descendant, we replay
+      <b>every ancestor's antibodies</b> against it.</div>
+    <div class="step"><div class="n">04</div><h3>Passport</h3>A signed, portable proof: either
+      <b>immune parity verified</b> — or a precise report of what memory was lost.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Live immune report — demo lineage</h2>
+  <p class="dim">giflib (C) → internal legacy patch → AI rewrite to Rust.
+     Simulated scan results, real semantics.</p>
+  <table>
+    <thead><tr><th>Gen</th><th>Label</th><th>Op</th><th>Inherited</th><th>Pass</th><th>Fail</th><th>Cov.</th><th>Verdict</th></tr></thead>
+    <tbody>{rows}</tbody>
+  </table>
+  <div class="btns"><a class="btn primary" href="/demo">Open the interactive gate →</a></div>
+</section>
+"""
+
+
+DEMO_JS = """
+const sel=document.getElementById('gen');
+const out=document.getElementById('out');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function run(){
+  out.innerHTML='<p class="dim">Running immune gate…</p>';
+  const r=await fetch('/api/gate?generation='+encodeURIComponent(sel.value));
+  if(!r.ok){out.innerHTML='<p class="bad">Error '+r.status+'</p>';return;}
+  const p=await r.json();const im=p.immunity;
+  let badge='<span class="dim">ℹ️ reference generation — its fixes become antibodies for descendants</span>';
+  if(im.immune_parity===true) badge='<span class="ok" style="font-size:19px">✅ IMMUNE PARITY — VERIFIED</span>';
+  if(im.immune_parity===false) badge='<span class="bad" style="font-size:19px">❌ IMMUNE AMNESIA — '+im.failed+' inherited antibodies failed</span>';
+  const cov=(im.inherited_coverage_pct===null)?null:im.inherited_coverage_pct;
+  let rows='';
+  for(const f of im.findings){
+    const ok=f.result==='pass';
+    rows+='<tr><td class="mono">'+esc(f.antibody_id)+'</td><td>'+esc(f.title)+'</td><td class="mono">'+esc(f.class)+
+          '</td><td>'+(ok?'<span class="ok">pass</span>':'<span class="bad">FAIL</span>')+'</td></tr>';
+  }
+  out.innerHTML=
+    '<p>'+badge+'</p>'+
+    (cov!==null?('<div class="bar"><i style="width:'+cov+'%"></i></div><p class="dim mono">inherited coverage: '+cov+
+      '% · inherited='+im.antibodies_inherited+' · passed='+im.passed+' · failed='+im.failed+'</p>'):'')+
+    (rows?('<table><thead><tr><th>Antibody</th><th>What it guards</th><th>Class</th><th>Result</th></tr></thead><tbody>'+
+      rows+'</tbody></table>'):'')+
+    '<h3 style="margin-top:22px">Issued Immune Passport</h3><pre>'+esc(JSON.stringify(p,null,2))+'</pre>';
+}
+document.getElementById('run').addEventListener('click',run);
+sel.addEventListener('change',run);
+run();
+"""
+
+
+def _demo_body() -> str:
+    opts = "".join(
+        f'<option value="{g["id"]}">{g["id"]} — {g["label"]}</option>' for g in GENERATIONS
+    )
+    chain = ""
+    for i, g in enumerate(GENERATIONS):
+        root = " root" if not g.get("parents") else ""
+        if i:
+            op = g["operation"]
+            chain += f'<span class="arrow">──({op})──▶</span>'
+        chain += f'<span class="node{root}">{g["id"]}</span>'
+    return f"""
+<div class="hero" style="padding:44px 0 10px">
+  <h1 style="font-size:34px">Live Immune Gate</h1>
+  <p class="tag">Pick a generation. The gate replays <b>every antibody inherited from its ancestors</b>
+     and issues the verdict — parity verified, or memory lost.</p>
+</div>
+
+<section style="border-top:none">
+  <div class="chain">{chain}</div>
+  <div class="btns" style="margin-top:4px">
+    <select id="gen">{opts}</select>
+    <button id="run" class="btn primary" type="button">Run Immune Gate</button>
+  </div>
+  <div id="out" style="margin-top:18px"></div>
+</section>
+
+<section>
+  <h2>What you are seeing</h2>
+  <p class="dim">Each antibody is an executable regression test derived from a <b>fixed, publicly disclosed</b>
+  vulnerability. “Inherited” antibodies are the ones born in an ancestor generation — the gate requires
+  <b>all of them</b> to pass before issuing a clean passport. Any failure is reported as
+  <i>immune amnesia</i>: a protection the family earned, lost by the descendant.</p>
+  <div class="note">⚠️ Demo data is simulated; production antibodies run in pinned containers
+  (ARVO / OSS-Fuzz corpus) with Sigstore signing. The semantics are the shipping semantics.</div>
+</section>
+
+<script>{DEMO_JS}</script>
+"""
+
+
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return HTMLResponse(_page("home", "GERMLINE — Security inheritance for code generations", _landing_body()))
+
+
+@app.get("/demo", response_class=HTMLResponse)
+def demo():
+    return HTMLResponse(_page("demo", "GERMLINE — Live Immune Gate", _demo_body()))

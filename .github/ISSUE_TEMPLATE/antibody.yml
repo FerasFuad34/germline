@@ -1,0 +1,59 @@
+name: 🧬 Antibody Submission
+description: Propose a new antibody — an executable regression test derived from a FIXED, publicly disclosed vulnerability
+title: "[Antibody] "
+labels: ["type:antibody", "status:triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Rules:** fixed & publicly disclosed vulnerabilities only. Live 0-days are out of scope and such issues will be closed.
+  - type: input
+    id: source
+    attributes:
+      label: Source (ARVO / OSS-Fuzz / CVE / advisory link)
+      placeholder: "https://github.com/n132/ARVO ... or https://cve..."
+    validations:
+      required: true
+  - type: input
+    id: project
+    attributes:
+      label: Project & revision range (vul → fix)
+    validations:
+      required: true
+  - type: dropdown
+    id: vuln_class
+    attributes:
+      label: Vulnerability class
+      options:
+        - memory-safety
+        - injection
+        - auth-bypass
+        - integer-overflow
+        - logic
+        - info-disclosure
+        - dos
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: doublecheck
+    attributes:
+      label: Double-check evidence
+      description: Paste the commands and the observed results — fail on vulnerable, pass on fixed.
+      placeholder: |
+        $ ./tools/double-check.sh AB-XXXXXX
+        vulnerable: FAIL (as expected) ✅
+        fixed: PASS (as expected) ✅
+    validations:
+      required: true
+  - type: checkboxes
+    id: laws
+    attributes:
+      label: Compliance with the three laws
+      options:
+        - label: The vulnerability is FIXED and PUBLICLY disclosed
+          required: true
+        - label: It is fully reproducible in a pinned container
+          required: true
+        - label: I signed my commits (DCO)
+          required: true

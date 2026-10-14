@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🔐 Report a security issue (private)
+    url: https://github.com/FerasFuad34/germline/security/advisories/new
+    about: Please report vulnerabilities in GERMLINE itself privately — see SECURITY.md
+  - name: 🧬 Free immune audit pilot
+    url: https://github.com/FerasFuad34/germline/issues/new?labels=type:pilot&title=%5BPilot%5D+
+    about: Want us to run an immune audit on your library's lineage? Open a pilot issue.
+  - name: 💬 Questions & discussion
+    url: https://github.com/FerasFuad34/germline/discussions
+    about: Ask questions, propose ideas, discuss ABX

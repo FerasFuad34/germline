@@ -1,0 +1,38 @@
+{
+  "lineage_id": "giflib",
+  "description": "سلالة giflib: الجيل الأصلي C ← تعديل داخلي قديم ← إعادة كتابة بالـ AI إلى Rust (محاكاة مستوحاة من تجربة غوغل المنشورة في أغسطس 2026)",
+  "artifact": { "name": "libgif", "version": "demo-1.0" },
+  "generations": [
+    {
+      "id": "g0",
+      "label": "giflib 5.2.1 (C)",
+      "language": "c",
+      "operation": "root",
+      "parents": [],
+      "depth": 0,
+      "date": "2019-04-11"
+    },
+    {
+      "id": "g1",
+      "label": "giflib + تعديل داخلي (C)",
+      "language": "c",
+      "operation": "patch",
+      "parents": ["g0"],
+      "depth": 1,
+      "date": "2022-06-01"
+    },
+    {
+      "id": "g2",
+      "label": "libgif-rs 1.0.0 (Rust)",
+      "language": "rust",
+      "operation": "ai_rewrite",
+      "parents": ["g1"],
+      "depth": 2,
+      "date": "2026-08-20"
+    }
+  ],
+  "edges": [
+    { "from": "g0", "to": "g1", "operation": "patch", "evidence": { "lineage_method": "git-commit" } },
+    { "from": "g1", "to": "g2", "operation": "ai_rewrite", "evidence": { "lineage_method": "semantic-similarity", "function_similarity": 0.94, "behavioral_parity": "200M differential fuzz iterations (mock)" } }
+  ]
+}

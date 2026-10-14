@@ -1,0 +1,42 @@
+# نموذج جسم مضاد حقيقي الشكل (مستوحى من قصة giflib → Rust)
+# معيار القبول: يفشل على الجيل المصاب، ينجح على المُصلَح — لا يُقبل غيره.
+id: AB-000742
+title: "كتابة خارج حدود الذاكرة (heap) أثناء تفكيك GIF — LZW/التفاف العناصر"
+cve: [CVE-2026-26740]
+cwe: [CWE-787]
+
+origin:
+  project: giflib
+  generation: g0                # وُلدت في الجيل الأصلي C
+  introduced: 2019-04-11
+  fixed_in: g2                  # أُصلحت بنيوياً في إعادة الكتابة إلى Rust
+
+attack:
+  class: memory-safety
+  target_fn: DGifSlurp
+  sanitizer: ASAN
+
+test:
+  kind: proof-of-vulnerability
+  input_hash: "sha256:9f2c41d0aa7b83e5c1f6d2a48b27e930c5f1a6d84e3b72c9d501f8a2b6e4c7d3"
+  harness: "libgif_harness --parse @input.gif"
+  expectation:
+    on_vulnerable: crash        # ASAN heap-buffer-overflow
+    on_fixed: clean
+
+immunity_type: adaptive
+
+severity:
+  cvss: 8.1
+  epss: 0.004
+
+provenance:
+  generated_by: llm+human-review
+  verified_by: [pipeline-2026-10-02, maintainer@libgif]
+  signatures: ["sigstore:tuf://genome.dev/AB-000742"]
+
+status: validated
+
+valid_for:
+  languages: [c, rust]
+  generations: [g0, g1, g2]

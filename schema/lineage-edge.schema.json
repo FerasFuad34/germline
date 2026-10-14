@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genome.dev/schema/lineage-edge.schema.json",
+  "title": "LineageEdge",
+  "description": "حافة في رسم السلالة: علاقة انحدار بين جيلين من الكود مع أدلّة الربط",
+  "type": "object",
+  "required": ["from", "to", "operation"],
+  "properties": {
+    "from": { "type": "string", "description": "معرّف الجيل السلف" },
+    "to": { "type": "string", "description": "معرّف الجيل الخلف" },
+    "operation": {
+      "type": "string",
+      "enum": ["patch", "fork", "refactor", "ai_rewrite", "translation", "merge"]
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "function_similarity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "lineage_method": {
+          "type": "string",
+          "enum": ["git-commit", "function-hash", "semantic-similarity", "declared", "differential-fuzzing"]
+        },
+        "behavioral_parity": { "type": "string", "description": "دليل تكافؤ سلوكي إن وُجد" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

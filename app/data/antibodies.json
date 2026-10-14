@@ -1,0 +1,46 @@
+{
+  "antibodies": [
+    {
+      "id": "AB-000740",
+      "title": "قراءة خارج حدود LZW decompressor",
+      "class": "memory-safety",
+      "born_in": "g0",
+      "results": { "g0": "fail", "g1": "fail", "g2": "pass" }
+    },
+    {
+      "id": "AB-000741",
+      "title": "تجاوُز صحيح في كتلة الامتداد (integer overflow)",
+      "class": "integer-overflow",
+      "born_in": "g0",
+      "results": { "g0": "fail", "g1": "fail", "g2": "pass" }
+    },
+    {
+      "id": "AB-000742",
+      "title": "كتابة خارج حدود الذاكرة أثناء تفكيك GIF (CVE-2026-26740)",
+      "class": "memory-safety",
+      "born_in": "g0",
+      "results": { "g0": "fail", "g1": "fail", "g2": "pass" }
+    },
+    {
+      "id": "AB-000743",
+      "title": "حالة حدّية في مفكك LZW اكتُشفت بمراجعة LLM عدائية",
+      "class": "memory-safety",
+      "born_in": "g0",
+      "results": { "g0": "fail", "g1": "pass", "g2": "pass" }
+    },
+    {
+      "id": "AB-000744",
+      "title": "تحرير مزدوج (double free) عند ذيل ملف تالف",
+      "class": "memory-safety",
+      "born_in": "g1",
+      "results": { "g0": "na", "g1": "fail", "g2": "pass" }
+    },
+    {
+      "id": "AB-000745",
+      "title": "كتابة خارج الحدود أدخلها تعديل داخلي قديم (وراثة معطوبة)",
+      "class": "memory-safety",
+      "born_in": "g1",
+      "results": { "g0": "na", "g1": "fail", "g2": "pass" }
+    }
+  ]
+}

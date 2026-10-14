@@ -1,0 +1,36 @@
+{
+  "artifact": {
+    "name": "libgif-rs",
+    "version": "1.0.0",
+    "hash": "sha256:7d1e9c0a3f5b2d8e6a4c1f0b9e8d7c6a5b4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d",
+    "generation": "g2",
+    "language": "rust"
+  },
+  "lineage": {
+    "parents": ["g1", "g0"],
+    "operation": "ai_rewrite",
+    "tool": "llm-assisted (google-pilot-style)",
+    "depth": 2
+  },
+  "immunity": {
+    "antibodies_inherited": 47,
+    "passed": 47,
+    "failed": 0,
+    "skipped": 0,
+    "immune_parity": true,
+    "inherited_coverage_pct": 100.0,
+    "new_antibodies": 6,
+    "findings": [
+      { "antibody_id": "AB-000740", "result": "pass" },
+      { "antibody_id": "AB-000741", "result": "pass" },
+      { "antibody_id": "AB-000742", "result": "pass", "note": "المناعة البنيوية للـ Rust صدّت الثغرة قبل صدور CVE" }
+    ]
+  },
+  "attestation": {
+    "signed_by": "genome.dev",
+    "timestamp": "2026-10-14T09:00:00Z",
+    "transparency_log_index": 102441,
+    "registry_uri": "genome.dev/registry/libgif-rs/g2"
+  },
+  "disclaimer": "هذا الجواز دليل على إجراءات اختبار موقّعة ومُنفّذة، وليس ضماناً بخلو الأرتي فاكت من الثغرات."
+}

@@ -1,0 +1,77 @@
+# 🧬 GERMLINE
+
+**Security inheritance for code generations.**
+
+> SBOM tells you what's *inside* your code. GERMLINE tells you what your code *survived* — and proves the next generation still survives it.
+
+**Status:** pre-alpha · building in public · [Roadmap](ROADMAP.md)
+
+---
+
+## The problem
+
+Software is being rewritten at an unprecedented rate — whole libraries are translated to memory-safe languages by AI (Google rewrote giflib from C to Rust with AI assistance; DARPA's TRACTOR program is doing this at national scale). Every rewritten generation is a **new body with no immune memory**:
+
+- AI coding assistants reproduce historically vulnerable patterns **~33% of the time** — and *older* vulnerabilities are reproduced more often.
+- Vulnerability **reintroduction** is measurable and studied (e.g., 76 reintroduced vulnerabilities found in ImageMagick alone).
+- Today, **no tool measures whether a rewritten generation inherited the security protections its ancestor acquired** through years of painful fixes.
+
+Meanwhile, regulation has arrived: since **11 September 2026**, the EU Cyber Resilience Act requires manufacturers to report *actively exploited* vulnerabilities within **24 hours** — applying retroactively to products already on the market.
+
+## What we build
+
+**1. Antibody Corpus** — historical, *fixed*, publicly disclosed vulnerabilities converted into permanently reproducible regression tests ("antibodies"). Each antibody must **fail on the vulnerable version and pass on the fixed version** — no exceptions, verified in CI.
+
+**2. Immune Gate** — a CI/CD gate that, for any artifact (rewrite, fork, translation), replays **all antibodies inherited from its ancestors** and issues a signed **Immune Passport** — portable proof of inherited protection, or a precise report of *immune amnesia*.
+
+**3. ABX (Antibody eXchange)** — an open specification so antibodies travel across tools, vendors, and organizations — never another closed silo.
+
+```
+  C library (gen0)          AI rewrite → Rust (gen1)         fork / further gen2
+ ┌───────────────┐         ┌──────────────────┐           ┌──────────────────┐
+ │ fixes acquired│  ────►  │  INHERITED?      │   ────►   │    INHERITED?    │
+ │ over years    │         │  Immune Gate     │           │    Immune Gate   │
+ └───────────────┘         └────────┬─────────┘           └────────┬─────────┘
+        │                           │                              │
+        └──► Antibody Corpus ───────┴────────► signed Immune Passport
+```
+
+## Principles (non-negotiable)
+
+1. **Fixed & public only** — we never touch live 0-days; only fixed, publicly disclosed vulnerabilities (ARVO / OSS-Fuzz / CVE).
+2. **Reproducible or it doesn't exist** — every claim ships with a command that proves it.
+3. **Signed & revocable** — Sigstore signatures, transparency log; antibodies can be revoked if flawed.
+4. **Open by default** — code (Apache-2.0), data (CC-BY-4.0), spec (open). The commons stays common.
+
+## Repository layout
+
+| Path | What |
+|---|---|
+| `corpus/` | The antibody corpus (the heart of the project) |
+| `extractor/` | Tooling that mines reproducible vulnerabilities into antibodies |
+| `gate/` | The CI/CD Immune Gate + Immune Passport issuer |
+| `spec/` | ABX specification RFCs |
+| `docs/` | Threat model, sprint plans, and the project's strategic briefs (Arabic) |
+| `prototype/` | Early working prototype of the immune gate (demo/simulation) |
+
+## Getting started
+
+Pre-alpha: tooling is landing now. To follow or contribute:
+
+- Read the [Roadmap](ROADMAP.md) — 6 milestones from foundation to company.
+- Read `docs/threat-model.md` before proposing corpus changes.
+- Want a **free immune audit** of your library's lineage? Open an issue: `type: pilot`.
+
+## Documentation index
+
+- 🇸🇦 الاستراتيجية الكاملة (عربي): `docs/strategic-brief-ar.md`
+- ⚙️ نظام التشغيل (عربي): `docs/operating-system-ar.md`
+- 🎓 دليل عناوين مشروع التخرج: `docs/graduation-title-guide-ar.md`
+- 🗺️ Public roadmap: [ROADMAP.md](ROADMAP.md)
+- 🛡️ Threat model: `docs/threat-model.md`
+
+## License
+
+Code: **Apache-2.0** · Corpus data: **CC-BY-4.0** · Spec: **open, no patent restrictions**.
+
+*GERMLINE is a working name; naming was validated for package availability (PyPI/npm) and GitHub org availability at project start.*

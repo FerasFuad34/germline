@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://genome.dev/schema/passport.schema.json",
+  "title": "ImmunePassport",
+  "description": "جواز مناعة: دليل موقّع على أن أرتي فاكت ورث مناعة أسلافه (أو فشل في ذلك)",
+  "type": "object",
+  "required": ["artifact", "lineage", "immunity", "attestation"],
+  "properties": {
+    "artifact": {
+      "type": "object",
+      "required": ["name", "version", "hash", "generation"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "generation": { "type": "string", "description": "معرّف الجيل داخل السلالة، مثال: g2" },
+        "language": { "type": "string" }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "required": ["parents", "operation"],
+      "properties": {
+        "parents": { "type": "array", "items": { "type": "string" } },
+        "operation": {
+          "type": "string",
+          "enum": ["root", "patch", "fork", "refactor", "ai_rewrite", "translation", "merge"]
+        },
+        "tool": { "type": "string", "description": "الأداة المستخدمة (Gemini-assisted / manual / ...)" },
+        "depth": { "type": "integer", "minimum": 0, "description": "عدد الأجيال حتى الجذر" }
+      }
+    },
+    "immunity": {
+      "type": "object",
+      "required": ["antibodies_inherited", "passed", "failed", "immune_parity"],
+      "properties": {
+        "antibodies_inherited": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 },
+        "immune_parity": { "type": "boolean", "description": "true ⇔ passed == antibodies_inherited" },
+        "inherited_coverage_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "new_antibodies": { "type": "integer", "description": "أمصال أُضيفت في هذا الجيل (مناعة جديدة)" },
+        "findings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["antibody_id", "result"],
+            "properties": {
+              "antibody_id": { "type": "string" },
+              "result": { "type": "string", "enum": ["pass", "fail", "skip"] },
+              "note": { "type": "string" }
+            }
+          },
+          "description": "«نسيان مناعي» = أي بند fail"
+        }
+      }
+    },
+    "attestation": {
+      "type": "object",
+      "required": ["signed_by", "timestamp"],
+      "properties": {
+        "signed_by": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "sigstore_bundle": { "type": "string", "description": "مرجع حزمة التوقيع (عند التفعيل)" },
+        "transparency_log_index": { "type": "integer" },
+        "registry_uri": { "type": "string" }
+      }
+    },
+    "disclaimer": {
+      "type": "string",
+      "default": "هذا الجواز دليل على إجراءات اختبار موقّعة ومُنفّذة، وليس ضماناً بخلو الأرتي فاكت من الثغرات."
+    }
+  }
+}
