@@ -4,7 +4,25 @@
 
 > SBOM tells you what's *inside* your code. GERMLINE tells you what your code *survived* — and proves the next generation still survives it.
 
+**🚀 Live demo:** **[germline.onrender.com](https://germline.onrender.com)** — run the Immune Gate interactively
 **Status:** pre-alpha · building in public · [Roadmap](ROADMAP.md)
+
+---
+
+## Try it now (live)
+
+```bash
+# The immune gate verdict for the demo lineage:
+curl https://germline.onrender.com/api/gate?generation=g2   # Rust rewrite → immune parity VERIFIED
+curl https://germline.onrender.com/api/gate?generation=g1   # legacy patch  → 3 inherited antibodies FAILED
+
+# Signed Immune Passports (demo signatures):
+curl https://germline.onrender.com/passport.json
+
+# Or open the interactive gate in your browser:
+open https://germline.onrender.com/demo
+```
+
 
 ---
 
